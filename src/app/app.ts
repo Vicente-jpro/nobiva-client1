@@ -1,14 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatChipsModule} from '@angular/material/chips';
 
 @Component({
   selector: 'app-root',
-   imports: [MatToolbarModule, MatButtonModule, MatIconModule,RouterOutlet],
+   imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatChipsModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
    
 })
 export class App {

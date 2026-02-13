@@ -1,15 +1,33 @@
-<mat-toolbar>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
-</mat-toolbar>
+<mat-toolbar class="purple-lighten-5">
 
+    <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Nobiva</span>
+
+    <span class="example-spacer"></span>
+
+    <mat-chip-set aria-label="Fish selection">
+        <mat-chip>Publicar Anúncio</mat-chip>
+        <mat-chip>Casas</mat-chip>
+        <mat-chip>Quartos</mat-chip>
+    </mat-chip-set>
+
+    <button matButton>Basic</button>
+    <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+    </button>
+
+
+    <button matIconButton [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Publicar anúncio</button>
+        <button mat-menu-item>Definições</button>
+        <button mat-menu-item>Entrar ou criar uma conta</button>
+    </mat-menu>
+
+</mat-toolbar>
 <router-outlet />
