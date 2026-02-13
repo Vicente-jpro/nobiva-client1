@@ -1,0 +1,39 @@
+.btn{
+    background-color: #ffeb3b !important; 
+    color: #000 !important;
+    margin-top: 0.25rem;
+}
+
+@media (max-with: 700px){
+    .list{ grid-template-columns: repeat(1, 1fr); } 
+}
+
+.product-card{
+    display: flex; 
+    width: 80%;
+    margin: 0 auto 4rem;
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.list{
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 70rem;
+    margin: 2rem auto;
+}
+
+
+.heading{
+    display: flex; 
+    width: 80%;
+    margin: 0 auto 4rem; 
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 1000px){
+    .list{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
