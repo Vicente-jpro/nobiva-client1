@@ -1,12 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+   imports: [MatToolbarModule, MatButtonModule, MatIconModule,RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+   
 })
 export class App {
-  protected readonly title = signal('nobiva-client1');
+  protected readonly title = signal('Nobiva');
 }
