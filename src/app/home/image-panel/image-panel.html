@@ -1,0 +1,42 @@
+<section class="hero">
+
+    <mat-card class="example-card" appearance="outlined">
+
+          <mat-card-header>
+            <mat-card-title class="mat-font-title-md">
+                Ficou fácil procurar uma casa.
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+                <form class="example-form">
+                    <mat-form-field>
+                    <mat-label>País</mat-label>
+                    <mat-select>
+                        @for (country of countries; track country) {
+                        <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
+                        }
+                    </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                    <mat-label>Cidade</mat-label>
+                    <mat-select>
+                        @for (city of cities; track city) {
+                        <mat-option [value]="city.value">{{city.viewValue}}</mat-option>
+                        }
+                    </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Localidade</mat-label>
+                        <input matInput placeholder="Ex: Cazenga" value="Cazenga">
+                    </mat-form-field>
+                </form>
+        </mat-card-content>
+    </mat-card>
+ 
+
+
+</section>
