@@ -44,3 +44,13 @@ body {
 .menu-icon{
   font-size: larger !important;
 }
+
+// Card image styling
+.example-card {
+  max-width: 330px;
+
+  .img-card {
+    height: 18rem;
+    object-fit: cover;
+  }
+}
