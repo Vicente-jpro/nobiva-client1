@@ -9,9 +9,9 @@ import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrl: './example.component.scss',
   imports: [
     MatInputModule,
     MatButtonModule,
@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule
   ]
 })
-export class LoginComponent {
+export class ExampleComponent {
   private fb = inject(FormBuilder);
   addressForm = this.fb.group({
     company: null,
