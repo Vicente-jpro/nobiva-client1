@@ -42,15 +42,17 @@ export class Signup {
         
         this.openDialog();
 
-        console.log('User saved successfully:', response.message);
       },
-      error: (error) => {
-        this.dialogTitleData = 'Erro';
-        this.dialogContentData = 'Failed to save user. Please try again.';
+      error: (errorResponse) => {
+        this.dialogTitleData = 'Erro ao criar conta';
+        this.dialogContentData =  errorResponse.error.message;
         
+        if(user.password !== user.passwordConfirmed) {
+          this.dialogTitleData = 'Erro de validação';
+          this.dialogContentData = 'Palavra passe de confirmação não pode ser diferente da palavra passe.';
+        }
         this.openDialog();
         
-        console.error('Error saving user:', error);
       }
     });
   }
