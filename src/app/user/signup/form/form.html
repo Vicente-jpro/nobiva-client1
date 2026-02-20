@@ -1,0 +1,83 @@
+<p class="text-center text-title">{{title}}</p>
+
+<div class="form-container">
+    <mat-card class="shipping-card">
+        <mat-card-content>
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Nome de Usuário</mat-label>
+                        <input matInput value="username" formControlName="username">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" value="email" formControlName="email">
+                    </mat-form-field>
+                </div>
+
+
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Palavra passe</mat-label>
+                        <input matInput type="password" value="password" formControlName="password">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Palavra passe de confirmação</mat-label>
+                        <input matInput type="password" value="passwordConfirmed" formControlName="passwordConfirmed">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col">
+                        <mat-list role="list">
+                            <mat-list-item role="listitem">
+                                <mat-checkbox class="example-margin" formControlName="empresa">Empresa</mat-checkbox>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <mat-checkbox class="example-margin" formControlName="proprietario">Proprietário</mat-checkbox>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <mat-checkbox class="example-margin" formControlName="inclino">Inclino</mat-checkbox>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+
+                    <div class="col">
+                        <mat-list role="list">
+                            <mat-list-item role="listitem">
+                                <mat-checkbox class="example-margin" formControlName="administrador">Admininstrador</mat-checkbox>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                 <mat-checkbox class="example-margin" formControlName="superAdministrador">Super Admininstrador</mat-checkbox>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                        
+                       
+                 
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button matButton="tonal" routerLink="/login">Entrar na minha conta</button>
+                    </div>
+
+                    <div class="col justify-content-end">
+                         <button matButton="filled">Salvar</button>    
+                    </div>
+                    
+                </div>
+
+            </form>    
+        </mat-card-content>
+    </mat-card>
+</div>
