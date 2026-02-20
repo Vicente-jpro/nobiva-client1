@@ -7,6 +7,7 @@ import { MatAnchor } from "@angular/material/button";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { UserLogin } from '../model/userLogin';
 import { UserService } from '../service/user-service';
+import { AuthService } from '../service/auth.service';
 
 
 
@@ -25,6 +26,7 @@ import { UserService } from '../service/user-service';
 })
 export class Login {
   private service = inject(UserService);
+  private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
@@ -39,23 +41,30 @@ export class Login {
     });
 
   onSubmit(){
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     
     this.user.email = this.loginForm.value.email ?? '';
     this.user.password = this.loginForm.value.password ?? '';
     
     this.service.login(this.user).subscribe({
       next: (response) => {
+        // Store authentication data using auth service
+        this.authService.saveAuthData(response);
 
-        this.router.navigate(['/home']);
         console.log('Login successful:', response);
+        console.log('User roles:', this.authService.getRoles());
+        
+        this.router.navigate(['/home']);
       },
       error: (errorResponse) => {
         console.error('Login failed:', errorResponse);
+        // You might want to show an error message to the user here
+        // For example, using a snackbar or alert
       }
     });
-
-    console.log(this.loginForm.value);
-    // { firstName: 'Nancy', lastName: 'Drew' }
   }
 
 
