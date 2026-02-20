@@ -4,8 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { UserLogin } from '../model/userLogin';
+import { UserService } from '../service/user-service';
 
 
 
@@ -23,8 +24,9 @@ import { UserLogin } from '../model/userLogin';
   styleUrl: './login.scss',
 })
 export class Login {
-
+  private service = inject(UserService);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
 
     user: UserLogin = {
     email: '',
@@ -32,8 +34,8 @@ export class Login {
   }
 
   loginForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      password: [this.user.password, [Validators.required]],
     });
 
   onSubmit(){
@@ -41,8 +43,21 @@ export class Login {
     this.user.email = this.loginForm.value.email ?? '';
     this.user.password = this.loginForm.value.password ?? '';
     
+    this.service.login(this.user).subscribe({
+      next: (response) => {
+
+        this.router.navigate(['/home']);
+        console.log('Login successful:', response);
+      },
+      error: (errorResponse) => {
+        console.error('Login failed:', errorResponse);
+      }
+    });
+
     console.log(this.loginForm.value);
     // { firstName: 'Nancy', lastName: 'Drew' }
   }
+
+
 
 }

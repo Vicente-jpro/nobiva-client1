@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { UserSignup } from '../model/userSignup';
 import { Observable } from 'rxjs';
 import { MessageInfo } from '../messageInfo';
+import { UserLogin } from '../model/userLogin';
+import { UserLoginResponse } from '../model/userLoginResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +30,22 @@ export class UserService {
     );
 
   }
-  
+
+  signin(User: UserSignup): Observable<MessageInfo> {
+
+    return this.httpClient.post<MessageInfo>(
+      `${this.apiUrl}/auth/signin`, 
+      User, 
+      this.httpOptions
+    );
+  }
+
+  login(user: UserLogin): Observable<UserLoginResponse> {
+
+    return this.httpClient.post<UserLoginResponse>(
+      `${this.apiUrl}/auth/signin`, 
+      user, 
+      this.httpOptions
+    );
+  }
 }
