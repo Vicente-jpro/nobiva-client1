@@ -85,5 +85,11 @@ export class UserService {
     );
   }
 
-  
+  sendVerificationEmail(userEmail: UserEmail): Observable<MessageInfo> {
+    return this.httpClient.post<MessageInfo>(
+      `${this.apiUrl}/auth/account/send-verification-email`, 
+       userEmail
+    );
+  }
+
 }

@@ -53,6 +53,7 @@ export class ConfirmeAccount implements OnInit {
   ngOnInit(): void {
      this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
+     
     if (this.token) {
       
      console.log("Token for account confirmation:", this.token);
@@ -78,6 +79,21 @@ export class ConfirmeAccount implements OnInit {
 
   onSubmit() {
 
+    this.user = this.confimeAccountForm.value as UserEmail;
+
+    this.service.sendVerificationEmail(this.user).subscribe({
+      next: (response) => {
+        this.dialogTitleData = "Email de verificação enviado";
+        this.dialogContentData = response.message;
+        this.openDialog();
+      },
+      error: (errorResponse) => {
+        this.dialogTitleData = "Erro ao enviar email de verificação";
+        this.dialogContentData = errorResponse.error.details || "Ocorreu um erro ao enviar o email de verificação. Por favor, tente novamente.";
+        this.openDialog();
+        console.error("Erro ao enviar email de verificação", errorResponse);
+      }
+    });
   }
 
 
