@@ -25,9 +25,11 @@
 
     <mat-menu #menu="matMenu">
         <button mat-menu-item>Publicar anúncio</button>
-        <button mat-menu-item>Definições</button>
         <button mat-menu-item routerLink="/user/login">Entrar ou criar uma conta</button>
-        <button mat-menu-item (click)="logout()">Sair</button>
+        @if(authService.isLoggedIn()) {
+            <button mat-menu-item>Definições</button>
+            <button mat-menu-item (click)="logout()">Sair</button>
+        }
     </mat-menu>
 
 </mat-toolbar>

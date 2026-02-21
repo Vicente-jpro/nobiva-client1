@@ -30,10 +30,11 @@ export class ChangePassword {
   private route = inject(ActivatedRoute);
   private service = inject(UserService);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
 
-  token: string = '';
-  dialogTitleData: string = '';
-  dialogContentData: string = '';
+  private token: string = '';
+  private dialogTitleData: string = '';
+  private dialogContentData: string = '';
 
   user: UserChangePassword = {
     newPassword: '',
@@ -65,14 +66,16 @@ export class ChangePassword {
        return;
      }
        */
-
+    this.user = this.changePasswordForm.value as UserChangePassword;
+    
     this.service.changePassword(this.user, this.token).subscribe({
       next: (response) => {
         this.dialogTitleData = 'Redefinição de palavra passe';
         this.dialogContentData = response.message;
-        console.log("token:", this.token);
+        console.log("user password changed", this.user);
 
         this.openDialog();
+        this.router.navigate(['/user/login']);
       },
       error: (errorResponse) => {
         this.dialogTitleData = 'Erro na redefinição de palavra passe';

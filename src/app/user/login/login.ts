@@ -62,24 +62,24 @@ export class Login {
       return;
     }
     
+    this.user = this.loginForm.value as UserLogin;
     this.user.email = this.loginForm.value.email ?? '';
     this.user.password = this.loginForm.value.password ?? '';
     
     this.service.login(this.user).subscribe({
       next: (response) => {
         // Store authentication data using auth service
+        
+        this.authService.saveAuthData(response);
         this.router.navigate(['/home']);
-
       },
       
       error: (errorResponse) => {
-
         this.dialogTitleData = 'Erro de autenticação';
         this.dialogContentData = 'Email ou a Palavra passe está incorreto.';
         this.openDialog();
+        console.error('Login failed user data:', this.user);
         console.error('Login failed:', errorResponse);
-        // You might want to show an error message to the user here
-        // For example, using a snackbar or alert
       }
     });
   }

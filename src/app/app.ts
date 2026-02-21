@@ -8,6 +8,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import { Footer } from "./footer/footer";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { User } from './user/user';
+import { AuthService } from './user/service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -29,10 +31,12 @@ import { User } from './user/user';
 })
 export class App {
   protected readonly title = signal('Nobiva');
-
+  authService = inject(AuthService);
+  private router = inject(Router);
 
   logout() {
-    //this.user.logout();
+    this.authService.logout();
+    this.router.navigate(['/user/login']);
   }
     
 }
