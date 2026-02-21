@@ -1,20 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { Form } from "./form/form";
-import { UserService } from '../service/user-service';
-import { UserSignup } from '../model/userSignup';
-import { DialogMessage } from '../../dialog-message/dialog-message';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-
+import { Form } from '../form/form';
+import { UserService } from '../../service/user-service';
+import { DialogMessage } from '../../../dialog-message/dialog-message';
+import { UserSignup } from '../../model/userSignup';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-new',
   imports: [Form],
-  templateUrl: './signup.html',
-  styleUrl: './signup.scss',
+  templateUrl: './new.html'
 })
-export class Signup {
-  readonly dialog = inject(MatDialog);
+export class New {
+readonly dialog = inject(MatDialog);
   private service = inject(UserService);
   private router = inject(Router)
 
