@@ -8,12 +8,26 @@ export const routes: Routes = [
         //canActivate: [authGuard]
     },
     {
-        path: 'login',
-        loadComponent: () => import('./user/login/login').then(m => m.Login)
+        path: 'auth',
+        children: [
+            {
+                path: 'password-recover',
+                loadComponent: () => import('./user/password-recover/password-recover').then(m => m.PasswordRecover)
+            },
+
+            {
+                path: 'login',
+                loadComponent: () => import('./user/login/login').then(m => m.Login)
+            },
+            {
+                path: 'signup',
+                loadComponent: () => import('./user/signup/signup').then(m => m.Signup)
+            },
+
+        ]
     },
-    {
-        path: 'signup',
-        loadComponent: () => import('./user/signup/signup').then(m => m.Signup)
-    }
+
+
+
 
 ];

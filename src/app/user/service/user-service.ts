@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MessageInfo } from '../messageInfo';
 import { UserLogin } from '../model/userLogin';
 import { UserLoginResponse } from '../model/userLoginResponse';
+import { UserEmail } from '../model/UserEmail';
 
 @Injectable({
   providedIn: 'root',
@@ -48,4 +49,14 @@ export class UserService {
       this.httpOptions
     );
   }
+
+  resetPassword(email: string): Observable<MessageInfo> {
+
+    return this.httpClient.post<MessageInfo>(
+      `${this.apiUrl}/auth/account/reset-password`, 
+       email , 
+      this.httpOptions
+    );
+  }
+
 }
