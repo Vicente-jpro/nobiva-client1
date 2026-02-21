@@ -9,6 +9,8 @@ import { UserLogin } from '../model/userLogin';
 import { UserService } from '../service/user-service';
 import { AuthService } from '../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMessage } from '../../dialog-message/dialog-message';
 
 @Component({
   selector: 'app-change-password',
@@ -24,9 +26,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './change-password.scss',
 })
 export class ChangePassword {
+  readonly dialog = inject(MatDialog);
+
   private route = inject(ActivatedRoute);
   private service = inject(UserService);
   private formBuilder = inject(FormBuilder);
+
+  token: string = '';
+  dialogTitleData: string = '';
+  dialogContentData: string = '';
 
     user: UserChangePassword = {
     newPassword: '',
@@ -38,8 +46,17 @@ export class ChangePassword {
       confirmePassword: [this.user.confirmePassword, [Validators.required, Validators.minLength(6)]],
     });
 
+      openDialog() {
+        this.dialog.open(DialogMessage, {
+          data: {
+            title: this.dialogTitleData,
+            content: this.dialogContentData
+          }
+        });
+      }
+
   ngOnInit() {
-    const token = this.route.snapshot.queryParamMap.get('token');
+    this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
   }
 
@@ -50,7 +67,21 @@ export class ChangePassword {
     }
       */
 
+    this.service.changePassword(this.user, this.token).subscribe({
+      next: (response) => {
+        this.dialogTitleData = 'Redefinição de palavra passe';
+        this.dialogContentData = response.message;
+        console.log("token:", this.token);
+        
+        this.openDialog();
+      },
+      error: (errorResponse) => {
+        this.dialogTitleData = 'Erro na redefinição de palavra passe';
+        this.dialogContentData = errorResponse.error.message;
+        this.openDialog();
+      }
 
-  }
-
+  });
+}
+  
 }
