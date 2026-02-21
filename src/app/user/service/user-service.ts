@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserSignup } from '../model/userSignup';
 import { Observable } from 'rxjs';
@@ -56,6 +56,17 @@ export class UserService {
       `${this.apiUrl}/auth/account/reset-password`, 
        email , 
       this.httpOptions
+    );
+  }
+
+  changePassword(changePassword: UserChangePassword, token: string): Observable<MessageInfo> {
+    let params = new HttpParams() 
+    .set('token', token);
+
+    return this.httpClient.post<MessageInfo>(
+      `${this.apiUrl}/auth/account/change-password`, 
+      changePassword, 
+        { params }
     );
   }
 

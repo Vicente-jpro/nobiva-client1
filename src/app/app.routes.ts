@@ -8,7 +8,7 @@ export const routes: Routes = [
         //canActivate: [authGuard]
     },
     {
-        path: 'auth',
+        path: 'user',
         children: [
             {
                 path: 'password-recover',
@@ -23,6 +23,10 @@ export const routes: Routes = [
                 path: 'signup',
                 loadComponent: () => import('./user/signup/signup').then(m => m.Signup)
             },
+            {
+                path: 'change-password',
+                loadComponent: () => import('./user/change-password/change-password').then(m => m.ChangePassword)
+            }
 
         ]
     },
