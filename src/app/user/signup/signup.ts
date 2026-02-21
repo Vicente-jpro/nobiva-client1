@@ -4,6 +4,7 @@ import { UserService } from '../service/user-service';
 import { UserSignup } from '../model/userSignup';
 import { DialogMessage } from '../../dialog-message/dialog-message';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,10 +16,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class Signup {
   readonly dialog = inject(MatDialog);
   private service = inject(UserService);
+  private router = inject(Router)
 
   formTitle: string = 'Criar conta';
-  dialogTitleData: string = '';
-  dialogContentData: string = '';
+  private dialogTitleData: string = '';
+  private dialogContentData: string = '';
 
   openDialog() {
     this.dialog.open(DialogMessage, {
@@ -39,7 +41,7 @@ export class Signup {
       next: (response) => {
         this.dialogTitleData = user.username ? `Bem-vindo, ${user.username}!` : 'Bem-vindo!';
         this.dialogContentData = response.message;
-        
+        this.router.navigate(['/login']);
         this.openDialog();
 
       },
@@ -56,7 +58,5 @@ export class Signup {
       }
     });
   }
-
-
 
 }

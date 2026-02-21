@@ -63,8 +63,8 @@ export class Form {
   signUpForm = this.formBuilder.group({
       username: [this.user.username, [Validators.required, Validators.minLength(3)]],
       email: [this.user.email, [Validators.required, Validators.email]],
-      password: [this.user.password, [Validators.required, Validators.minLength(3)]],
-      passwordConfirmed: [this.user.passwordConfirmed, [Validators.required, Validators.minLength(3)]],
+      password: [this.user.password, [Validators.required, Validators.minLength(6)]],
+      passwordConfirmed: [this.user.passwordConfirmed, [Validators.required, Validators.minLength(6)]],
       inclino: [false],
       proprietario: [false],
       administrador: [false],
