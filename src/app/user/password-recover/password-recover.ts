@@ -54,9 +54,11 @@ export class PasswordRecover {
       return;
     }
 
+    this.user = this.loginForm.value as UserEmail;
+
     this.user.email = this.loginForm.value.email ?? '';
 
-    this.service.resetPassword(this.user.email).subscribe({
+    this.service.resetPassword(this.user).subscribe({
       next: (response) => {
 
         this.dialogTitleData = 'Pedido de recuperação de palavra passe';
@@ -66,7 +68,7 @@ export class PasswordRecover {
 
         console.log('Password reset request:', response.message);
 
-        this.router.navigate(['/home']);
+     
       },
       error: (errorResponse) => {
         console.error('Login failed:', errorResponse);

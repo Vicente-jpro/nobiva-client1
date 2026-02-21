@@ -50,12 +50,10 @@ export class UserService {
     );
   }
 
-  resetPassword(email: string): Observable<MessageInfo> {
-
+  resetPassword(userEmail: UserEmail): Observable<MessageInfo> {
     return this.httpClient.post<MessageInfo>(
       `${this.apiUrl}/auth/account/reset-password`, 
-       email , 
-      this.httpOptions
+       userEmail
     );
   }
 
