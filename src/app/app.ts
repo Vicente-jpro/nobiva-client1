@@ -7,6 +7,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import { Footer } from "./footer/footer";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { User } from './user/user';
 
 @Component({
   selector: 'app-root',
@@ -28,4 +29,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 })
 export class App {
   protected readonly title = signal('Nobiva');
+
+
+  logout() {
+    //this.user.logout();
+  }
+    
 }

@@ -19,8 +19,8 @@ export class Signup {
   private router = inject(Router)
 
   formTitle: string = 'Criar conta';
-  dialogTitleData: string = '';
-  dialogContentData: string = '';
+  private dialogTitleData: string = '';
+  private dialogContentData: string = '';
 
   openDialog() {
     this.dialog.open(DialogMessage, {

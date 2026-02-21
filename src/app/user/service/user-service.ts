@@ -68,4 +68,10 @@ export class UserService {
     );
   }
 
+  logout(): Observable<MessageInfo> {
+    return this.httpClient.post<MessageInfo>(
+      `${this.apiUrl}/auth/logout`, 
+      {}
+    );
+  }
 }

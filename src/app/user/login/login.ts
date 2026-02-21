@@ -8,6 +8,8 @@ import { Router, RouterLink } from "@angular/router";
 import { UserLogin } from '../model/userLogin';
 import { UserService } from '../service/user-service';
 import { AuthService } from '../service/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMessage } from '../../dialog-message/dialog-message';
 
 
 
@@ -25,15 +27,29 @@ import { AuthService } from '../service/auth.service';
   styleUrl: './login.scss',
 })
 export class Login {
+  private dialog = inject(MatDialog)
   private service = inject(UserService);
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
+  private dialogTitleData: string = '';
+  private dialogContentData: string = '';
+
     user: UserLogin = {
     email: '',
     password: ''
   }
+
+    openDialog() {
+      this.dialog.open(DialogMessage, {
+        data: {
+          title: this.dialogTitleData,
+          content: this.dialogContentData
+        }
+      });
+    }
+
 
   loginForm = this.formBuilder.group({
       email: [this.user.email, [Validators.required, Validators.email]],
@@ -52,14 +68,15 @@ export class Login {
     this.service.login(this.user).subscribe({
       next: (response) => {
         // Store authentication data using auth service
-        this.authService.saveAuthData(response);
-
-        console.log('Login successful:', response);
-        console.log('User roles:', this.authService.getRoles());
-        
         this.router.navigate(['/home']);
+
       },
+      
       error: (errorResponse) => {
+
+        this.dialogTitleData = 'Erro de autenticação';
+        this.dialogContentData = 'Email ou a Palavra passe está incorreto.';
+        this.openDialog();
         console.error('Login failed:', errorResponse);
         // You might want to show an error message to the user here
         // For example, using a snackbar or alert

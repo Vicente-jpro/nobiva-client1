@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,12 +15,11 @@ import { DialogMessage } from '../../dialog-message/dialog-message';
 @Component({
   selector: 'app-change-password',
   imports: [
-        ReactiveFormsModule, 
-    MatCardModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatAnchor, 
-    RouterLink
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAnchor
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
@@ -36,43 +35,43 @@ export class ChangePassword {
   dialogTitleData: string = '';
   dialogContentData: string = '';
 
-    user: UserChangePassword = {
+  user: UserChangePassword = {
     newPassword: '',
     confirmePassword: ''
   }
 
   changePasswordForm = this.formBuilder.group({
-      newPassword: [this.user.newPassword, [Validators.required, Validators.minLength(6)]],
-      confirmePassword: [this.user.confirmePassword, [Validators.required, Validators.minLength(6)]],
-    });
+    newPassword: [this.user.newPassword, [Validators.required, Validators.minLength(6)]],
+    confirmePassword: [this.user.confirmePassword, [Validators.required, Validators.minLength(6)]],
+  });
 
-      openDialog() {
-        this.dialog.open(DialogMessage, {
-          data: {
-            title: this.dialogTitleData,
-            content: this.dialogContentData
-          }
-        });
+  openDialog() {
+    this.dialog.open(DialogMessage, {
+      data: {
+        title: this.dialogTitleData,
+        content: this.dialogContentData
       }
+    });
+  }
 
   ngOnInit() {
     this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
   }
 
-  onSubmit(){
-   /**  if (this.changePasswordForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-      */
+  onSubmit() {
+    /**  if (this.changePasswordForm.invalid) {
+       this.loginForm.markAllAsTouched();
+       return;
+     }
+       */
 
     this.service.changePassword(this.user, this.token).subscribe({
       next: (response) => {
         this.dialogTitleData = 'Redefinição de palavra passe';
         this.dialogContentData = response.message;
         console.log("token:", this.token);
-        
+
         this.openDialog();
       },
       error: (errorResponse) => {
@@ -81,7 +80,7 @@ export class ChangePassword {
         this.openDialog();
       }
 
-  });
-}
-  
+    });
+  }
+
 }
