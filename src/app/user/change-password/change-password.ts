@@ -1,13 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
-import { Router, RouterLink } from "@angular/router";
-import { UserLogin } from '../model/userLogin';
+import { Router } from "@angular/router";
 import { UserService } from '../service/user-service';
-import { AuthService } from '../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMessage } from '../../dialog-message/dialog-message';
@@ -24,7 +22,7 @@ import { DialogMessage } from '../../dialog-message/dialog-message';
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
 })
-export class ChangePassword {
+export class ChangePassword implements OnInit {
   readonly dialog = inject(MatDialog);
 
   private route = inject(ActivatedRoute);

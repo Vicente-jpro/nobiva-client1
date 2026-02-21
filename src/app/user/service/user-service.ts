@@ -74,4 +74,16 @@ export class UserService {
       {}
     );
   }
+
+  confimeAccount(token: string): Observable<MessageInfo> {
+    let params = new HttpParams() 
+    .set('token', token); 
+
+    return this.httpClient.get<MessageInfo>(
+      `${this.apiUrl}/auth/account/confirme-account`, 
+      { params }
+    );
+  }
+
+  
 }

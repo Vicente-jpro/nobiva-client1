@@ -26,6 +26,10 @@ export const routes: Routes = [
             {
                 path: 'change-password',
                 loadComponent: () => import('./user/change-password/change-password').then(m => m.ChangePassword)
+            },
+            {
+                path: 'confirme-account',
+                loadComponent: () => import('./user/confirme-account/confirme-account').then(m => m.ConfirmeAccount)
             }
 
         ]
