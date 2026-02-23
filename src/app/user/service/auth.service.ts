@@ -1,15 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { UserLoginResponse } from '../model/userLoginResponse';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
   
   /**
    * Store authentication data in localStorage
    */
   saveAuthData(response: UserLoginResponse): void {
+    if (!this.isBrowser) return;
+    
     localStorage.setItem('token', response.token);
     localStorage.setItem('tokenType', response.type);
     localStorage.setItem('username', response.username);
@@ -21,6 +26,7 @@ export class AuthService {
    * Get the stored authentication token
    */
   getToken(): string | null {
+    if (!this.isBrowser) return null;
     return localStorage.getItem('token');
   }
 
@@ -28,6 +34,7 @@ export class AuthService {
    * Get the token type (e.g., "Bearer")
    */
   getTokenType(): string | null {
+    if (!this.isBrowser) return null;
     return localStorage.getItem('tokenType');
   }
 
@@ -48,6 +55,7 @@ export class AuthService {
    * Get the stored username
    */
   getUsername(): string | null {
+    if (!this.isBrowser) return null;
     return localStorage.getItem('username');
   }
 
@@ -55,6 +63,7 @@ export class AuthService {
    * Get the stored email
    */
   getEmail(): string | null {
+    if (!this.isBrowser) return null;
     return localStorage.getItem('email');
   }
 
@@ -62,6 +71,8 @@ export class AuthService {
    * Get the stored user roles
    */
   getRoles(): string[] {
+    if (!this.isBrowser) return [];
+    
     const rolesString = localStorage.getItem('roles');
     if (rolesString) {
       try {
@@ -109,6 +120,8 @@ export class AuthService {
    * Clear all authentication data (logout)
    */
   logout(): void {
+    if (!this.isBrowser) return;
+    
     localStorage.removeItem('token');
     localStorage.removeItem('tokenType');
     localStorage.removeItem('username');

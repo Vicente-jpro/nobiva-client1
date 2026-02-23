@@ -21,11 +21,25 @@ export const routes: Routes = [
             },
             {
                 path: 'signup',
-                loadComponent: () => import('./user/signup/signup').then(m => m.Signup)
+                children: [
+                    {
+                        path: 'new',
+                        loadComponent: () => import('./user/signup/new/new').then(m => m.New)
+                    },
+                    {
+                        path: ':id',
+                        loadComponent: () => import('./user/signup/edit/edit').then(m => m.Edit)
+                    }
+                ]
+                
             },
             {
                 path: 'change-password',
                 loadComponent: () => import('./user/change-password/change-password').then(m => m.ChangePassword)
+            },
+            {
+                path: 'confirme-account',
+                loadComponent: () => import('./user/confirme-account/confirme-account').then(m => m.ConfirmeAccount)
             }
 
         ]
