@@ -45,6 +45,31 @@ export const routes: Routes = [
         ]
     },
 
+    {
+        path: 'menu',
+        loadComponent: () => import('./menu-property/menu-property').then(m => m.MenuProperty),
+        children: [
+            {
+                path: 'casas',
+                children: [
+                    {
+                        path: 'nova',
+                        loadComponent: () => import('./house/new/new').then(m => m.New)
+                    }
+                ]    
+
+
+              
+
+
+
+
+
+
+            }
+        ]
+    }
+
 
 
 
