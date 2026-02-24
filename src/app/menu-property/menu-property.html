@@ -1,15 +1,12 @@
 <div class="container-fluid">
 
- <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>
+ <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
 
 <div class="row">
   @if(isChecked) {
 
     <div class="col-3">
-        <mat-action-list>
-          <button mat-list-item routerLink="/menu/casas">Casa</button>
-          <button mat-list-item >Quarto</button>
-        </mat-action-list>
+      <app-house-tree/>
     </div>
   }
     <div class="col">

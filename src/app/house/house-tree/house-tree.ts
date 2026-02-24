@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Output } from '@angular/core';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 /**
  * Food data with nested structure.
@@ -21,18 +22,32 @@ interface FoodNode {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HouseTree {
-
+    private router = inject(Router);
     dataSource = EXAMPLE_DATA;
 
-    @Output() selectedHouseTreeEvent = new EventEmitter<string>();
 
     childrenAccessor = (node: FoodNode) => node.children ?? [];
 
     hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
 
     sendSelectedTreeToHouse(name: string): void {
-        this.selectedHouseTreeEvent.emit(name);
+       switch (name) {
+        case 'Nova':
+            this.router.navigate(['/menu/casas/nova']);
+            break;
+        case 'Favoritas':
+            this.router.navigate(['/menu/casas/favoritas']);
+            break;
+        case 'Minhas':
+            this.router.navigate(['/menu/casas/minhas']);
+            break;
+        default:
+            this.router.navigate(['/menu/casas']);
+            
+       }
+
         console.log('Selected tree node:', name);
+
     }
 
 }
@@ -40,7 +55,7 @@ export class HouseTree {
 const EXAMPLE_DATA: FoodNode[] = [
     {
         name: 'Casas',
-        children: [{ name: 'Nova' }, { name: 'Listar' }],
+        children: [{ name: 'Nova' }, { name: 'Listar' }, { name: 'Favoritas' }, { name: 'Minhas' }],
     },
 
 ];

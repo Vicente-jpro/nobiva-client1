@@ -60,7 +60,14 @@ export const routes: Routes = [
                         path: 'nova',
                         loadComponent: () => import('./house/new/new').then(m => m.New)
                     },
-                
+                    /*{
+                        path: 'favoritas',
+                        loadComponent: () => import('./house/favorites/favorites').then(m => m.Favorites)
+                    },
+                    {
+                        path: 'minhas',
+                        loadComponent: () => import('./house/my-houses/my-houses').then(m => m.MyHouses)
+                    }*/
                 ]    
 
 
