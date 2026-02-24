@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { UserService } from '../service/user-service';
-import { UserEmail } from '../model/UserEmail';
+import { UserEmail } from '../../models/user/UserEmail';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMessage } from '../../dialog-message/dialog-message';
 

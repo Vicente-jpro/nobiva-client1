@@ -8,8 +8,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
-import { UserSignup } from '../../model/userSignup';
-import { UserRole } from '../../model/userRole';
+import { UserSignup } from '../../../models/user/userSignup';
+import { UserRole } from '../../../models/user/userRole';
 import { AuthService } from '../../service/auth.service';
 
 

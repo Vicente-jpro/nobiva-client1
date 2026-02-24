@@ -9,8 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
 import { AuthService } from '../../user/service/auth.service';
-import { UserRole } from '../../user/model/userRole';
-import { UserSignup } from '../../user/model/userSignup';
+import { UserRole } from '../../models/user/userRole';
+import { UserSignup } from '../../models/user/userSignup';
 
 
 

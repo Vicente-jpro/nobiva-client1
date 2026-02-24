@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Form } from '../form/form';
 import { UserService } from '../../service/user-service';
 import { DialogMessage } from '../../../dialog-message/dialog-message';
-import { UserSignup } from '../../model/userSignup';
-import { UserRole } from '../../model/userRole';
+import { UserSignup } from '../../../models/user/userSignup';
+import { UserRole } from '../../../models/user/userRole';
 
 @Component({
   selector: 'app-new',

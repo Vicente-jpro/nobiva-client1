@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UserSignup } from '../model/userSignup';
+import { UserSignup } from '../../models/user/userSignup';
 import { Observable } from 'rxjs';
 import { MessageInfo } from '../messageInfo';
-import { UserLogin } from '../model/userLogin';
-import { UserLoginResponse } from '../model/userLoginResponse';
-import { UserEmail } from '../model/UserEmail';
+import { UserLogin } from '../../models/user/userLogin';
+import { UserLoginResponse } from '../../models/user/userLoginResponse';
+import { UserEmail } from '../../models/user/UserEmail';
 
 @Injectable({
   providedIn: 'root',
