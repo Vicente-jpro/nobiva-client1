@@ -1,4 +1,4 @@
-export interface Tipology {
+interface Tipology {
     T1: string;
     T2: string;
     T3: string;

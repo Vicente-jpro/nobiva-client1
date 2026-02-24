@@ -1,4 +1,4 @@
-export interface StatusPost {
+interface StatusPost {
     aprovado: string;
     pendente: string;
     bloqueado: string;

@@ -1,4 +1,4 @@
-export interface StatusCondition {
+interface StatusCondition {
     novo: string;
     usado: string;
     inacabado: string;

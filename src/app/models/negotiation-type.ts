@@ -1,4 +1,4 @@
-export interface TypeNegotiation {
+interface TypeNegotiation {
     arredamento: string;
     venda: string;
 }
