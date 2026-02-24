@@ -1,28 +1,20 @@
-export interface HouseCreateRequest {
-    title: string;
-	description: string;
-	avaliable: boolean;
-	number_of_rooms: number;
-	tipology: string;
-	status_post: string;
-	status_condition: string;
-	type_negotiation: string;
-	furnished: boolean; 
-    swimming_pool: boolean;
-    kitchen: number;
-    backyard: boolean;
-	bathroom: number;
-    price: number;
-    post_address: {
-        address: {
-            street1: string;
-            street2: string;
-            zipeCode: string;
-        },
-        locality:{
-            id: number;
-        }
+import { PostAddress } from "../address/post-address";
 
-    }
+export class HouseCreateRequest {
+    title = "";
+	description = "";
+	avaliable = false;
+	number_of_rooms = 0;
+	tipology = "";
+	status_post = "";
+	status_condition = "";
+	type_negotiation = "";
+	furnished = false; 
+    swimming_pool = false;
+    kitchen = 0;
+    backyard = false;
+	bathroom = 0;
+    price = 0;
+    post_address: PostAddress = new PostAddress();
 		
 }

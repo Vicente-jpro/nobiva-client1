@@ -11,6 +11,8 @@ import { RouterLink } from "@angular/router";
 import { AuthService } from '../../user/service/auth.service';
 import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
+import { HouseCreateRequest } from '../../models/house/house-create-request';
+import { HouseFormBuilder } from './house-form-builder';
 
 
 
@@ -37,8 +39,8 @@ export interface Task {
   styleUrl: './form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Form {
-    private formBuilder = inject(FormBuilder);
+export class Form extends HouseFormBuilder {
+
     protected authService = inject(AuthService);
     protected role = UserRole;
 
@@ -57,57 +59,13 @@ export class Form {
   });
 
 
-    user: UserSignup = {
-    email: '',
-    username: '',
-    password: '',
-    passwordConfirmed: '',
-    roles: []
-  }
+  house = new HouseCreateRequest();
 
-  signUpForm = this.formBuilder.group({
-      username: [this.user.username, [Validators.required, Validators.minLength(3)]],
-      email: [this.user.email, [Validators.required, Validators.email]],
-      password: [this.user.password, [Validators.required, Validators.minLength(6)]],
-      passwordConfirmed: [this.user.passwordConfirmed, [Validators.required, Validators.minLength(6)]],
-      inclino: [false],
-      proprietario: [false],
-      administrador: [false],
-      empresa: [false], 
-      superAdministrador: [false]
-    });
+  signUpForm = new HouseFormBuilder()
 
   onSubmit(){
-    
-    this.user.roles = [];
-    this.user.username = this.signUpForm.value.username || '';
-    this.user.email = this.signUpForm.value.email || '';
-    this.user.password = this.signUpForm.value.password || '';
-    this.user.passwordConfirmed = this.signUpForm.value.passwordConfirmed || '';
-    
-    if (this.signUpForm.value.administrador) {
-      this.user.roles.push(UserRole.adminstrador);
-    }
-    if (this.signUpForm.value.proprietario) {
-      this.user.roles.push(UserRole.proprietario);
-    }
-    if (this.signUpForm.value.inclino) {
-      this.user.roles.push(UserRole.inclino);
-    }
-    if (this.signUpForm.value.empresa) {
-      this.user.roles.push(UserRole.empresa);
-    }
-    if (this.signUpForm.value.superAdministrador) {
-      this.user.roles.push(UserRole.superAdminstrador);
-    }
 
-    this.formEvent.emit(this.user);
-
-    if (this.signUpForm.value.password !== this.signUpForm.value.passwordConfirmed) {
-      console.error('As senhas não coincidem!');
-      return;
-    }
-    // { firstName: 'Nancy', lastName: 'Drew' }
+    console.log(this.signUpForm.build(this.house).value);
   }
 
 }
