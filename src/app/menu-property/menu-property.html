@@ -1,8 +1,18 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-  <mat-drawer-content>  
-    
-    <router-outlet/>
+<div class="container-fluid">
 
-  </mat-drawer-content>
-</mat-drawer-container>
+ <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>
+
+<div class="row">
+  @if(isChecked) {
+
+    <div class="col-3">
+        <mat-action-list>
+          <button mat-list-item routerLink="/menu/casas">Casa</button>
+          <button mat-list-item >Quarto</button>
+        </mat-action-list>
+    </div>
+  }
+    <div class="col">
+    <router-outlet></router-outlet>
+  </div>
+</div>

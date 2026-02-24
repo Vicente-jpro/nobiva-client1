@@ -52,10 +52,15 @@ export const routes: Routes = [
             {
                 path: 'casas',
                 children: [
+                   {
+                        path: '',
+                        loadComponent: () => import('./house/house').then(m => m.House)
+                    },
                     {
                         path: 'nova',
                         loadComponent: () => import('./house/new/new').then(m => m.New)
-                    }
+                    },
+                
                 ]    
 
 
