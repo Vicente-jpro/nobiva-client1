@@ -9,5 +9,5 @@ import { Form } from '../form/form';
   styleUrl: './new.scss',
 })
 export class New {
-
+  titleData: string = 'Nova Casa';
 }

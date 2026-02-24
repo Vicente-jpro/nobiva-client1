@@ -15,7 +15,6 @@ imports: [
     MatButtonModule,
     ReactiveFormsModule,
     MatListModule,
-    RouterLink,
     RouterOutlet,
     HouseTree
 ],

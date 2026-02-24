@@ -1,7 +1,8 @@
-<p class="text-center text-title">{{title}}</p>
+<p class="text-center text-title"></p>
 
-<div class="form-container">
+<div class="container d-flex justify-content-center">
     <mat-card class="shipping-card">
+        <p class="text-center fs-3"> {{title}} </p>
         <mat-card-content>
             <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
 
