@@ -13,7 +13,7 @@ import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { HouseFormBuilder } from './house-form-builder';
-
+import {MatRadioModule} from '@angular/material/radio';
 
 
 export interface Task {
@@ -33,7 +33,8 @@ export interface Task {
     MatCheckboxModule,
     MatButtonModule,
     MatListModule,
-    RouterLink
+    RouterLink,
+    MatRadioModule
 ],
   templateUrl: './form.html',
   styleUrl: './form.scss',
@@ -58,14 +59,9 @@ export class Form extends HouseFormBuilder {
     ],
   });
 
-
-  house = new HouseCreateRequest();
-
-  signUpForm = new HouseFormBuilder()
-
   onSubmit(){
 
-    console.log(this.signUpForm.build(this.house).value);
+    console.log(this.houseForm.value);
   }
 
 }

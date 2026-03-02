@@ -4,19 +4,19 @@
     <mat-card class="shipping-card">
         <p class="text-center fs-3"> {{title}} </p>
         <mat-card-content>
-            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
 
                 <div class="row">
                     <mat-form-field class="full-width">
-                        <mat-label>Nome de Usuário</mat-label>
-                        <input matInput value="username" formControlName="username">
+                        <mat-label>Título do imóvel</mat-label>
+                        <input matInput value="title" formControlName="title">
                     </mat-form-field>
                 </div>
 
                 <div class="row">
                     <mat-form-field class="full-width">
-                        <mat-label>Email</mat-label>
-                        <input matInput type="email" value="email" formControlName="email">
+                        <mat-label>Número de quartos</mat-label>
+                        <input matInput type="number" value="number_of_rooms" formControlName="number_of_rooms">
                     </mat-form-field>
                 </div>
 
@@ -30,11 +30,16 @@
                 </div>
 
                 <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Palavra passe de confirmação</mat-label>
-                        <input matInput type="password" value="passwordConfirmed" formControlName="passwordConfirmed">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Descrição</mat-label>
+                        <textarea value="description" formControlName="description"></textarea>
                     </mat-form-field>
                 </div>
+
+                <mat-radio-group aria-label="Select an option" formControlName="avaliable">
+                    <mat-radio-button value="1" >Sim</mat-radio-button>
+                    <mat-radio-button value="2">Não</mat-radio-button>
+                </mat-radio-group>
 
                 <div class="row">
                     
@@ -63,7 +68,7 @@
                             </mat-list>
                         </div>   
                     
-                       
+                   
                  
                 </div>
 
@@ -82,3 +87,16 @@
         </mat-card-content>
     </mat-card>
 </div>
+
+
+            : [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
+            tipology: [this.house.tipology.trim(), [Validators.required, Validators.minLength(2)]],
+            status_condition: [this.house.status_condition.trim(), [Validators.required, Validators.minLength(3)]],
+            type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.minLength(3)]],
+            furnished: [this.house.furnished],
+            swimming_pool: [this.house.swimming_pool],
+            kitchen: [this.house.kitchen, [Validators.required, Validators.min(1)]],
+            backyard: [this.house.backyard],
+            bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
+            price: [this.house.price, [Validators.required, Validators.min(10)]],
+            post_address: this.buldPostAddress(this.house.post_address)

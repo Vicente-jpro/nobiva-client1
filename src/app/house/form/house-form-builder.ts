@@ -6,26 +6,25 @@ import { Locality } from "../../models/address/locality";
 
 export class HouseFormBuilder {
     formBuilder = inject(FormBuilder);
-
-    build(house: HouseCreateRequest): FormGroup {
-        return this.formBuilder.group({
-            title: [house.title, [Validators.required, Validators.minLength(5)]],
-            description: [house.description, [Validators.required, Validators.minLength(3)]],
-            avaliable: [house.avaliable],
-            number_of_rooms: [house.number_of_rooms, [Validators.required, Validators.min(1)]],
-            tipology: [house.tipology, [Validators.required, Validators.minLength(2)]],
-            status_post: [house.status_post, [Validators.required, Validators.minLength(3)]],
-            status_condition: [house.status_condition, [Validators.required, Validators.minLength(3)]],
-            type_negotiation: [house.type_negotiation, [Validators.required, Validators.minLength(3)]],
-            furnished: [house.furnished],
-            swimming_pool: [house.swimming_pool],
-            kitchen: [house.kitchen, [Validators.required, Validators.min(1)]],
-            backyard: [house.backyard],
-            bathroom: [house.bathroom, [Validators.required, Validators.min(1)]],
-            price: [house.price, [Validators.required, Validators.min(10)]],
-            post_address: this.buldPostAddress(house.post_address)
+    house = new HouseCreateRequest();
+    
+    houseForm = this.formBuilder.group({
+            title: [this.house.title.trim(), [Validators.required, Validators.minLength(5)]],
+            description: [this.house.description.trim(), [Validators.required, Validators.minLength(3)]],
+            avaliable: [this.house.avaliable],
+            number_of_rooms: [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
+            tipology: [this.house.tipology.trim(), [Validators.required, Validators.minLength(2)]],
+            status_post: [this.house.status_post.trim(), [Validators.required, Validators.minLength(3)]],
+            type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.minLength(3)]],
+            furnished: [this.house.furnished],
+            swimming_pool: [this.house.swimming_pool],
+            kitchen: [this.house.kitchen, [Validators.required, Validators.min(1)]],
+            backyard: [this.house.backyard],
+            bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
+            price: [this.house.price, [Validators.required, Validators.min(10)]],
+            post_address: this.buldPostAddress(this.house.post_address)
         });
-    }
+    
 
     private buldPostAddress(postAddress: PostAddress): FormGroup {
         return this.formBuilder.group({
