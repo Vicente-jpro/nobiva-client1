@@ -10,7 +10,7 @@ import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
 import { UserSignup } from '../../../models/user/userSignup';
 import { UserRole } from '../../../models/user/userRole';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../../service/auth.service';
 
 
 export interface Task {

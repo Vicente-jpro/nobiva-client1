@@ -6,10 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
 import { Router, RouterLink } from "@angular/router";
 import { UserLogin } from '../../models/user/userLogin';
-import { UserService } from '../service/user-service';
-import { AuthService } from '../service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMessage } from '../../dialog-message/dialog-message';
+import { UserService } from '../../service/user-service';
+import { AuthService } from '../../service/auth.service';
 
 
 

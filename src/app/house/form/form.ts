@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldControl, MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
-import { AuthService } from '../../user/service/auth.service';
 import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
-import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import { AuthService } from '../../service/auth.service';
 
 
 export interface Task {

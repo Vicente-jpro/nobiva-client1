@@ -7,10 +7,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import { Footer } from "./footer/footer";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { User } from './user/user';
-import { AuthService } from './user/service/auth.service';
 import { Router } from '@angular/router';
-import { MenuProperty } from './menu-property/menu-property';
+import { AuthService } from './service/auth.service';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../user/service/auth.service';
+import { AuthService } from '../service/auth.service';
 
 /**
  * HTTP Interceptor that adds the authentication token to all requests

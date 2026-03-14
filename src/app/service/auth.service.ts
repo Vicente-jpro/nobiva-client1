@@ -1,6 +1,6 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { UserLoginResponse } from '../../models/user/userLoginResponse';
+import { UserLoginResponse } from '../models/user/userLoginResponse';
 
 @Injectable({
   providedIn: 'root',

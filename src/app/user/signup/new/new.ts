@@ -2,10 +2,10 @@ import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Form } from '../form/form';
-import { UserService } from '../../service/user-service';
 import { DialogMessage } from '../../../dialog-message/dialog-message';
 import { UserSignup } from '../../../models/user/userSignup';
 import { UserRole } from '../../../models/user/userRole';
+import { UserService } from '../../../service/user-service';
 
 @Component({
   selector: 'app-new',
