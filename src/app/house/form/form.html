@@ -14,62 +14,173 @@
                 </div>
 
                 <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Número de quartos</mat-label>
-                        <input matInput type="number" value="number_of_rooms" formControlName="number_of_rooms">
-                    </mat-form-field>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Número de quartos</mat-label>
+                            <input matInput type="number" value="number_of_rooms" formControlName="number_of_rooms">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Número de cozinhas</mat-label>
+                            <input matInput type="number" value="kitchen" formControlName="kitchen">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Quartos de banho</mat-label>
+                            <input matInput type="number" value="bathroom" formControlName="bathroom">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Preço</mat-label>
+                            <input matInput type="number" value="price" formControlName="price">
+                        </mat-form-field>
+                    </div>
                 </div>
 
 
 
                 <div class="row">
                     <mat-form-field class="full-width">
-                        <mat-label>Palavra passe</mat-label>
-                        <input matInput type="password" value="password" formControlName="password">
+                        <mat-label>Tipologia</mat-label>
+                        <mat-select>
+                            @for (food of foods; track food) {
+                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            }
+                        </mat-select>
                     </mat-form-field>
                 </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Condição do imóvel</mat-label>
+                        <mat-select>
+                            @for (food of foods; track food) {
+                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Tipo de Negociação</mat-label>
+                        <mat-select>
+                            @for (food of foods; track food) {
+                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+                <div formGroupName="post_address">
+                    <div formGroupName="address">
+                    <div class="row">
+                        <mat-form-field class="full-width">
+                            <mat-label>Endereço</mat-label>
+                            <input matInput type="text" value="street1" formControlName="street1">
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <mat-label>Código postal</mat-label>
+                            <input matInput type="text" value="zipeCode" formControlName="zipeCode">
+                        </mat-form-field>
+                    </div>
+                    </div>
+
+                    <div formGroupName="locality">
+                        <div class="row">
+                            <mat-form-field class="full-width">
+                                <mat-label>País</mat-label>
+                                <mat-select>
+                                    @for (food of foods; track food) {
+                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <mat-form-field class="full-width">
+                                <mat-label>Provincia</mat-label>
+                                <mat-select>
+                                    @for (food of foods; track food) {
+                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <mat-form-field class="full-width">
+                                <mat-label>Localidade</mat-label>
+                                <mat-select>
+                                    @for (food of foods; track food) {
+                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <mat-form-field class="example-full-width">
                         <mat-label>Descrição</mat-label>
-                        <textarea value="description" formControlName="description"></textarea>
+                        <textarea matInput value="description" formControlName="description"></textarea>
                     </mat-form-field>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            Mobilada
+                        </div>
+                        <div class="row">
+                            <mat-radio-group aria-label="Select an option" formControlName="furnished">
+                                <mat-radio-button value="1">Sim</mat-radio-button>
+                                <mat-radio-button value="2">Não</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            Piscina
+                        </div>
+                        <div class="row">
+                            <mat-radio-group aria-label="Select an option" formControlName="swimming_pool">
+                                <mat-radio-button value="1" >Sim</mat-radio-button>
+                                <mat-radio-button value="2">Não</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
 
-                <mat-radio-group aria-label="Select an option" formControlName="avaliable">
-                    <mat-radio-button value="1" >Sim</mat-radio-button>
-                    <mat-radio-button value="2">Não</mat-radio-button>
-                </mat-radio-group>
+                <hr>
 
                 <div class="row">
-                    
                     <div class="col">
-                        <mat-list role="list">
-                            <mat-list-item role="listitem">
-                                <mat-checkbox class="example-margin" formControlName="empresa">Empresa</mat-checkbox>
-                            </mat-list-item>
-                            <mat-list-item role="listitem">
-                                <mat-checkbox class="example-margin" formControlName="proprietario">Proprietário</mat-checkbox>
-                            </mat-list-item>
-                            <mat-list-item role="listitem">
-                                <mat-checkbox class="example-margin" formControlName="inclino">Inclino</mat-checkbox>
-                            </mat-list-item>
-                        </mat-list>
+                        <div class="row">
+                           Quintal
+                        </div>
+                        <div class="row">
+                            <mat-radio-group aria-label="Select an option" formControlName="backyard">
+                                <mat-radio-button value="1">Sim</mat-radio-button>
+                                <mat-radio-button value="2">Não</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
                     </div>
-
-                        <div class="col">
-                            <mat-list role="list">
-                                <mat-list-item role="listitem">
-                                    <mat-checkbox class="example-margin" formControlName="administrador">Admininstrador</mat-checkbox>
-                                </mat-list-item>
-                                <mat-list-item role="listitem">
-                                    <mat-checkbox class="example-margin" formControlName="superAdministrador">Super Admininstrador</mat-checkbox>
-                                </mat-list-item>
-                            </mat-list>
-                        </div>   
-                    
-                   
-                 
                 </div>
 
                 <div class="row">
@@ -89,14 +200,8 @@
 </div>
 
 
-            : [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
-            tipology: [this.house.tipology.trim(), [Validators.required, Validators.minLength(2)]],
-            status_condition: [this.house.status_condition.trim(), [Validators.required, Validators.minLength(3)]],
-            type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.minLength(3)]],
-            furnished: [this.house.furnished],
-            swimming_pool: [this.house.swimming_pool],
-            kitchen: [this.house.kitchen, [Validators.required, Validators.min(1)]],
-            backyard: [this.house.backyard],
-            bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
-            price: [this.house.price, [Validators.required, Validators.min(10)]],
+          <!-- 
+            : [this.house.bathroom, [Validators.required, Validators.min(1)]],
+            : [this.house.price, [Validators.required, Validators.min(10)]],
             post_address: this.buldPostAddress(this.house.post_address)
+            -->

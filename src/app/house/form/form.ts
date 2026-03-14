@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Ou
 import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldControl, MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
@@ -14,12 +14,18 @@ import { UserSignup } from '../../models/user/userSignup';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 
 export interface Task {
   name: string;
   completed: boolean;
   subtasks?: Task[];
+}
+
+interface Food {
+  value: string;
+  viewValue: string;
 }
 
 @Component({
@@ -34,7 +40,8 @@ export interface Task {
     MatButtonModule,
     MatListModule,
     RouterLink,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule,
 ],
   templateUrl: './form.html',
   styleUrl: './form.scss',
@@ -48,6 +55,13 @@ export class Form extends HouseFormBuilder {
     @Input() title: string = '';
 
     @Output() formEvent = new EventEmitter<UserSignup>();
+
+
+  foods: Food[] = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'},
+  ];
 
     readonly task = signal<Task>({
     name: 'Roles task',
