@@ -81,20 +81,6 @@
 
 
                 <div formGroupName="post_address">
-                    <div formGroupName="address">
-                    <div class="row">
-                        <mat-form-field class="full-width">
-                            <mat-label>Endereço</mat-label>
-                            <input matInput type="text" value="street1" formControlName="street1">
-                        </mat-form-field>
-
-                        <mat-form-field class="full-width">
-                            <mat-label>Código postal</mat-label>
-                            <input matInput type="text" value="zipeCode" formControlName="zipeCode">
-                        </mat-form-field>
-                    </div>
-                    </div>
-
                     <div formGroupName="locality">
                         <div class="row">
                             <mat-form-field class="full-width">
@@ -128,9 +114,20 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                    </div>
 
+                    <div formGroupName="address">
+                        <div class="row">
+                            <mat-form-field class="full-width">
+                                <mat-label>Endereço</mat-label>
+                                <input matInput type="text" value="street1" formControlName="street1">
+                            </mat-form-field>
 
-
+                            <mat-form-field class="full-width">
+                                <mat-label>Código postal</mat-label>
+                                <input matInput type="text" value="zipeCode" formControlName="zipeCode">
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
 
