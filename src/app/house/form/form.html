@@ -79,26 +79,26 @@
                     </mat-form-field>
                 </div>
 
-
                 <div formGroupName="post_address">
                     <div formGroupName="locality">
+
                         <div class="row">
                             <mat-form-field class="full-width">
-                                <mat-label>País</mat-label>
+                                <mat-label>Pais</mat-label>
                                 <mat-select>
-                                    @for (food of foods; track food) {
-                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                    @for (country of countryOptions; track country) {
+                                    <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
                                     }
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
+                       
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Provincia</mat-label>
                                 <mat-select>
-                                    @for (food of foods; track food) {
-                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                    @for (province of provinceOptions; track province) {
+                                    <mat-option [value]="province.value">{{province.viewValue}}</mat-option>
                                     }
                                 </mat-select>
                             </mat-form-field>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Output, EventEmitter, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
@@ -14,6 +14,7 @@ import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { AuthService } from '../../service/auth.service';
+import { Address } from '../../service/address';
 
 
 export interface Task {
@@ -23,6 +24,16 @@ export interface Task {
 }
 
 interface Food {
+  value: string;
+  viewValue: string;
+}
+
+interface ProvinceOption {
+  value: string;
+  viewValue: string;
+}
+
+interface CountryOption {
   value: string;
   viewValue: string;
 }
@@ -46,21 +57,24 @@ interface Food {
   styleUrl: './form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Form extends HouseFormBuilder {
+export class Form extends HouseFormBuilder implements OnInit {
 
     protected authService = inject(AuthService);
+    private addressService = inject(Address);
     protected role = UserRole;
 
     @Input() title: string = '';
 
     @Output() formEvent = new EventEmitter<UserSignup>();
 
+    provinceOptions: ProvinceOption[] = []; 
+    countryOptions: CountryOption[] = [];
 
-  foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-  ];
+    foods: Food[] = [
+      {value: 'steak-0', viewValue: 'Steak'},
+      {value: 'pizza-1', viewValue: 'Pizza'},
+      {value: 'tacos-2', viewValue: 'Tacos'},
+    ];
 
     readonly task = signal<Task>({
     name: 'Roles task',
@@ -75,6 +89,39 @@ export class Form extends HouseFormBuilder {
   onSubmit(){
 
     console.log(this.houseForm.value);
+  }
+
+  ngOnInit(): void {
+  this.addressService.findCountries()
+    .subscribe({
+      next: countries => {
+        console.log('Countries:', countries);
+        this.countryOptions = countries.map(country => ({
+          value: country.id.toString(),
+          viewValue: country.name
+        }));
+      },
+      error: (err) => {
+        console.error('Error fetching countries:', err);
+      }
+    });
+
+  }
+
+  findProvinces(countryId: number) {
+    this.addressService.findProvinces(countryId)
+      .subscribe({
+        next: provinces => {
+          console.log('Provinces:', provinces);
+          this.provinceOptions = provinces.map(province => ({
+            value: province.id.toString(),
+            viewValue: province.name
+          }));
+        },
+        error: (err) => {
+          console.error('Error fetching provinces:', err);
+        }
+      });
   }
 
 }
