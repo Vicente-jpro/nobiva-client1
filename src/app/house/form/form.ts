@@ -62,7 +62,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected authService = inject(AuthService);
     private addressService = inject(Address);
     protected role = UserRole;
-    protected selectedValue = input<any>('');
+    protected selectedCountry: any = null;
 
     @Input() title: string = '';
 
@@ -88,17 +88,15 @@ export class Form extends HouseFormBuilder implements OnInit {
   });
 
   onSubmit(){
-    console.log(this.selectedValue);
     console.log(this.houseForm.value);
 
-    console.log("Selected value",this.selectedValue);
   }
 
   ngOnInit(): void {
   this.addressService.findCountries()
     .subscribe({
       next: countries => {
-        console.log('Countries:', countries);
+  
         this.countryOptions = countries.map(country => ({
           value: country.id.toString(),
           viewValue: country.name
@@ -130,6 +128,9 @@ export class Form extends HouseFormBuilder implements OnInit {
       });
   }
 
-
+  onCountryChange(country: any){
+    this.selectedCountry = country;
+    console.log('Selected country:', this.selectedCountry);
+  }
 
 }

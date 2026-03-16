@@ -41,6 +41,8 @@ export class HouseFormBuilder {
     private buildLocality(locality: Locality): FormGroup {
         return this.formBuilder.group({
             id: [locality.id, [Validators.required, Validators.min(1)]],
+            //helpers to select the country, province and locality
+             countrySelected: [null, [Validators.required]],
         });
     }
 }

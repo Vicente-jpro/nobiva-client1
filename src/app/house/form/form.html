@@ -94,11 +94,11 @@
 
                 <div formGroupName="post_address">
                     <div formGroupName="locality">
-
+                        
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Pais</mat-label>
-                                <mat-select (selectionChange)="findProvinces($event)">
+                                <mat-select formControlName="countrySelected">
                                     @for (country of countryOptions; track country) {
                                     <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
                                     }
