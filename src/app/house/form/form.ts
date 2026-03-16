@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Output, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, computed, signal, Output, EventEmitter, OnInit, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
@@ -12,7 +12,7 @@ import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
+import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import { AuthService } from '../../service/auth.service';
 import { Address } from '../../service/address';
 
@@ -62,6 +62,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected authService = inject(AuthService);
     private addressService = inject(Address);
     protected role = UserRole;
+    protected selectedValue = input<any>('');
 
     @Input() title: string = '';
 
@@ -87,8 +88,10 @@ export class Form extends HouseFormBuilder implements OnInit {
   });
 
   onSubmit(){
-
+    console.log(this.selectedValue);
     console.log(this.houseForm.value);
+
+    console.log("Selected value",this.selectedValue);
   }
 
   ngOnInit(): void {
@@ -108,8 +111,11 @@ export class Form extends HouseFormBuilder implements OnInit {
 
   }
 
-  findProvinces(countryId: number) {
-    this.addressService.findProvinces(countryId)
+  findProvinces(event: MatSelectChange) {
+    const selectedCountryId = event.value;
+    console.log('Selected country ID:', selectedCountryId);
+
+    this.addressService.findProvinces(parseInt(selectedCountryId))
       .subscribe({
         next: provinces => {
           console.log('Provinces:', provinces);
@@ -123,5 +129,7 @@ export class Form extends HouseFormBuilder implements OnInit {
         }
       });
   }
+
+
 
 }

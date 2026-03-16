@@ -49,7 +49,7 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Tipologia</mat-label>
-                        <mat-select>
+                        <mat-select formControlName="tipology">
                             @for (food of foods; track food) {
                             <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
                             }
@@ -60,7 +60,20 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Condição do imóvel</mat-label>
-                        <mat-select>
+                        <mat-select formControlName="status_condition">
+                            @for (food of foods; track food) {
+                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                
+
+                <div class="row">
+                    <mat-form-field class="full-width">
+                        <mat-label>Condição do imóvel</mat-label>
+                        <mat-select formControlName="status_post">
                             @for (food of foods; track food) {
                             <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
                             }
@@ -71,7 +84,7 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Tipo de Negociação</mat-label>
-                        <mat-select>
+                        <mat-select formControlName="type_negotiation">
                             @for (food of foods; track food) {
                             <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
                             }
@@ -85,7 +98,7 @@
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Pais</mat-label>
-                                <mat-select>
+                                <mat-select (selectionChange)="findProvinces($event)">
                                     @for (country of countryOptions; track country) {
                                     <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
                                     }

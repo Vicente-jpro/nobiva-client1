@@ -15,6 +15,7 @@ export class HouseFormBuilder {
             number_of_rooms: [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
             tipology: [this.house.tipology.trim(), [Validators.required, Validators.minLength(2)]],
             status_post: [this.house.status_post.trim(), [Validators.required, Validators.minLength(3)]],
+            status_condition: [this.house.status_post.trim(), [Validators.required, Validators.minLength(3)]],
             type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.minLength(3)]],
             furnished: [this.house.furnished],
             swimming_pool: [this.house.swimming_pool],
