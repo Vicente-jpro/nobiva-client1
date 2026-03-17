@@ -120,7 +120,7 @@
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Localidade</mat-label>
-                                <mat-select formControlName="id" (selectionChange)="onLocalityChange($event.value)">
+                                <mat-select formControlName="id">
                                     @for (locality of localityOptions; track locality) {
                                     <mat-option [value]="locality.value">{{locality.viewValue}}</mat-option>
                                     }

@@ -34,12 +34,12 @@ interface ProvinceOption {
 }
 
 interface CountryOption {
-  value: string;
+  value: number;
   viewValue: string;
 }
 
 interface LocalityOption {
-  value: string;
+  value: number;
   viewValue: string;
 }
 
@@ -105,7 +105,7 @@ export class Form extends HouseFormBuilder implements OnInit {
       next: countries => {
   
         this.countryOptions = countries.map(country => ({
-          value: country.id.toString(),
+          value: country.id,
           viewValue: country.name
         }));
       },
@@ -117,10 +117,8 @@ export class Form extends HouseFormBuilder implements OnInit {
   }
 
   onCountryChange(countryId: number) {
-    this.selectedCountry = countryId;
-    console.log('Selected country:', this.selectedCountry);
 
-    this.addressService.findProvincesByCountry(countryId)
+    this.addressService.findProvincesByCountryId(countryId)
       .subscribe({
         next: provinces => {
           console.log('Fetched provinces:', provinces);
@@ -135,15 +133,16 @@ export class Form extends HouseFormBuilder implements OnInit {
       });
   }
 
-  onProvinceChange(provinceId: any) {
+  onProvinceChange(provinceId: number) {
     console.log('Selected province:', provinceId);
     this.localityOptions = [];
     this.houseForm.get('post_address.locality.id')?.reset();
-    this.addressService.findLocalities(parseInt(provinceId))
+
+    this.addressService.findLocalitiesByProvinceId(provinceId)
       .subscribe({
         next: localities => {
           this.localityOptions = localities.map(locality => ({
-            value: locality.id.toString(),
+            value: locality.id,
             viewValue: locality.locality
           }));
         },
@@ -151,10 +150,6 @@ export class Form extends HouseFormBuilder implements OnInit {
           console.error('Error fetching localities:', err);
         }
       });
-  }
-
-  onLocalityChange(localityId: any) {
-    console.log('Selected locality:', localityId);
   }
 
 }

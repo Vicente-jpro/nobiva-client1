@@ -16,13 +16,13 @@ export class Address {
     return this.httpClient.get<Country[]>(`${this.apiUrl}/paises`);
   }
 
-  findProvincesByCountry(countryId: number): Observable<Province[]> {
+  findProvincesByCountryId(countryId: number): Observable<Province[]> {
     return this.httpClient.get<Province[]>(`${this.apiUrl}/paises/${countryId}/provincias`);
   }
 
 
-  findLocalities(provinceId: number): Observable<Locality[]> {
-    return this.httpClient.get<Locality[]>(`${this.apiUrl}/localidades/${provinceId}`);
+  findLocalitiesByProvinceId(provinceId: number): Observable<Locality[]> {
+    return this.httpClient.get<Locality[]>(`${this.apiUrl}/provincias/${provinceId}/localidades`);
   }
 
 }
