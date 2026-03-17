@@ -1,9 +1,5 @@
-interface TypeNegotiation {
-    arredamento: string;
-    venda: string;
-}
 
-export const TYPE_NEGOTIATION: TypeNegotiation = {
-    arredamento: "ARRENDAMENTO",
-    venda: "VENDA"
+export enum TypeNegotiation {
+    ARRENDAMENTO = "ARRENDAMENTO",
+    VENDA = "VENDA"
 };

@@ -1,13 +1,6 @@
-interface StatusPost {
-    aprovado: string;
-    pendente: string;
-    bloqueado: string;
-    reprovado: string;
+export enum StatusPost {
+  APROVADO = "APROVADO",
+  PENDENTE = "PENDENTE",
+  BLOQUEADO = "BLOQUEADO",
+  REPROVADO = "REPROVADO",
 }
-
-export const STATUS_POST: StatusPost = {
-    aprovado: "APROVADO", 
-    pendente: "PENDENTE", 
-    bloqueado: "BLOQUEADO", 
-    reprovado: "REPROVADO"
-};

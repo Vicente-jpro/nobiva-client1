@@ -1,13 +1,6 @@
-interface StatusCondition {
-    novo: string;
-    usado: string;
-    inacabado: string;
-    em_ruina: string;
+export enum StatusCondition {
+    NOVO = "NOVO",
+    USADO = "USADO",
+    INACABADO = "INACABADO",
+    EM_RUINA = "EM_RUINA"
 }
-
-export const STATUS_CONDITION: StatusCondition = {
-    novo: "NOVO", 
-    usado: "USADO", 
-    inacabado: "INACABADO", 
-    em_ruina: "EM_RUINA"
-};

@@ -12,9 +12,13 @@ import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import { AuthService } from '../../service/auth.service';
 import { Address } from '../../service/address';
+import { StatusPost } from '../../models/property-status';
+import { Tipology } from '../../models/property-tipology';
+import { MatSelectModule } from '@angular/material/select';
+import { TypeNegotiation } from '../../models/negotiation-type';
+import { StatusCondition } from '../../models/property-condition';
 
 
 export interface Task {
@@ -23,25 +27,35 @@ export interface Task {
   subtasks?: Task[];
 }
 
-interface Food {
+interface baseValueNumberOption {
+  value: number;
+  viewValue: string;
+}
+
+interface baseValueStringOption {
   value: string;
   viewValue: string;
 }
 
-interface ProvinceOption {
-  value: number;
-  viewValue: string;
-}
+interface ProvinceOption extends baseValueNumberOption { }
 
-interface CountryOption {
-  value: number;
-  viewValue: string;
-}
+interface CountryOption extends baseValueNumberOption { }
 
-interface LocalityOption {
-  value: number;
-  viewValue: string;
-}
+interface LocalityOption extends baseValueNumberOption { }
+
+interface StatusPostOption extends baseValueStringOption { }
+
+interface TypeNegotiationOption extends baseValueStringOption { }
+
+interface StatusPostOption extends baseValueStringOption { }
+
+interface TypeNegotiationOption extends baseValueStringOption { }
+
+interface TypeNegotiationOption extends baseValueStringOption { }
+
+interface TipologyOption extends baseValueStringOption { }
+
+interface StatusConditionOption extends baseValueStringOption { }
 
 @Component({
   selector: 'app-form',
@@ -65,9 +79,7 @@ interface LocalityOption {
 export class Form extends HouseFormBuilder implements OnInit {
 
     protected authService = inject(AuthService);
-     addressService = inject(Address);
-    protected role = UserRole;
-    protected selectedCountry: any = null;
+    protected addressService = inject(Address);
 
     @Input() title: string = '';
 
@@ -77,26 +89,39 @@ export class Form extends HouseFormBuilder implements OnInit {
     countryOptions: CountryOption[] = [];
     localityOptions: LocalityOption[] = [];
 
-    foods: Food[] = [
-      {value: 'steak-0', viewValue: 'Steak'},
-      {value: 'pizza-1', viewValue: 'Pizza'},
-      {value: 'tacos-2', viewValue: 'Tacos'},
+    statusPostOptions: StatusPostOption[] = [
+        { value: StatusPost.APROVADO, viewValue: StatusPost.APROVADO },
+        { value: StatusPost.PENDENTE, viewValue: StatusPost.PENDENTE },
+        { value: StatusPost.BLOQUEADO, viewValue: StatusPost.BLOQUEADO },
+        { value: StatusPost.REPROVADO, viewValue: StatusPost.REPROVADO },
     ];
 
-    readonly task = signal<Task>({
-    name: 'Roles task',
-    completed: false,
-    subtasks: [
-      {name: 'Administrador', completed: false},
-      {name: 'Proprietário', completed: false},
-      {name: 'Inclino', completed: false},
-    ],
-  });
+    typeNegotiationOptions: TypeNegotiationOption[] = [
+        { value: TypeNegotiation.ARRENDAMENTO, viewValue: TypeNegotiation.ARRENDAMENTO },
+        { value: TypeNegotiation.VENDA, viewValue: TypeNegotiation.VENDA },
 
+
+    ];
+    tipologyOptions: TipologyOption[] = [
+        { value: Tipology.T1, viewValue: Tipology.T1 },
+        { value: Tipology.T2, viewValue: Tipology.T2 },
+        { value: Tipology.T3, viewValue: Tipology.T3 },
+        { value: Tipology.T4, viewValue: Tipology.T4 },
+        { value: Tipology.T5, viewValue: Tipology.T5 },
+        { value: Tipology.T6, viewValue: Tipology.T6 },
+        { value: Tipology.T7, viewValue: Tipology.T7 },
+        { value: Tipology.T8, viewValue: Tipology.T8 },
+        { value: Tipology.T9, viewValue: Tipology.T9 },
+        { value: Tipology.Tn, viewValue: Tipology.Tn },
+    ];
+
+    statusConditionOptions: StatusConditionOption[] = [
+        { value: StatusCondition.NOVO, viewValue: StatusCondition.NOVO },
+        { value: StatusCondition.USADO, viewValue: StatusCondition.USADO },
+    ];
 
   onSubmit(){
     console.log(this.houseForm.value);
-
   }
 
   ngOnInit(): void {
@@ -121,7 +146,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     this.addressService.findProvincesByCountryId(countryId)
       .subscribe({
         next: provinces => {
-          console.log('Fetched provinces:', provinces);
+        
           this.provinceOptions = provinces.map(province => ({
             value: province.id,
             viewValue: province.name
@@ -134,7 +159,7 @@ export class Form extends HouseFormBuilder implements OnInit {
   }
 
   onProvinceChange(provinceId: number) {
-    console.log('Selected province:', provinceId);
+
     this.localityOptions = [];
     this.houseForm.get('post_address.locality.id')?.reset();
 

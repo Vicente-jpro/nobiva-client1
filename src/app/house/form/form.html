@@ -50,8 +50,8 @@
                     <mat-form-field class="full-width">
                         <mat-label>Tipologia</mat-label>
                         <mat-select formControlName="tipology">
-                            @for (food of foods; track food) {
-                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            @for (tipology of tipologyOptions; track tipology) {
+                            <mat-option [value]="tipology.value">{{tipology.viewValue}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -61,8 +61,8 @@
                     <mat-form-field class="full-width">
                         <mat-label>Condição do imóvel</mat-label>
                         <mat-select formControlName="status_condition">
-                            @for (food of foods; track food) {
-                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            @for (condition of statusConditionOptions; track condition) {
+                            <mat-option [value]="condition.value">{{condition.viewValue}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -74,8 +74,8 @@
                     <mat-form-field class="full-width">
                         <mat-label>Condição do imóvel</mat-label>
                         <mat-select formControlName="status_post">
-                            @for (food of foods; track food) {
-                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            @for (status of statusPostOptions; track status) {
+                            <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -85,8 +85,8 @@
                     <mat-form-field class="full-width">
                         <mat-label>Tipo de Negociação</mat-label>
                         <mat-select formControlName="type_negotiation">
-                            @for (food of foods; track food) {
-                            <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                            @for (type of typeNegotiationOptions; track type) {
+                            <mat-option [value]="type.value">{{type.viewValue}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
