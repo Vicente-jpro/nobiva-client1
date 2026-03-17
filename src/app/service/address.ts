@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Province } from '../models/address/province';
 import { Observable } from 'rxjs';
 import { Country } from '../models/address/country';
+import { Locality } from '../models/address/locality';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,13 @@ export class Address {
     return this.httpClient.get<Country[]>(`${this.apiUrl}/paises`);
   }
 
-  findProvinces(countryId: number): Observable<Province[]> {
-    return this.httpClient.get<Province[]>(`${this.apiUrl}/provincias/${countryId}`);
+  findProvincesByCountry(countryId: number): Observable<Province[]> {
+    return this.httpClient.get<Province[]>(`${this.apiUrl}/paises/${countryId}/provincias`);
   }
 
+
+  findLocalities(provinceId: number): Observable<Locality[]> {
+    return this.httpClient.get<Locality[]>(`${this.apiUrl}/localidades/${provinceId}`);
+  }
 
 }

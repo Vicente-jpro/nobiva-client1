@@ -71,18 +71,9 @@ export const routes: Routes = [
                 ]    
 
 
-              
-
-
-
-
-
-
             }
         ]
-    }
-
-
+    },
 
 
 ];

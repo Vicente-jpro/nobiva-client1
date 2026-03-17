@@ -42,7 +42,8 @@ export class HouseFormBuilder {
         return this.formBuilder.group({
             id: [locality.id, [Validators.required, Validators.min(1)]],
             //helpers to select the country, province and locality
-             countrySelected: [null, [Validators.required]],
+            countrySelected: [null, [Validators.required]],
+            provinceSelected: [null, [Validators.required]],
         });
     }
 }

@@ -9,7 +9,7 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Título do imóvel</mat-label>
-                        <input matInput value="title" formControlName="title">
+                        <input matInput formControlName="title">
                     </mat-form-field>
                 </div>
 
@@ -17,14 +17,14 @@
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-label>Número de quartos</mat-label>
-                            <input matInput type="number" value="number_of_rooms" formControlName="number_of_rooms">
+                            <input matInput type="number" formControlName="number_of_rooms">
                         </mat-form-field>
                     </div>
                     
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-label>Número de cozinhas</mat-label>
-                            <input matInput type="number" value="kitchen" formControlName="kitchen">
+                            <input matInput type="number" formControlName="kitchen">
                         </mat-form-field>
                     </div>
                 </div>
@@ -32,14 +32,14 @@
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-label>Quartos de banho</mat-label>
-                            <input matInput type="number" value="bathroom" formControlName="bathroom">
+                            <input matInput type="number" formControlName="bathroom">
                         </mat-form-field>
                     </div>
                     
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-label>Preço</mat-label>
-                            <input matInput type="number" value="price" formControlName="price">
+                            <input matInput type="number" formControlName="price">
                         </mat-form-field>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Pais</mat-label>
-                                <mat-select formControlName="countrySelected">
+                                <mat-select formControlName="countrySelected" (selectionChange)="onCountryChange($event.value)">
                                     @for (country of countryOptions; track country) {
                                     <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
                                     }
@@ -109,7 +109,7 @@
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Provincia</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="provinceSelected" (selectionChange)="onProvinceChange($event.value)">
                                     @for (province of provinceOptions; track province) {
                                     <mat-option [value]="province.value">{{province.viewValue}}</mat-option>
                                     }
@@ -120,9 +120,9 @@
                         <div class="row">
                             <mat-form-field class="full-width">
                                 <mat-label>Localidade</mat-label>
-                                <mat-select>
-                                    @for (food of foods; track food) {
-                                    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                                <mat-select formControlName="id" (selectionChange)="onLocalityChange($event.value)">
+                                    @for (locality of localityOptions; track locality) {
+                                    <mat-option [value]="locality.value">{{locality.viewValue}}</mat-option>
                                     }
                                 </mat-select>
                             </mat-form-field>
