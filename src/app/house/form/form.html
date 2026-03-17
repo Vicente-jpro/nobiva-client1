@@ -194,12 +194,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col">
-                        <button matButton="tonal" routerLink="/user/login">Entrar na minha conta</button>
-                    </div>
-
                     <div class="col justify-content-end">
-                         <button matButton="filled">Salvar</button>    
+                         <button matButton="filled" type="submit" [disabled]="!houseForm.valid">Salvar</button>    
                     </div>
                     
                 </div>
@@ -209,9 +205,3 @@
     </mat-card>
 </div>
 
-
-          <!-- 
-            : [this.house.bathroom, [Validators.required, Validators.min(1)]],
-            : [this.house.price, [Validators.required, Validators.min(10)]],
-            post_address: this.buldPostAddress(this.house.post_address)
-            -->

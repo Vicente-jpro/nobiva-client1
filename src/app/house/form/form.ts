@@ -8,7 +8,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
-import { UserRole } from '../../models/user/userRole';
 import { UserSignup } from '../../models/user/userSignup';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
@@ -68,7 +67,6 @@ interface StatusConditionOption extends baseValueStringOption { }
     MatCheckboxModule,
     MatButtonModule,
     MatListModule,
-    RouterLink,
     MatRadioModule,
     MatSelectModule,
 ],

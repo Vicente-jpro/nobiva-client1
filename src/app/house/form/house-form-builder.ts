@@ -14,15 +14,15 @@ export class HouseFormBuilder {
             avaliable: [this.house.avaliable],
             number_of_rooms: [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
             tipology: [this.house.tipology.trim(), [Validators.required, Validators.maxLength(2)]],
-            status_post: [this.house.status_post.trim(), [Validators.required, Validators.maxLength(3)]],
-            status_condition: [this.house.status_condition.trim(), [Validators.required, Validators.minLength(3)]],
-            type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.minLength(3)]],
+            status_post: [this.house.status_post.trim(), [Validators.required, Validators.maxLength(9)]],
+            status_condition: [this.house.status_condition.trim(), [Validators.required, Validators.maxLength(9)]],
+            type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.maxLength(12)]],
             furnished: [this.house.furnished],
             swimming_pool: [this.house.swimming_pool],
             kitchen: [this.house.kitchen, [Validators.required, Validators.min(1)]],
             backyard: [this.house.backyard],
             bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
-            price: [this.house.price, [Validators.required, Validators.min(10)]],
+            price: [this.house.price, [Validators.required, Validators.min(100)]],
             post_address: this.buldPostAddress(this.house.post_address)
         });
     
@@ -32,7 +32,7 @@ export class HouseFormBuilder {
                 address: this.formBuilder.group({
                     street1: [postAddress.address.street1, [Validators.required, Validators.minLength(3)]],
                     street2: [postAddress.address.street2],
-                    zipeCode: [postAddress.address.zipeCode, [Validators.required, Validators.minLength(3)]],
+                    zipeCode: [postAddress.address.zipeCode],
                 }),
                 locality: this.buildLocality(postAddress.locality)
             })
