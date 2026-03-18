@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import { HouseService } from '../service/house-service';
+import { HousePartial } from './house-partial/house-partial';
 
 
 @Component({
   selector: 'app-house',
-  imports: [MatTabsModule],
+  imports: [MatTabsModule, HousePartial],
   templateUrl: './house.html',
   styleUrl: './house.scss',
 })
