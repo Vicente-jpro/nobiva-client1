@@ -33,7 +33,7 @@ interface TipologyOption extends baseValueStringOption { }
 
 interface StatusConditionOption extends baseValueStringOption { }
 
-export class HouseSelectBox {
+export abstract class HouseSelectBox {
     
     provinceOptions: ProvinceOption[] = [];
     countryOptions: CountryOption[] = [];

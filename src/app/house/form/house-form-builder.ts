@@ -5,7 +5,7 @@ import { PostAddress } from "../../models/address/post-address";
 import { Locality } from "../../models/address/locality";
 import { HouseSelectBox } from "./house-select-box";
 
-export class HouseFormBuilder extends HouseSelectBox{
+export abstract class HouseFormBuilder extends HouseSelectBox {
     formBuilder = inject(FormBuilder);
     house = new HouseCreateRequest();
     
@@ -27,7 +27,6 @@ export class HouseFormBuilder extends HouseSelectBox{
             post_address: this.buldPostAddress(this.house.post_address)
         });
     
-
     private buldPostAddress(postAddress: PostAddress): FormGroup {
         return this.formBuilder.group({
                 address: this.formBuilder.group({

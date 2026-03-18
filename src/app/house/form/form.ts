@@ -15,6 +15,7 @@ import { Address } from '../../service/address';
 import { MatSelectModule } from '@angular/material/select';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { HouseService } from '../../service/house-service';
+import { DialogMessageData } from '../../dialog-message/dialog-message-data';
 
 @Component({
   selector: 'app-form',
@@ -40,7 +41,8 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected addressService = inject(Address);
     private houseModel = new HouseCreateRequest();
     private service = inject(HouseService);
-
+    private dialog = new DialogMessageData();
+    
     @Input() title: string = '';
 
     @Output() formEvent = new EventEmitter<UserSignup>();
@@ -59,18 +61,27 @@ export class Form extends HouseFormBuilder implements OnInit {
       }
     } as HouseCreateRequest;
 
+    
     this.service.save(this.houseModel).subscribe({
       next: (response) => {
+        this.dialog.content = 'A casa foi salva com sucesso.';
+        this.dialog.openDialog();
         console.log('House saved successfully:', response); 
       },
       error: (err) => {
+        this.dialog.content = err.error?.message || 'Ocorreu um erro ao salvar a casa.';
+        this.dialog.openDialog();
         console.error('Error saving house:', err);
       }
     });
+
     
   }
 
   ngOnInit(): void {
+  
+  this.dialog.title = 'Casa';
+
   this.addressService.findCountries()
     .subscribe({
       next: countries => {
