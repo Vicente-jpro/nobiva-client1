@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HouseCreateRequest } from "../../models/house/house-create-request";
 import { PostAddress } from "../../models/address/post-address";
 import { Locality } from "../../models/address/locality";
+import { HouseSelectBox } from "./house-select-box";
 
-export class HouseFormBuilder {
+export class HouseFormBuilder extends HouseSelectBox{
     formBuilder = inject(FormBuilder);
     house = new HouseCreateRequest();
     

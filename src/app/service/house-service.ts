@@ -17,4 +17,8 @@ export class HouseService {
   save(house: HouseCreateRequest): Observable<HouseResponse> {
     return this.httpClient.post<HouseResponse>(`${this.apiUrl}/houses`, house);
   }
+
+  findAll(): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses`);
+  }
 }

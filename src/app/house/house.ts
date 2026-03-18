@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import { HouseService } from '../service/house-service';
 
 
 @Component({
@@ -8,6 +9,20 @@ import {MatTabsModule} from '@angular/material/tabs';
   templateUrl: './house.html',
   styleUrl: './house.scss',
 })
-export class House {
+export class House implements OnInit {
+
+  private service = inject(HouseService);
+  constructor() { }
+
+  ngOnInit(): void {
+    this.service.findAll().subscribe({
+      next: (response) => {
+        console.log('Houses retrieved successfully:', response); 
+      },
+      error: (err) => {
+        
+      }  
+    });
+  }
 
 }
