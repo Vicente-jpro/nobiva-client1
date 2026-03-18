@@ -7,7 +7,6 @@ import {FormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
-import { RouterLink } from "@angular/router";
 import { UserSignup } from '../../models/user/userSignup';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
@@ -124,7 +123,9 @@ export class Form extends HouseFormBuilder implements OnInit {
 
   onSubmit(){
     this.houseModel = this.houseForm.value as HouseCreateRequest; 
-    console.log(this.houseModel);
+    
+    console.log("This is te houseModel: "+JSON.stringify(this.houseModel));
+
     this.service.save(this.houseModel).subscribe({
       next: (response) => {
         console.log('House saved successfully:', response); 
