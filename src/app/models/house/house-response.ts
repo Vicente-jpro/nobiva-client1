@@ -1,20 +1,13 @@
-import { PostAddress } from "../address/post-address";
-
 export class HouseResponse {
-    title = "";
-    description = "";
-    avaliable = false;
-    number_of_rooms = 0;
-    tipology = "";
-    status_post = "";
-    status_condition = "";
-    type_negotiation = "";
-    furnished = false; 
-    swimming_pool = false;
-    kitchen = 0;
-    backyard = false;
-    bathroom = 0;
-    price = 0;
-    post_address: PostAddress = new PostAddress();
-        
+    avaliable: boolean = true;
+    idHouse: string = '';
+    description: string = '';
+    title: string = '';
+    email: string = '';
+    locality: string = '';
+    tipology: string = '';
+    price: number = 0;
+    street1: string = '';
+    country: string = '';
+    province: string = '';
 }

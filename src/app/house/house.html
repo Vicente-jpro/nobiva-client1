@@ -1,5 +1,11 @@
 <mat-tab-group>
-  <mat-tab label="Comprar"> <app-house-partial/>  </mat-tab>
+  <mat-tab label="Comprar"> 
+    <div class="container-fluid">
+        @for(house of houses; track house){
+          <app-house-partial [houseData]="house"/>  
+        }
+    </div>
+  </mat-tab>
   <mat-tab label="Alugar"> Alugar </mat-tab>
   <mat-tab label="Minhas publicações"> Minhas publicações </mat-tab>
   <mat-tab label="Minha lista favorita"> Minha lista favorita </mat-tab>
