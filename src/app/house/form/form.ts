@@ -122,9 +122,19 @@ export class Form extends HouseFormBuilder implements OnInit {
     ];
 
   onSubmit(){
-    this.houseModel = this.houseForm.value as HouseCreateRequest; 
-    
-    console.log("This is te houseModel: "+JSON.stringify(this.houseModel));
+    const formValue = this.houseForm.value;
+
+    this.houseModel = {
+      ...formValue,
+      post_address: {
+        ...formValue.post_address,
+        locality: {
+          id: formValue.post_address?.locality?.id
+        }
+      }
+    } as HouseCreateRequest;
+
+    //console.log("This is the houseModel: ", this.houseModel);
 
     this.service.save(this.houseModel).subscribe({
       next: (response) => {
