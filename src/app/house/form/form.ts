@@ -18,6 +18,8 @@ import { Tipology } from '../../models/property-tipology';
 import { MatSelectModule } from '@angular/material/select';
 import { TypeNegotiation } from '../../models/negotiation-type';
 import { StatusCondition } from '../../models/property-condition';
+import { HouseCreateRequest } from '../../models/house/house-create-request';
+import { HouseService } from '../../service/house-service';
 
 
 export interface Task {
@@ -78,6 +80,8 @@ export class Form extends HouseFormBuilder implements OnInit {
 
     protected authService = inject(AuthService);
     protected addressService = inject(Address);
+    private houseModel = new HouseCreateRequest();
+    private service = inject(HouseService);
 
     @Input() title: string = '';
 
@@ -119,7 +123,17 @@ export class Form extends HouseFormBuilder implements OnInit {
     ];
 
   onSubmit(){
-    console.log(this.houseForm.value);
+    this.houseModel = this.houseForm.value as HouseCreateRequest; 
+    console.log(this.houseModel);
+    this.service.save(this.houseModel).subscribe({
+      next: (response) => {
+        console.log('House saved successfully:', response); 
+      },
+      error: (err) => {
+        console.error('Error saving house:', err);
+      }
+    });
+    
   }
 
   ngOnInit(): void {
