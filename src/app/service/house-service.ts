@@ -22,4 +22,8 @@ export class HouseService {
   findAll(): Observable<HouseResponse[]> {
     return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses`);
   }
+
+  delete(idHouse: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/houses/${idHouse}`);
+  }
 }

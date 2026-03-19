@@ -25,8 +25,20 @@ export class House implements OnInit {
         console.log('Houses retrieved successfully:', response); 
       },
       error: (err) => {
-        
+        console.error('Error retrieving houses:', err);
       }  
+    });
+  }
+
+  onDelete(idHouse: string) {
+    this.service.delete(idHouse).subscribe({
+      next: () => {
+        this.houses = this.houses.filter(house => house.idHouse !== idHouse);
+        console.log('House deleted successfully:', idHouse);
+      },
+      error: (err) => {
+        console.error('Error deleting house:', err);
+      }
     });
   }
 
