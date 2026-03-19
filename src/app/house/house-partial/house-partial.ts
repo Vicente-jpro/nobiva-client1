@@ -4,7 +4,6 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { HouseResponse } from '../../models/house/house-response';
 
-
 @Component({
   selector: 'app-house-partial',
   imports: [MatCardModule, MatButtonModule, MatIconModule],
