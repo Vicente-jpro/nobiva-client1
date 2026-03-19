@@ -4,7 +4,7 @@
 
             <div class="row">
                 <div class="col-4">
-                    <img src="https://via.placeholder.com/300x200" alt="House Image" class="img-fluid">
+                    <img [ngSrc]="houseData.imageUrl" width="32" height="32" />
                 </div>
                 <div class="col-8">
                     <p > <button matButton class="fs-5">{{ houseData.title }}</button> </p>

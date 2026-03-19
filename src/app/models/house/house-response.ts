@@ -10,4 +10,5 @@ export class HouseResponse {
     street1: string = '';
     country: string = '';
     province: string = '';
+    imageUrl: string = '';
 }
