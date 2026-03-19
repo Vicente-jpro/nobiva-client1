@@ -3,6 +3,10 @@
     <div class="container-fluid">
         @for(house of houses; track house){
           <app-house-partial [houseData]="house"/>  
+        }@empty {
+        <p class="text-center fs-1">
+          <strong>Nenhuma casa disponível.</strong>
+        </p>
         }
     </div>
   </mat-tab>

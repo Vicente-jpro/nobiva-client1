@@ -7,11 +7,16 @@
                     <img src="https://via.placeholder.com/300x200" alt="House Image" class="img-fluid">
                 </div>
                 <div class="col-8">
-                    <p > <button matButton class="fs-5">Apartamento de luxo na zona nobre de Luanda</button> </p>
-                    <p> Lisboa, Portugal</p>
-                    <p class="fs-4" > <strong>500.000€</strong> </p>
-                    <p >T4, Disponivel</p>
-                    <p >Descrição: Casa espaçosa com 4 quartos, piscina e jardim.</p>
+                    <p > <button matButton class="fs-5">{{ houseData.title }}</button> </p>
+                    @if (houseData.avaliable) {
+                        <p >{{ houseData.tipology }}, Disponivel</p>
+                    }@else {
+                          <p >{{ houseData.tipology }}, Indisponível</p>
+                    }
+                    <p> {{ houseData.street1 }}, {{ houseData.locality }}, {{ houseData.province }}, {{ houseData.country }}</p>
+                    <p class="fs-4" > <strong>{{ houseData.price }}</strong> </p>
+                  
+                    <p >{{ houseData.description }}</p>
                     
                     <div class="row">
                         <div class="col">
