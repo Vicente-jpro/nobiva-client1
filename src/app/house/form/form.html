@@ -202,15 +202,15 @@
                             </mat-radio-group>
                         </div>
                     </div>
-
-                    
                 </div>
-
+                
+                <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+                <button (click)="onUpload()">Upload</button>
+                  
                 <div class="row">
                     <div class="col justify-content-end">
                          <button matButton="filled" type="submit" [disabled]="!houseForm.valid">Salvar</button>    
                     </div>
-                    
                 </div>
 
             </form>    

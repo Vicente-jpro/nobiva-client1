@@ -16,6 +16,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { HouseService } from '../../service/house-service';
 import { DialogMessageData } from '../../dialog-message/dialog-message-data';
+import { MatIconModule } from '@angular/material/icon';
+import { UploadFile } from '../../upload-file/upload-file';
+import { HouseAndImage } from '../../models/house/house-and-image';
 
 @Component({
   selector: 'app-form',
@@ -30,6 +33,7 @@ import { DialogMessageData } from '../../dialog-message/dialog-message-data';
     MatListModule,
     MatRadioModule,
     MatSelectModule,
+    MatIconModule
 ],
   templateUrl: './form.html',
   styleUrl: './form.scss',
@@ -40,15 +44,16 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected authService = inject(AuthService);
     protected addressService = inject(Address);
     private houseModel = new HouseCreateRequest();
-    private service = inject(HouseService);
-    private dialog = new DialogMessageData();
+    protected selectedFiles!: FileList;
+    protected imagesUploaded!: FormData;
     
     @Input() title: string = '';
 
-    @Output() formEvent = new EventEmitter<UserSignup>();
+    @Output() formEvent = new EventEmitter<HouseAndImage>();
 
 
   onSubmit(){
+    let houseAndImages = new HouseAndImage();
     const formValue = this.houseForm.value;
 
     this.houseModel = {
@@ -60,28 +65,26 @@ export class Form extends HouseFormBuilder implements OnInit {
         }
       }
     } as HouseCreateRequest;
-
     
-    this.service.save(this.houseModel).subscribe({
-      next: (response) => {
-        this.dialog.content = 'A casa foi salva com sucesso.';
-        this.dialog.openDialog();
-        console.log('House saved successfully:', response); 
-      },
-      error: (err) => {
-        this.dialog.content = err.error?.message || 'Ocorreu um erro ao salvar a casa.';
-        this.dialog.openDialog();
-        console.error('Error saving house:', err);
-      }
-    });
+    houseAndImages.house = this.houseModel;
+    houseAndImages.imageFormData = this.imagesUploaded;
 
+    this.formEvent.emit(houseAndImages);
     
   }
 
-  ngOnInit(): void {
-  
-  this.dialog.title = 'Casa';
+  onFileSelected(event: any): void {
+    this.selectedFiles = event.target.files;
+  }
 
+  onUpload() {
+    if (this.selectedFiles) {
+        const uploadFile = new UploadFile();
+        this.imagesUploaded = uploadFile.onUpload(this.selectedFiles);
+    }
+  }
+  
+  ngOnInit(): void {
   this.addressService.findCountries()
     .subscribe({
       next: countries => {
@@ -132,5 +135,7 @@ export class Form extends HouseFormBuilder implements OnInit {
         }
       });
   }
+
+
 
 }

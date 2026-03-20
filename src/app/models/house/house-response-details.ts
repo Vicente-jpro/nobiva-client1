@@ -1,6 +1,7 @@
 import { PostAddress } from "../address/post-address";
 
 export class HouseResponseDetails {
+    id = "";
     title = "";
     description = "";
     avaliable = false;

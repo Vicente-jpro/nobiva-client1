@@ -1,6 +1,6 @@
 export class HouseResponse {
-    avaliable: boolean = true;
     idHouse: string = '';
+    avaliable: boolean = true;
     description: string = '';
     title: string = '';
     email: string = '';

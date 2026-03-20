@@ -26,4 +26,8 @@ export class HouseService {
   delete(idHouse: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/houses/${idHouse}`);
   }
+
+  uploadImages(idHouse: string, imagesFormData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/houses/${idHouse}/images`, imagesFormData);
+  }
 }
