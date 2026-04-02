@@ -26,7 +26,9 @@ export class New implements OnInit {
       next: (response) => {
         this.dialog.content = 'A casa foi salva com sucesso.';
         console.log("HouseAndImages:", houseAndImages);
-        this.uploadImages(response.id, houseAndImages.imageFormData!);
+        if (houseAndImages.imageFormData) {
+          this.uploadImages(response.id, houseAndImages.imageFormData);
+        }
         this.dialog.openDialog();
         console.log('House saved successfully:', houseAndImages.imageFormData); 
       },

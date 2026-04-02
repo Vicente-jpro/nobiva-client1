@@ -4,7 +4,7 @@ export class UploadFile {
         const imagesFormData = new FormData();
 
         for (let i = 0; i < selectedFiles.length; i++) {
-            imagesFormData.append('images', selectedFiles[i]);
+            imagesFormData.append('files', selectedFiles[i]);
         }
 
         return imagesFormData;
