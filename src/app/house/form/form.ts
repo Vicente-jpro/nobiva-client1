@@ -7,15 +7,12 @@ import {FormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
-import { UserSignup } from '../../models/user/userSignup';
 import { HouseFormBuilder } from './house-form-builder';
 import {MatRadioModule} from '@angular/material/radio';
 import { AuthService } from '../../service/auth.service';
 import { Address } from '../../service/address';
 import { MatSelectModule } from '@angular/material/select';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
-import { HouseService } from '../../service/house-service';
-import { DialogMessageData } from '../../dialog-message/dialog-message-data';
 import { MatIconModule } from '@angular/material/icon';
 import { UploadFile } from '../../upload-file/upload-file';
 import { HouseAndImage } from '../../models/house/house-and-image';
@@ -38,6 +35,7 @@ import { HouseAndImage } from '../../models/house/house-and-image';
   templateUrl: './form.html',
   styleUrl: './form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class Form extends HouseFormBuilder implements OnInit {
 
@@ -68,19 +66,18 @@ export class Form extends HouseFormBuilder implements OnInit {
     
     houseAndImages.house = this.houseModel;
     houseAndImages.imageFormData = this.imagesUploaded;
-
+    console.log('HouseAndImages on submit:', houseAndImages);
+     
     this.formEvent.emit(houseAndImages);
     
   }
 
   onFileSelected(event: any): void {
     this.selectedFiles = event.target.files;
-  }
-
-  onUpload() {
     if (this.selectedFiles) {
-        const uploadFile = new UploadFile();
-        this.imagesUploaded = uploadFile.onUpload(this.selectedFiles);
+      const uploadFile = new UploadFile();
+      this.imagesUploaded = uploadFile.onUpload(this.selectedFiles);
+      console.log('FormData with selected files:', this.imagesUploaded.getAll('images'));
     }
   }
   

@@ -25,6 +25,7 @@ export abstract class HouseFormBuilder extends HouseSelectBox {
             bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
             price: [this.house.price, [Validators.required, Validators.min(100)]],
             post_address: this.buldPostAddress(this.house.post_address)
+
         });
     
     private buldPostAddress(postAddress: PostAddress): FormGroup {

@@ -1,5 +1,3 @@
-<p class="text-center text-title"></p>
-
 <div class="container d-flex justify-content-center">
     <mat-card class="shipping-card">
         <p class="text-center fs-3"> {{title}} </p>
@@ -9,7 +7,7 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Título do imóvel</mat-label>
-                        <input matInput formControlName="title">
+                        <input matInput type="text" formControlName="title">
                     </mat-form-field>
                 </div>
 
@@ -203,13 +201,26 @@
                         </div>
                     </div>
                 </div>
-                
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" />
-                <button (click)="onUpload()">Upload</button>
-                  
+
+                <div class="row align-items-center mb-3">
+                    <div class="col-auto">
+                        <input #fileInput type="file" accept="image/*" multiple hidden 
+                        (change)="onFileSelected($event)"/>
+                        <button matButton="outlined" type="button" (click)="fileInput.click()">
+                            <mat-icon>upload</mat-icon>
+                            Carregar imagens
+                        </button>
+                    </div>
+                    <div class="col">
+                        @if (selectedFiles && selectedFiles.length > 0) {
+                            <span class="text-muted">{{ selectedFiles.length }} ficheiro(s) selecionado(s)</span>
+                        }
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col justify-content-end">
-                         <button matButton="filled" type="submit" [disabled]="!houseForm.valid">Salvar</button>    
+                         <button matButton="filled" type="submit" [disabled]="!houseForm.valid">Salvar</button>  
                     </div>
                 </div>
 
