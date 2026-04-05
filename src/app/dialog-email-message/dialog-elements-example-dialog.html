@@ -1,5 +1,41 @@
 <h2 mat-dialog-title>Enviar um email para proprietário. </h2>
-<mat-dialog-content>This dialog showcases the title, close, content and actions elements.</mat-dialog-content>
+<mat-dialog-content>
+  
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Property ID</mat-label>
+          <input matInput formControlName="propertyId"/>
+          @if (getEmailError()) {
+            <mat-error>{{ getEmailError() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Enter your email</mat-label>
+          <input matInput formControlName="email"/>
+          @if (getEmailError()) {
+            <mat-error>{{ getEmailError() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field class="full-width">
+          <mat-label>Deixa uma mensagem</mat-label>
+          <textarea matInput formControlName="message"></textarea>
+          @if (getMessageError()) {
+            <mat-error>{{ getMessageError() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+  </form>
+
+</mat-dialog-content>
 <mat-dialog-actions>
   <button matButton mat-dialog-close>Close</button>
+  <button matButton="filled">Enviar</button>
 </mat-dialog-actions>

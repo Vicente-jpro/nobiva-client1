@@ -3,10 +3,10 @@
         <mat-card-content>
 
             <div class="row">
-                <div class="col-4">
-                    <img [src]="houseData.imageUrl" width="350" height="255" />
+                <div class="col-12 col-md-4">
+                    <img [src]="houseData.imageUrl" class="img-fluid" style="max-height:255px; object-fit:cover; width:100%" />
                 </div>
-                <div class="col-8">
+                <div class="col-12 col-md-8">
                     <p > <button matButton class="fs-5">{{ houseData.title }}</button> </p>
                     @if (houseData.avaliable) {
                         <p >{{ houseData.tipology }}, Disponivel</p>
@@ -28,7 +28,7 @@
                                         <button matMiniFab aria-label="Example icon button with a home icon">
                                             <mat-icon>favorite</mat-icon>
                                         </button>
-                                        <app-dialog-email-message/>
+                                        <app-dialog-email-message [propertyData]="houseData.idHouse" />
                                     </div>
                                 </div>
 
@@ -40,8 +40,6 @@
                             
                             <div class="example-button-row">
                                 <div class="example-flex-container">
-
-                                
 
                                 <button mat-raised-button color="primary">Ver Detalhes</button>
                                 </div>
