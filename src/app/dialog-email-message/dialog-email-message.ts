@@ -3,10 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, FormsModule, Validators, ReactiveFormsModule, FormBuilder} from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder} from '@angular/forms';
 
-
-import {merge} from 'rxjs';
 
 import {
   MatDialog,
@@ -59,8 +57,7 @@ export class DialogElementsExampleDialog {
   contactForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     message: ['Olá, estou interessado no imóvel e gostaria de obter mais informações.', 
-      [Validators.required]],
-    propertyId: [this.data?.propertyId ?? '', [Validators.required]],
+      [Validators.required]]
   });
 
   getEmailError(): string {
@@ -78,5 +75,6 @@ export class DialogElementsExampleDialog {
 
   onSubmit() {
     console.log('Form Data:', this.data.propertyId);
+    console.log('Form Values:', this.contactForm.value);
   }
 }

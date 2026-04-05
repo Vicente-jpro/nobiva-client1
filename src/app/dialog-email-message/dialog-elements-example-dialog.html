@@ -5,16 +5,6 @@
 
       <div class="row">
         <mat-form-field>
-          <mat-label>Property ID</mat-label>
-          <input matInput formControlName="propertyId"/>
-          @if (getEmailError()) {
-            <mat-error>{{ getEmailError() }}</mat-error>
-          }
-        </mat-form-field>
-      </div>
-
-      <div class="row">
-        <mat-form-field>
           <mat-label>Enter your email</mat-label>
           <input matInput formControlName="email"/>
           @if (getEmailError()) {
@@ -32,10 +22,12 @@
           }
         </mat-form-field>
       </div>
+
+      <mat-dialog-actions>
+        <button matButton mat-dialog-close>Close</button>
+        <button matButton="filled">Enviar</button>
+      </mat-dialog-actions>
   </form>
 
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button matButton mat-dialog-close>Close</button>
-  <button matButton="filled">Enviar</button>
-</mat-dialog-actions>
+
