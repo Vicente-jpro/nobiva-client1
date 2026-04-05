@@ -24,18 +24,11 @@
 
                                 <div class="example-button-row">
                                     <div class="example-flex-container">
-                                        <button matMiniFab aria-label="Example icon button with a menu icon">
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                        <button matMiniFab aria-label="Example icon button with a home icon" (click)="onDelete(houseData.idHouse)">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
+                                        
                                         <button matMiniFab aria-label="Example icon button with a home icon">
                                             <mat-icon>favorite</mat-icon>
                                         </button>
-                                        <button matMiniFab aria-label="Example icon button with a home icon">
-                                            <mat-icon>email</mat-icon>
-                                        </button>
+                                        <app-dialog-email-message/>
                                     </div>
                                 </div>
 
