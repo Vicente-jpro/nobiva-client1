@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Form } from '../form/form';
-import { UserService } from '../../service/user-service';
 import { DialogMessage } from '../../../dialog-message/dialog-message';
-import { UserSignup } from '../../model/userSignup';
+import { UserSignup } from '../../../models/user/userSignup';
+import { UserRole } from '../../../models/user/userRole';
+import { UserService } from '../../../service/user-service';
 
 @Component({
   selector: 'app-new',
@@ -12,11 +13,12 @@ import { UserSignup } from '../../model/userSignup';
   templateUrl: './new.html'
 })
 export class New {
-readonly dialog = inject(MatDialog);
+  readonly dialog = inject(MatDialog);
   private service = inject(UserService);
   private router = inject(Router)
+  readonly role = UserRole;
 
-  formTitle: string = 'Criar conta';
+  protected formTitle: string = 'Criar conta';
   private dialogTitleData: string = '';
   private dialogContentData: string = '';
 

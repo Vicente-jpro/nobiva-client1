@@ -1,0 +1,6 @@
+export enum StatusPost {
+  APROVADO = "APROVADO",
+  PENDENTE = "PENDENTE",
+  BLOQUEADO = "BLOQUEADO",
+  REPROVADO = "REPROVADO",
+}

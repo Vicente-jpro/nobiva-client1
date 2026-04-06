@@ -1,0 +1,23 @@
+.shipping-card {
+  width: 500px;
+
+  /* Card size unchanged - kept at max-width: 500px */
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.justify-content-end{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+  margin-left: 16px;
+}

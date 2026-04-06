@@ -8,7 +8,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { RouterLink } from "@angular/router";
-import { UserSignup } from '../../model/userSignup';
+import { UserSignup } from '../../../models/user/userSignup';
+import { UserRole } from '../../../models/user/userRole';
+import { AuthService } from '../../../service/auth.service';
 
 
 export interface Task {
@@ -36,6 +38,8 @@ export interface Task {
 })
 export class Form {
     private formBuilder = inject(FormBuilder);
+    protected authService = inject(AuthService);
+    protected role = UserRole;
 
     @Input() title: string = '';
 
@@ -81,19 +85,19 @@ export class Form {
     this.user.passwordConfirmed = this.signUpForm.value.passwordConfirmed || '';
     
     if (this.signUpForm.value.administrador) {
-      this.user.roles.push('ADMINSTRADOR');
+      this.user.roles.push(UserRole.adminstrador);
     }
     if (this.signUpForm.value.proprietario) {
-      this.user.roles.push('PROPRIETARIO');
+      this.user.roles.push(UserRole.proprietario);
     }
     if (this.signUpForm.value.inclino) {
-      this.user.roles.push('INCLINO');
+      this.user.roles.push(UserRole.inclino);
     }
     if (this.signUpForm.value.empresa) {
-      this.user.roles.push('EMPRESA');
+      this.user.roles.push(UserRole.empresa);
     }
     if (this.signUpForm.value.superAdministrador) {
-      this.user.roles.push('SUPER_ADMINSTRADOR');
+      this.user.roles.push(UserRole.superAdminstrador);
     }
 
     this.formEvent.emit(this.user);

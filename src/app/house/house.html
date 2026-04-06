@@ -1,1 +1,18 @@
-<p>house works!</p>
+<mat-tab-group>
+  <mat-tab label="Comprar"> 
+    <div class="container-fluid">
+        @for(house of houses(); track house.idHouse){
+          <app-house-partial 
+          [houseData]="house" 
+          (deleteEvent)="onDelete($event)" />  
+        }@empty {
+        <p class="text-center fs-3 mt-5">
+          <strong>Nenhuma casa disponível.</strong>
+        </p>
+        }
+    </div>
+  </mat-tab>
+  <mat-tab label="Alugar"> Alugar </mat-tab>
+  <mat-tab label="Minhas publicações"> Minhas publicações </mat-tab>
+  <mat-tab label="Minha lista favorita"> Minha lista favorita </mat-tab>
+</mat-tab-group>

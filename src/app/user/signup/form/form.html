@@ -50,18 +50,19 @@
                             </mat-list-item>
                         </mat-list>
                     </div>
-
-                    <div class="col">
-                        <mat-list role="list">
-                            <mat-list-item role="listitem">
-                                <mat-checkbox class="example-margin" formControlName="administrador">Admininstrador</mat-checkbox>
-                            </mat-list-item>
-                            <mat-list-item role="listitem">
-                                 <mat-checkbox class="example-margin" formControlName="superAdministrador">Super Admininstrador</mat-checkbox>
-                            </mat-list-item>
-                        </mat-list>
-                    </div>
-                        
+                    @if(authService.hasAllRoles(
+                        [role.adminstrador, role.superAdminstrador]) ){
+                        <div class="col">
+                            <mat-list role="list">
+                                <mat-list-item role="listitem">
+                                    <mat-checkbox class="example-margin" formControlName="administrador">Admininstrador</mat-checkbox>
+                                </mat-list-item>
+                                <mat-list-item role="listitem">
+                                    <mat-checkbox class="example-margin" formControlName="superAdministrador">Super Admininstrador</mat-checkbox>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>   
+                    }
                        
                  
                 </div>

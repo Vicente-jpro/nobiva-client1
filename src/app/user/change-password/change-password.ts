@@ -5,10 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
 import { Router } from "@angular/router";
-import { UserService } from '../service/user-service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMessage } from '../../dialog-message/dialog-message';
+import { UserService } from '../../service/user-service';
 
 @Component({
   selector: 'app-change-password',

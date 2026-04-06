@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { House } from './house';
+import { DialogEmailMessage } from './dialog-email-message';
 
-describe('House', () => {
-  let component: House;
-  let fixture: ComponentFixture<House>;
+describe('DialogEmailMessage', () => {
+  let component: DialogEmailMessage;
+  let fixture: ComponentFixture<DialogEmailMessage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [House]
+      imports: [DialogEmailMessage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(House);
+    fixture = TestBed.createComponent(DialogEmailMessage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

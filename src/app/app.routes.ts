@@ -7,6 +7,7 @@ export const routes: Routes = [
         loadComponent: () => import('./home/home').then(m => m.Home),
         //canActivate: [authGuard]
     },
+    
     {
         path: 'user',
         children: [
@@ -45,7 +46,35 @@ export const routes: Routes = [
         ]
     },
 
+    {
+        path: 'menu',
+        loadComponent: () => import('./menu-property/menu-property').then(m => m.MenuProperty),
+        children: [
+            {
+                path: 'casas',
+                children: [
+                   {
+                        path: '',
+                        loadComponent: () => import('./house/house').then(m => m.House)
+                    },
+                    {
+                        path: 'nova',
+                        loadComponent: () => import('./house/new/new').then(m => m.New)
+                    },
+                    /*{
+                        path: 'favoritas',
+                        loadComponent: () => import('./house/favorites/favorites').then(m => m.Favorites)
+                    },
+                    {
+                        path: 'minhas',
+                        loadComponent: () => import('./house/my-houses/my-houses').then(m => m.MyHouses)
+                    }*/
+                ]    
 
+
+            }
+        ]
+    },
 
 
 ];

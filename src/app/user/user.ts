@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { UserService } from './service/user-service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogMessage } from '../dialog-message/dialog-message';
-import { AuthService } from './service/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../service/user-service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-user',

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -7,9 +7,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import { Footer } from "./footer/footer";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { User } from './user/user';
-import { AuthService } from './user/service/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from './service/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +21,7 @@ import { Router } from '@angular/router';
     RouterOutlet,
     Footer,
     MatProgressBarModule,
-    RouterLinkWithHref
+    RouterLinkWithHref,
 ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -33,6 +32,7 @@ export class App {
   protected readonly title = signal('Nobiva');
   authService = inject(AuthService);
   private router = inject(Router);
+  protected isPanelOpen = false;
 
   logout() {
     this.authService.logout();
