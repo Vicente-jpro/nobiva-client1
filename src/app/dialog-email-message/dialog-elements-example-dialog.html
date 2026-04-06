@@ -1,12 +1,18 @@
 <h2 mat-dialog-title>Enviar um email para proprietário. </h2>
 <mat-dialog-content>
-  
+  @if(message) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      Seu email foi enviado com sucesso.
+    </div>
+  }
+
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
 
       <div class="row">
         <mat-form-field>
-          <mat-label>Enter your email</mat-label>
-          <input matInput formControlName="email"/>
+          <mat-label>Digite seu email</mat-label>
+          <input matInput formControlName="clientEmail"/>
           @if (getEmailError()) {
             <mat-error>{{ getEmailError() }}</mat-error>
           }

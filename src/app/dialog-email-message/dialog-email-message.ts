@@ -15,6 +15,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { EmailContactTask } from '../models/email-contact-task';
+import { EmailContactTaskService } from '../service/email-contact-task';
 
 
 @Component({
@@ -60,15 +61,17 @@ export class DialogElementsExampleDialog {
   private formBuilder = inject(FormBuilder);
   private data = inject<{ houseId: string, roomId: string }>(MAT_DIALOG_DATA);
   private emailContactTask = new EmailContactTask();
+  private service = inject(EmailContactTaskService);
+  protected message = "";
 
   contactForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+    clientEmail: ['', [Validators.required, Validators.email]],
     message: ['Olá, estou interessado no imóvel e gostaria de obter mais informações.', 
       [Validators.required]]
   });
 
   getEmailError(): string {
-    const email = this.contactForm.get('email');
+    const email = this.contactForm.get('ownerEmail');
     if (email?.hasError('required')) return 'O email é obrigatório';
     if (email?.hasError('email')) return 'Insira um email válido';
     return '';
@@ -87,8 +90,23 @@ export class DialogElementsExampleDialog {
         this.emailContactTask.houseId = this.data.houseId;
     }else if (this.data.roomId) {
        this.emailContactTask.roomId = this.data.roomId; 
-   }
+    }
+    this.sendEmail(this.emailContactTask);
+
     console.log('Form Data:', this.data);
     console.log('Form Values:', this.emailContactTask);
+  }
+
+  sendEmail(message: EmailContactTask): void {
+    console.log('Sending email with data:', message);
+    this.service.send(message).subscribe({
+      next: (response) => {
+        this.message = response.message;
+      },
+      error: (error) => {
+        this.message = error.error?.message || 'Ocorreu um erro ao enviar o email.';
+        console.error('Erro ao enviar email:', error);
+      }
+    });
   }
 }
