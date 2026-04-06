@@ -14,6 +14,7 @@ import {
   MatDialogTitle,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { EmailContactTask } from '../models/email-contact-task';
 
 
 @Component({
@@ -25,13 +26,18 @@ import {
 export class DialogEmailMessage {
   readonly dialog = inject(MatDialog);
 
-  @Input() propertyData: string = '';
+  @Input() houseIdData: string = '';
+
+  @Input() roomIdData: string = '';
 
   openDialog() {
-    this.dialog.open(DialogElementsExampleDialog, { data: { propertyId: this.propertyData } });
+    this.dialog.open(DialogElementsExampleDialog, { 
+      data: { 
+        houseId: this.houseIdData, 
+        roomId: this.roomIdData 
+      } });
   }
 }
-
 
 @Component({
   selector: 'dialog-elements-example-dialog',
@@ -52,7 +58,8 @@ export class DialogEmailMessage {
 export class DialogElementsExampleDialog {
 
   private formBuilder = inject(FormBuilder);
-  private data = inject<{ propertyId: string }>(MAT_DIALOG_DATA);
+  private data = inject<{ houseId: string, roomId: string }>(MAT_DIALOG_DATA);
+  private emailContactTask = new EmailContactTask();
 
   contactForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -74,7 +81,14 @@ export class DialogElementsExampleDialog {
   }
 
   onSubmit() {
-    console.log('Form Data:', this.data.propertyId);
-    console.log('Form Values:', this.contactForm.value);
+    this.emailContactTask = this.contactForm.value as EmailContactTask;
+
+    if (this.data.houseId) {
+        this.emailContactTask.houseId = this.data.houseId;
+    }else if (this.data.roomId) {
+       this.emailContactTask.roomId = this.data.roomId; 
+   }
+    console.log('Form Data:', this.data);
+    console.log('Form Values:', this.emailContactTask);
   }
 }

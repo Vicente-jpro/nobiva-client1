@@ -28,7 +28,9 @@
                                         <button matMiniFab aria-label="Example icon button with a home icon">
                                             <mat-icon>favorite</mat-icon>
                                         </button>
-                                        <app-dialog-email-message [propertyData]="houseData.idHouse" />
+                                        <app-dialog-email-message 
+                                        [roomIdData]="roomData.idRoom"
+                                        [houseIdData]="houseData.idHouse" />
                                     </div>
                                 </div>
 

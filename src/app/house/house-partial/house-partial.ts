@@ -15,6 +15,7 @@ import { DialogEmailMessage } from '../../dialog-email-message/dialog-email-mess
 export class HousePartial {
 
   @Input() houseData: HouseResponse = new HouseResponse();
+  @Input() roomData: any = null;
 
 
   @Output() deleteEvent = new EventEmitter<string>();
