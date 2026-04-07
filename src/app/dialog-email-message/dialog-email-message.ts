@@ -16,6 +16,7 @@ import {
 } from '@angular/material/dialog';
 import { EmailContactTask } from '../models/email-contact-task';
 import { EmailContactTaskService } from '../service/email-contact-task';
+import { DisplayMessage } from '../models/display-message';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class DialogEmailMessage {
   @Input() houseIdData: string = '';
 
   @Input() roomIdData: string = '';
+
+  protected message = new DisplayMessage();
 
   openDialog() {
     this.dialog.open(DialogElementsExampleDialog, { 
@@ -62,7 +65,7 @@ export class DialogElementsExampleDialog {
   private data = inject<{ houseId: string, roomId: string }>(MAT_DIALOG_DATA);
   private emailContactTask = new EmailContactTask();
   private service = inject(EmailContactTaskService);
-  protected message = "";
+  protected displayMessage = new DisplayMessage();
 
   contactForm = this.formBuilder.group({
     clientEmail: ['', [Validators.required, Validators.email]],
@@ -93,19 +96,19 @@ export class DialogElementsExampleDialog {
     }
     this.sendEmail(this.emailContactTask);
 
-    console.log('Form Data:', this.data);
-    console.log('Form Values:', this.emailContactTask);
+    //console.log('Form Data:', this.data);
+    //console.log('Form Values:', this.emailContactTask);
   }
 
   sendEmail(message: EmailContactTask): void {
     console.log('Sending email with data:', message);
     this.service.send(message).subscribe({
       next: (response) => {
-        this.message = response.message;
+        this.displayMessage.success = response.message;
       },
-      error: (error) => {
-        this.message = error.error?.message || 'Ocorreu um erro ao enviar o email.';
-        console.error('Erro ao enviar email:', error);
+      error: (errorResponse) => {
+        this.displayMessage.errors = errorResponse.error.errors;
+        console.error('Erro ao enviar email:', errorResponse.error.errors);
       }
     });
   }
