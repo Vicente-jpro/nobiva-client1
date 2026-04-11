@@ -25,7 +25,6 @@ export class HouseTree {
     private router = inject(Router);
     dataSource = EXAMPLE_DATA;
 
-
     childrenAccessor = (node: FoodNode) => node.children ?? [];
 
     hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
