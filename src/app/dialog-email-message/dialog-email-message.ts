@@ -20,6 +20,8 @@ import { DisplayMessage } from '../models/display-message';
 import { AuthService } from '../service/auth.service';
 import { HouseResponse } from '../models/house/house-response';
 import { RoomResponse } from '../models/room/room-response';
+import { Danger } from '../alerts/danger/danger';
+import { Success } from '../alerts/success/success';
 
 
 @Component({
@@ -59,7 +61,9 @@ export class DialogEmailMessage {
     FormsModule, 
     MatFormFieldModule, 
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Success,
+    Danger
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -112,10 +116,12 @@ export class DialogElementsExampleDialog {
     this.service.send(message).subscribe({
       next: (response) => {
         this.display.success = response.message;
+        this.display.errors = [];
         this.changeDetectorRef.markForCheck();
       },
       error: (errorResponse) => {
         this.display.errors = errorResponse.error.errors;
+        this.display.success = '';
         this.changeDetectorRef.markForCheck();
         console.error('Erro ao enviar email:', errorResponse.error.errors);
       }

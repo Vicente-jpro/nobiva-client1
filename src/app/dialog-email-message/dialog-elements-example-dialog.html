@@ -1,20 +1,9 @@
 <h2 mat-dialog-title>Enviar um email para proprietário. </h2>
 <mat-dialog-content>
 
-  @if(display.success) {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ display.success }}
-     </div>
-  }@else {
+  <app-success [successMessageData]="display.success"/>
 
-    @if (display.errors.length > 0) {
-      @for(error of display.errors; track error) {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          {{ error }}
-        </div>
-      }
-    }
-  }
+  <app-danger [dangerMessagesData]="display.errors"/>
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
 

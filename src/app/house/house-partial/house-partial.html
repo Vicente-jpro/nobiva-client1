@@ -7,6 +7,12 @@
                     <img [src]="houseData.imageUrl" class="img-fluid" style="max-height:255px; object-fit:cover; width:100%" />
                 </div>
                 <div class="col-12 col-md-8">
+
+                    <p> 
+                        <app-success [successMessageData]="display.success"/>
+                        <app-danger [dangerMessagesData]="display.errors"/>
+                    </p>
+
                     <p > <button matButton class="fs-5">{{ houseData.title }}</button> </p>
                     @if (houseData.avaliable) {
                         <p >{{ houseData.tipology }}, Disponivel</p>
@@ -25,9 +31,11 @@
                                 <div class="example-button-row">
                                     <div class="example-flex-container">
                                         
-                                        <button matMiniFab aria-label="Example icon button with a home icon">
-                                            <mat-icon>favorite</mat-icon>
-                                        </button>
+                                        <app-favorite 
+                                         [roomData]="roomData"
+                                        [houseData]="houseData" 
+                                        (onSaveFavoriteEvent)="saveFavorite($event)"/>
+
                                         <app-dialog-email-message 
                                         [roomData]="roomData"
                                         [houseData]="houseData" />
