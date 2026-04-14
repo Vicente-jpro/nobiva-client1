@@ -4,7 +4,8 @@
         @for(house of houses(); track house.idHouse){
           <app-house-partial 
           [houseData]="house" 
-          (deleteEvent)="onDelete($event)" />  
+          (deleteEvent)="onDelete($event)" 
+          (showDetailsEvent)="onShowDetails($event)"/>  
         }@empty {
         <p class="text-center fs-3 mt-5">
           <strong>Nenhuma casa disponível.</strong>

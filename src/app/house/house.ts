@@ -3,6 +3,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { HouseService } from '../service/house-service';
 import { HousePartial } from './house-partial/house-partial';
 import { HouseResponse } from '../models/house/house-response';
+import { RoomResponse } from '../models/room/room-response';
 
 
 @Component({
@@ -41,5 +42,12 @@ export class House implements OnInit {
       }
     });
   }
+
+  onShowDetails(event: { houseData: HouseResponse, roomData: RoomResponse }) {
+    console.log('Show details event received:', event);
+    
+  }
+
+  
 
 }

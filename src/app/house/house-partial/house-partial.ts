@@ -8,6 +8,7 @@ import { Favorite } from '../favorite/favorite';
 import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
 import { DisplayMessage } from '../../models/display-message';
+import { RoomResponse } from '../../models/room/room-response';
 
 @Component({
   selector: 'app-house-partial',
@@ -32,6 +33,7 @@ export class HousePartial {
   changeDetection = inject(ChangeDetectorRef);
 
   @Output() deleteEvent = new EventEmitter<string>();
+  @Output() showDetailsEvent = new EventEmitter<{ houseData: HouseResponse, roomData: RoomResponse }>();
 
   onDelete(idHouse: string) {
     console.log('Delete event emitted for house ID:', idHouse);
@@ -43,5 +45,11 @@ export class HousePartial {
     // Aqui você pode lidar com a mensagem de sucesso ou erro, por exemplo, exibindo um alerta ou atualizando a interface do usuário.
     this.display = display;
     this.changeDetection.markForCheck();
+  }
+
+  showDetails(houseData: HouseResponse, roomData: RoomResponse): void {
+    console.log('House Data:', houseData);
+    console.log('Room Data:', roomData);
+    this.showDetailsEvent.emit({ houseData, roomData });
   }
 }
