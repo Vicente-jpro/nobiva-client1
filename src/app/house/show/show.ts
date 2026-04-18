@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { HouseService } from '../../service/house-service';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
+import { Image } from '../../models/image';
 
 @Component({
   selector: 'app-show',
@@ -18,7 +19,6 @@ export class Show implements OnInit {
   service = inject(HouseService);
   house = new HouseResponseDetails();
   houseId = '';
-
   ngOnInit(): void {
     this.houseId = this.route.snapshot.paramMap.get('id') ?? '';
 
@@ -37,5 +37,11 @@ export class Show implements OnInit {
 
   onEdit(): void {
     this.router.navigate(['/menu/casas/editar', this.houseId]);
+  }
+
+  onShowPhotos(images: Image[]): void {
+    this.router.navigate(['/menu/casas', this.houseId, 'fotos'], {
+      state: { images }
+    });
   }
 }

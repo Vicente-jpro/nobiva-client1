@@ -1,0 +1,23 @@
+<div class="album">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-pink ms-1" type="button" (click)="onBack()">
+            <i class="bi bi-arrow-left-square-fill"></i>
+            voltar
+            </button>
+            <button class="btn btn-pink ms-1" type="button">
+            <i class="bi bi-heart-fill"></i>
+            Guardar como favorito
+            </button>
+        </div>
+        <div class="row">
+            @for(image of images; track image.url){
+            <div class="col-sm-6 my-1">    
+                    <img [src]="image.url"  
+                    class="bd-placeholder-img card-img-top"  width="100%" height="390">
+            </div>
+            }
+        </div>
+        
+    </div>
+</div>

@@ -72,6 +72,10 @@ export const routes: Routes = [
                     {
                         path: ':id',
                         loadComponent: () => import('./house/show/show').then(m => m.Show)
+                    },
+                    {
+                        path: ':id/fotos',
+                        loadComponent: () => import('./house/photos/photos').then(m => m.Photos)
                     }
                     /*{
                         path: 'favoritas',
