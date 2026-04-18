@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -9,7 +8,7 @@ import { HouseResponseDetails } from '../../models/house/house-response-details'
 
 @Component({
   selector: 'app-show',
-  imports: [MatButtonModule, MatDividerModule, MatIconModule, CurrencyPipe],
+  imports: [MatButtonModule, MatDividerModule, MatIconModule],
   templateUrl: './show.html',
   styleUrl: './show.scss',
 })
