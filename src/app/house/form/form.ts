@@ -8,7 +8,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { HouseFormBuilder } from './house-form-builder';
-import {MatRadioModule} from '@angular/material/radio';
 import { AuthService } from '../../service/auth.service';
 import { Address } from '../../service/address';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,7 +28,6 @@ import { HouseResponseDetails } from '../../models/house/house-response-details'
     MatCheckboxModule,
     MatButtonModule,
     MatListModule,
-    MatRadioModule,
     MatSelectModule,
     MatIconModule
 ],
@@ -83,7 +81,18 @@ export class Form extends HouseFormBuilder implements OnInit {
     }
   }
   
+  private tipologyFromRooms(rooms: number): string {
+    if (rooms > 9) return 'TN';
+    return `T${rooms}`;
+  }
+
   ngOnInit(): void {
+  this.houseForm.get('number_of_rooms')!.valueChanges.subscribe(rooms => {
+    if (rooms != null && rooms > 0) {
+      this.houseForm.get('tipology')!.setValue(this.tipologyFromRooms(rooms), { emitEvent: false });
+    }
+  });
+
   if (this.houseData) {
     this.houseForm.patchValue({
       title: this.houseData.title,
@@ -100,6 +109,15 @@ export class Form extends HouseFormBuilder implements OnInit {
       backyard: this.houseData.backyard,
       bathroom: this.houseData.bathroom,
       price: this.houseData.price,
+      washing_machine: this.houseData.washing_machine,
+      equipped_kitchen: this.houseData.equipped_kitchen,
+      wifi: this.houseData.wifi,
+      air_conditioning: this.houseData.air_conditioning,
+      tv: this.houseData.tv,
+      furnished_room: this.houseData.furnished_room,
+      running_water: this.houseData.running_water,
+      water_tank: this.houseData.water_tank,
+      electricity: this.houseData.electricity,
       post_address: {
         address: {
           street1: this.houseData.post_address?.address?.street1,
