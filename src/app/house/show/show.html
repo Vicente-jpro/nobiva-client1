@@ -1,17 +1,21 @@
 <main>
   <div class="album py-5">
     <div class="container-fluid">
-      <div class="d-flex justify-content-end">
 
+        <p> 
+            <app-success [successMessageData]="display.success"/>
+            <app-danger [dangerMessagesData]="display.errors"/>
+        </p>
+
+      <div class="d-flex justify-content-end">
         <div class="ms-1" >
-          
             <button matFab extended (click)="onShowPhotos(house.image)">
                 <mat-icon>photo_camera_back</mat-icon>
                 Ver todas as fotos
             </button>
         </div>
         <div class="ms-1" >
-            <button matFab extended>
+            <button matFab extended (click)="saveFavorite(houseId)">
                 <mat-icon>favorite</mat-icon>
                 Guardar como favorito
             </button>
