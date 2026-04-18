@@ -27,7 +27,7 @@ export class Show implements OnInit {
       this.service.findById(this.houseId).subscribe({
         next: (houseResponse) => {
           this.house = houseResponse;
-          console.log('House details:', houseResponse);
+          console.log('House details:', this.house);
         },
         error: (err) => {
           console.error('Error loading house details:', err);

@@ -16,33 +16,34 @@
             </button>
         </div>
       </div>
+        @if (house.image.length > 0) {
         <div class="row my-1 mt-3">
             <div class="col-sm-6 bg-light">
-                <img src="../img/room1.jpg" class="bd-placeholder-img card-img-top" 
-                width="100%" height="390">
+                <img [src]="house.image[0]" class="bd-placeholder-img card-img-top" width="100%" height="390" />
             </div>
             <div class="col">
                 <div class="row">
                     <div class="col-sm-6 mb-1">
-                        <img src="../img/room2.jpg" class="bd-placeholder-img card-img-top" 
+                        <img [src]="house.image[0]"  class="bd-placeholder-img card-img-top" 
                         width="100%" height="190">
                     </div>
                     <div class="col-sm-6">
-                      <img src="../img/room3.jpeg" class="bd-placeholder-img card-img-top" 
+                      <img [src]="house.image[0]"  class="bd-placeholder-img card-img-top" 
                       width="100%" height="190">
                     </div>
                     <div class="col-sm-6">
-                      <img src="../img/room4.jpeg" class="bd-placeholder-img card-img-top" 
+                      <img [src]="house.image[0]" class="bd-placeholder-img card-img-top" 
                       width="100%" height="190">
                     </div>
                     <div class="col-sm-6">
-                      <img src="../img/room5.jpeg" class="bd-placeholder-img card-img-top" 
+                      <img [src]="house.image[0]" class="bd-placeholder-img card-img-top" 
                       width="100%" height="190">
                     </div>
                 </div>
             
             </div>
         </div>
+        }
 
     </div>
   </div>
@@ -78,7 +79,6 @@
             </strong>
         </span>
         <span class="material-icons fs-2 text-purple">location_on</span> 
-        
     </p>
 
     
@@ -86,7 +86,7 @@
         {{ house.title }} - {{ house.tipology }}
     </h1>
     <p class="fs-3 text-purple">
-      {{ house.price | currency:'AOA':'symbol':'1.2-2':'pt-AO' }}  <span class="fs-5">/mês</span>
+      {{ house.price }}  <span class="fs-5">/mês</span>
     </p>
    
    <div class="fs-3">
@@ -118,34 +118,78 @@
         <div class="row">
             <div class="col mt-4">
 
+                @if(house.washing_machine) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">task_alt</span> 
                     <span class="fs-4">Maquina de lavar roupa</span>
                 </p>
+                }
+                @if(house.equipped_kitchen) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">kitchen</span> 
                     <span class="fs-4">Cozinha equipada</span>
                 </p>
+                }
+                @if(house.wifi) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">wifi</span> 
                     <span class="fs-4">Wi-Fi</span>
                 </p>
+                }
+                @if(house.air_conditioning) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">ac_unit</span> 
                     <span class="fs-4">Ar condicionado</span>
                 </p>
+                }
+                @if(house.tv) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">tv</span> 
                     <span class="fs-4">TV</span>
                 </p>
+                }
+                @if(house.furnished_room) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">king_bed</span> 
                     <span class="fs-4">Quarto mobilado</span>
                 </p>
+                }
+                @if(house.running_water) {
+                <p class="d-flex align-items-center gap-2">
+                    <span class="material-icons fs-2 text-purple">water_drop</span> 
+                    <span class="fs-4">Água corrente</span>
+                </p>
+                }
+                @if(house.water_tank) {
+                <p class="d-flex align-items-center gap-2">
+                    <span class="material-icons fs-2 text-purple">water</span> 
+                    <span class="fs-4">Tanque de água</span>
+                </p>
+                }
+                @if(house.electricity) {
+                <p class="d-flex align-items-center gap-2">
+                    <span class="material-icons fs-2 text-purple">bolt</span> 
+                    <span class="fs-4">Eletricidade</span>
+                </p>
+                }
+                @if(house.swimming_pool) {
                 <p class="d-flex align-items-center gap-2">
                     <span class="material-icons fs-2 text-purple">pool</span> 
                     <span class="fs-4">Piscina</span>
                 </p>
+                }
+                @if(house.backyard) {
+                <p class="d-flex align-items-center gap-2">
+                    <span class="material-icons fs-2 text-purple">yard</span> 
+                    <span class="fs-4">Quintal</span>
+                </p>
+                }
+                @if(house.furnished) {
+                <p class="d-flex align-items-center gap-2">
+                    <span class="material-icons fs-2 text-purple">chair</span> 
+                    <span class="fs-4">Casa mobilada</span>
+                </p>
+                }
               
             </div>
            
