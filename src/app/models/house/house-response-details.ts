@@ -1,4 +1,5 @@
 import { PostAddress } from "../address/post-address";
+import { Image } from "../image";
 
 export class HouseResponseDetails {
     id = "";
@@ -25,7 +26,7 @@ export class HouseResponseDetails {
     running_water = false;
     water_tank = false;
     electricity = false;
-    image: string[] = [];
+    image: Image[] = [];
     post_address: PostAddress = new PostAddress();
         
 }
