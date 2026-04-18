@@ -49,7 +49,7 @@
 
   <div class="container">
     <div class="d-grid gap-2">
-        <button matFab extended>
+        <button matFab extended (click)="onEdit()">
             <mat-icon>edit</mat-icon>
             Editar
         </button>
@@ -68,29 +68,36 @@
     </div>
 
     <br>
-    <p>
-      <strong class="fs-4 text-purple">
-        Localização do imovel
-        <i class="bi bi-geo-alt-fill fs-4"></i>
-      </strong>
+
+    <p class="d-flex align-items-center gap-2">
+        <span class="fs-4 text-purple"> 
+            <strong>
+                {{ house.post_address.address.street1 }}, 
+                {{ house.post_address.locality.province.name }}, 
+                {{ house.post_address.locality.province.country.name }}
+            </strong>
+        </span>
+        <span class="material-icons fs-2 text-purple">location_on</span> 
+        
     </p>
+
     
     <h1 class="fs-3">
-      Descrição do imovel / Titulo
+        {{ house.title }} - {{ house.tipology }}
     </h1>
     <p class="fs-3 text-purple">
-      R$ 300  <span class="fs-5">/mês</span>
+      {{ house.price | currency:'AOA':'symbol':'1.2-2':'pt-AO' }}  <span class="fs-5">/mês</span>
     </p>
    
    <div class="fs-3">
         <p class="d-flex align-items-center gap-2">
             <span class="material-icons fs-2 text-purple">king_bed</span> 
-            <span class="fs-4"> 4 quartos</span>
+            <span class="fs-4"> {{ house.number_of_rooms }} quartos</span>
         </p>
 
         <p class="d-flex align-items-center gap-2">
             <span class="material-icons fs-2 text-purple">shower</span>
-            <span class="fs-4"> 2 casas de banho</span>
+            <span class="fs-4"> {{ house.bathroom }} casas de banho</span>
         </p>   
    </div>
 
@@ -99,14 +106,9 @@
         
         <hr class="text-purple"> <br>
         <strong class="text-purple fs-4">Descrição: </strong>
-        
+
         <p class="text-start lh-lg fs-5">
-          Fresco e elegante apartamento triplex de 3 andares na praia na aldeia tropical de 
-          Umdloti. De dia, contemple o deslumbrante mar azul, dê alguns passos para fora e 
-          mergulhe na piscina, ou aventure-se pela estrada até uma grande praia para banhos 
-          de sol e piscinas rochosas salva-vidas 5 minutos à direita ou 15 minutos à esquerda. 
-          À noite, você pode caminhar até os restaurantes locais ao lado da praia ou fazer um 
-          braai/churrasco sob as estrelas com os grilos cantando e as ondas batendo na costa.
+            {{ house.description }}
         </p>
 
         <br>

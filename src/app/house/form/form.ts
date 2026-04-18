@@ -16,6 +16,7 @@ import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { MatIconModule } from '@angular/material/icon';
 import { UploadFile } from '../../upload-file/upload-file';
 import { HouseAndImage } from '../../models/house/house-and-image';
+import { HouseResponseDetails } from '../../models/house/house-response-details';
 
 @Component({
   selector: 'app-form',
@@ -46,6 +47,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected imagesUploaded!: FormData;
     
     @Input() title: string = '';
+    @Input() houseData: HouseResponseDetails | null = null;
 
     @Output() formEvent = new EventEmitter<HouseAndImage>();
 
@@ -82,6 +84,34 @@ export class Form extends HouseFormBuilder implements OnInit {
   }
   
   ngOnInit(): void {
+  if (this.houseData) {
+    this.houseForm.patchValue({
+      title: this.houseData.title,
+      description: this.houseData.description,
+      avaliable: this.houseData.avaliable,
+      number_of_rooms: this.houseData.number_of_rooms,
+      tipology: this.houseData.tipology,
+      status_post: this.houseData.status_post,
+      status_condition: this.houseData.status_condition,
+      type_negotiation: this.houseData.type_negotiation,
+      furnished: this.houseData.furnished,
+      swimming_pool: this.houseData.swimming_pool,
+      kitchen: this.houseData.kitchen,
+      backyard: this.houseData.backyard,
+      bathroom: this.houseData.bathroom,
+      price: this.houseData.price,
+      post_address: {
+        address: {
+          street1: this.houseData.post_address?.address?.street1,
+          street2: this.houseData.post_address?.address?.street2,
+          zipeCode: this.houseData.post_address?.address?.zipeCode,
+        },
+        locality: {
+          id: this.houseData.post_address?.locality?.id
+        }
+      }
+    });
+  }
   this.addressService.findCountries()
     .subscribe({
       next: countries => {

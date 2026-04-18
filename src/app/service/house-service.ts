@@ -35,5 +35,9 @@ export class HouseService {
     return this.httpClient.get<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`);
   }
 
+  update(idHouse: string, house: HouseCreateRequest): Observable<HouseResponseDetails> {
+    return this.httpClient.put<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`, house);
+  }
+
   
 }
