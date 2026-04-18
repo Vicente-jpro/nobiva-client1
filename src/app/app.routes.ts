@@ -65,6 +65,10 @@ export const routes: Routes = [
                         path: 'nova',
                         loadComponent: () => import('./house/new/new').then(m => m.New)
                     },
+                    {
+                        path: ':id',
+                        loadComponent: () => import('./house/show/show').then(m => m.Show)
+                    }
                     /*{
                         path: 'favoritas',
                         loadComponent: () => import('./house/favorites/favorites').then(m => m.Favorites)

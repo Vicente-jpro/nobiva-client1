@@ -8,7 +8,7 @@ import { Favorite } from '../favorite/favorite';
 import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
 import { DisplayMessage } from '../../models/display-message';
-import { RoomResponse } from '../../models/room/room-response';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-house-partial',
@@ -19,7 +19,8 @@ import { RoomResponse } from '../../models/room/room-response';
     DialogEmailMessage,
     Favorite,
     Success,
-    Danger
+    Danger,
+    RouterLink
   ],
   templateUrl: './house-partial.html',
   styleUrl: './house-partial.scss',
@@ -31,9 +32,10 @@ export class HousePartial {
   @Input() roomData: any = null;
   display = new DisplayMessage();
   changeDetection = inject(ChangeDetectorRef);
+  router = inject(Router);
 
   @Output() deleteEvent = new EventEmitter<string>();
-  @Output() showDetailsEvent = new EventEmitter<{ houseData: HouseResponse, roomData: RoomResponse }>();
+ // @Output() showDetailsEvent = new EventEmitter<{ houseData: HouseResponse, roomData: RoomResponse }>();
 
   onDelete(idHouse: string) {
     console.log('Delete event emitted for house ID:', idHouse);
@@ -47,9 +49,7 @@ export class HousePartial {
     this.changeDetection.markForCheck();
   }
 
-  showDetails(houseData: HouseResponse, roomData: RoomResponse): void {
-    console.log('House Data:', houseData);
-    console.log('Room Data:', roomData);
-    this.showDetailsEvent.emit({ houseData, roomData });
+  edit(idHouse: string): void {
+     this.router.navigate(['casas/', idHouse]);
   }
 }
