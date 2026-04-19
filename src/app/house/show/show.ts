@@ -80,5 +80,21 @@ export class Show implements OnInit {
     });
   }
 
+  delete(idHouse: string): void {
+    this.service.delete(idHouse).subscribe({
+      next: (response) => {
+        this.display.success = response.message;
+        this.display.errors = [];
+        this.router.navigate(['/menu/casas']);
+      },
+      error: (err) => {
+        this.display.success = '';
+        this.display.errors = err.error.errors;
+        console.error('Error deleting house:', err.error);
+        this.changeDetection.markForCheck();
+      }
+    });
+
+  }
 
 }

@@ -4,6 +4,7 @@ import { HouseCreateRequest } from '../models/house/house-create-request';
 import { Observable } from 'rxjs';
 import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
+import { MessageInfo } from '../user/messageInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,8 @@ export class HouseService {
     return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses`);
   }
 
-  delete(idHouse: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/houses/${idHouse}`);
+  delete(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.delete<MessageInfo>(`${this.apiUrl}/houses/${idHouse}`);
   }
 
   uploadImages(idHouse: string, images: FormData): Observable<void> {

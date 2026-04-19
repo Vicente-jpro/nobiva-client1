@@ -34,14 +34,6 @@ export class HousePartial {
   changeDetection = inject(ChangeDetectorRef);
   router = inject(Router);
 
-  @Output() deleteEvent = new EventEmitter<string>();
- // @Output() showDetailsEvent = new EventEmitter<{ houseData: HouseResponse, roomData: RoomResponse }>();
-
-  onDelete(idHouse: string) {
-    console.log('Delete event emitted for house ID:', idHouse);
-    this.deleteEvent.emit(idHouse);
-  }
-
   saveFavorite(display: DisplayMessage): void {
     console.log('Received display message from Favorite component:', display);
     // Aqui você pode lidar com a mensagem de sucesso ou erro, por exemplo, exibindo um alerta ou atualizando a interface do usuário.
@@ -50,6 +42,6 @@ export class HousePartial {
   }
 
   edit(idHouse: string): void {
-     this.router.navigate(['casas/', idHouse]);
+     this.router.navigate(['casas/', idHouse, 'editar']);
   }
 }
