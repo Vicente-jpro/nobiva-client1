@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
 import { MessageInfo } from '../user/messageInfo';
+import { TypeNegotiation } from '../models/negotiation-type';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,11 @@ export class HouseService {
     return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses`, house);
   }
 
-  findAll(pageNumber: number): Observable<HouseResponse[]> {
-    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses?page=${pageNumber}`);
+  findByTypeNegotiation(
+    typeNegotiation: TypeNegotiation, 
+    pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient
+    .get<HouseResponse[]>(`${this.apiUrl}/houses?type-negotiation=${typeNegotiation}&page=${pageNumber}`);
   }
 
   delete(idHouse: string): Observable<MessageInfo> {
@@ -40,5 +44,8 @@ export class HouseService {
     return this.httpClient.put<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`, house);
   }
 
+  findAllByOwner(pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/user-owner?page=${pageNumber}`);
+  }
   
 }
