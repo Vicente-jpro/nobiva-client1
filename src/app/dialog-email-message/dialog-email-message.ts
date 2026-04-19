@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -15,6 +15,13 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { EmailContactTask } from '../models/email-contact-task';
+import { EmailContactTaskService } from '../service/email-contact-task';
+import { DisplayMessage } from '../models/display-message';
+import { AuthService } from '../service/auth.service';
+import { HouseResponse } from '../models/house/house-response';
+import { RoomResponse } from '../models/room/room-response';
+import { Danger } from '../alerts/danger/danger';
+import { Success } from '../alerts/success/success';
 
 
 @Component({
@@ -26,15 +33,18 @@ import { EmailContactTask } from '../models/email-contact-task';
 export class DialogEmailMessage {
   readonly dialog = inject(MatDialog);
 
-  @Input() houseIdData: string = '';
+  @Input() houseData = new HouseResponse();
 
-  @Input() roomIdData: string = '';
+  @Input() roomData = new RoomResponse();
+
+  protected message = new DisplayMessage();
 
   openDialog() {
     this.dialog.open(DialogElementsExampleDialog, { 
       data: { 
-        houseId: this.houseIdData, 
-        roomId: this.roomIdData 
+        house: this.houseData,
+        room: this.roomData,
+
       } });
   }
 }
@@ -51,24 +61,30 @@ export class DialogEmailMessage {
     FormsModule, 
     MatFormFieldModule, 
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Success,
+    Danger
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogElementsExampleDialog {
 
   private formBuilder = inject(FormBuilder);
-  private data = inject<{ houseId: string, roomId: string }>(MAT_DIALOG_DATA);
+  private data = inject<{ house: HouseResponse, room: RoomResponse }>(MAT_DIALOG_DATA);
   private emailContactTask = new EmailContactTask();
+  private service = inject(EmailContactTaskService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  protected display = new DisplayMessage();
+  userService = inject(AuthService);
 
   contactForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+    clientEmail: ['', [Validators.required, Validators.email]],
     message: ['Olá, estou interessado no imóvel e gostaria de obter mais informações.', 
       [Validators.required]]
   });
 
   getEmailError(): string {
-    const email = this.contactForm.get('email');
+    const email = this.contactForm.get('ownerEmail');
     if (email?.hasError('required')) return 'O email é obrigatório';
     if (email?.hasError('email')) return 'Insira um email válido';
     return '';
@@ -83,12 +99,32 @@ export class DialogElementsExampleDialog {
   onSubmit() {
     this.emailContactTask = this.contactForm.value as EmailContactTask;
 
-    if (this.data.houseId) {
-        this.emailContactTask.houseId = this.data.houseId;
-    }else if (this.data.roomId) {
-       this.emailContactTask.roomId = this.data.roomId; 
-   }
-    console.log('Form Data:', this.data);
-    console.log('Form Values:', this.emailContactTask);
+    this.emailContactTask.ownerEmail = this.data.house.email;
+
+    if (this.data.house.idHouse) {
+        this.emailContactTask.houseId = this.data.house.idHouse;
+    }else if (this.data.room.idRoom) {
+       this.emailContactTask.roomId = this.data.room.idRoom; 
+    }
+
+    this.sendEmail(this.emailContactTask);
+
+  }
+
+  sendEmail(message: EmailContactTask): void {
+    console.log('Sending email with data:', message);
+    this.service.send(message).subscribe({
+      next: (response) => {
+        this.display.success = response.message;
+        this.display.errors = [];
+        this.changeDetectorRef.markForCheck();
+      },
+      error: (errorResponse) => {
+        this.display.errors = errorResponse.error.errors;
+        this.display.success = '';
+        this.changeDetectorRef.markForCheck();
+        console.error('Erro ao enviar email:', errorResponse.error.errors);
+      }
+    });
   }
 }

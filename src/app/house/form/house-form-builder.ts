@@ -24,6 +24,15 @@ export abstract class HouseFormBuilder extends HouseSelectBox {
             backyard: [this.house.backyard],
             bathroom: [this.house.bathroom, [Validators.required, Validators.min(1)]],
             price: [this.house.price, [Validators.required, Validators.min(100)]],
+            washing_machine: [this.house.washing_machine],
+            equipped_kitchen: [this.house.equipped_kitchen],
+            wifi: [this.house.wifi],
+            air_conditioning: [this.house.air_conditioning],
+            tv: [this.house.tv],
+            furnished_room: [this.house.furnished_room],
+            running_water: [this.house.running_water],
+            water_tank: [this.house.water_tank],
+            electricity: [this.house.electricity],
             post_address: this.buldPostAddress(this.house.post_address)
 
         });

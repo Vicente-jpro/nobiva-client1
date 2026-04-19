@@ -47,11 +47,8 @@
                 <div class="row">
                     <mat-form-field class="full-width">
                         <mat-label>Tipologia</mat-label>
-                        <mat-select formControlName="tipology">
-                            @for (tipology of tipologyOptions; track tipology) {
-                            <mat-option [value]="tipology.value">{{tipology.viewValue}}</mat-option>
-                            }
-                        </mat-select>
+                        <input matInput formControlName="tipology" readonly>
+                        <mat-hint>Preenchido automaticamente com base no número de quartos</mat-hint>
                     </mat-form-field>
                 </div>
 
@@ -146,59 +143,51 @@
                 <div class="row">
                     <mat-form-field class="example-full-width">
                         <mat-label>Descrição</mat-label>
-                        <textarea matInput value="description" formControlName="description"></textarea>
+                        <textarea matInput value="description" formControlName="description" ></textarea>
                     </mat-form-field>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            Mobilada
-                        </div>
-                        <div class="row">
-                            <mat-radio-group aria-label="Select an option" formControlName="furnished">
-                                <mat-radio-button [value]="true">Sim</mat-radio-button>
-                                <mat-radio-button [value]="false">Não</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row">
-                            Piscina
-                        </div>
-                        <div class="row">
-                            <mat-radio-group aria-label="Select an option" formControlName="swimming_pool">
-                                <mat-radio-button [value]="true">Sim</mat-radio-button>
-                                <mat-radio-button [value]="false">Não</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                </div>
-
+        
                 <hr>
 
                 <div class="row">
-                    <div class="col">
-                        <div class="row">
-                           Quintal
-                        </div>
-                        <div class="row">
-                            <mat-radio-group aria-label="Select an option" formControlName="backyard">
-                                <mat-radio-button [value]="true">Sim</mat-radio-button>
-                                <mat-radio-button [value]="false">Não</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="avaliable">Disponível</mat-checkbox>        
                     </div>
-                    <div class="col">
-                        <div class="row">
-                           Disponível
-                        </div>
-                        <div class="row">
-                            <mat-radio-group aria-label="Select an option" formControlName="avaliable">
-                                <mat-radio-button [value]="true">Sim</mat-radio-button>
-                                <mat-radio-button [value]="false">Não</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="backyard">Quintal</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="swimming_pool">Piscina</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="furnished">Mobilada</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="washing_machine">Máquina de lavar</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="equipped_kitchen">Cozinha equipada</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="wifi">Wi-Fi</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="air_conditioning">Ar condicionado</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="tv">Televisão</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="furnished_room">Quarto mobilado</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="running_water">Água canalizada</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="water_tank">Reservatório de água</mat-checkbox>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <mat-checkbox formControlName="electricity">Electricidade</mat-checkbox>
                     </div>
                 </div>
 

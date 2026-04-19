@@ -15,6 +15,15 @@ export class HouseCreateRequest {
     backyard = false;
 	bathroom = 0;
     price = 0;
+    washing_machine = false;
+    equipped_kitchen = false;
+    wifi = false;
+    air_conditioning = false;
+    tv = false;
+    furnished_room = false;
+    running_water = false;
+    water_tank = false;
+    electricity = false;
     post_address: PostAddress = new PostAddress();
 		
 }

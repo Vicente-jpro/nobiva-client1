@@ -8,7 +8,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import { HouseFormBuilder } from './house-form-builder';
-import {MatRadioModule} from '@angular/material/radio';
 import { AuthService } from '../../service/auth.service';
 import { Address } from '../../service/address';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,6 +15,7 @@ import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { MatIconModule } from '@angular/material/icon';
 import { UploadFile } from '../../upload-file/upload-file';
 import { HouseAndImage } from '../../models/house/house-and-image';
+import { HouseResponseDetails } from '../../models/house/house-response-details';
 
 @Component({
   selector: 'app-form',
@@ -28,7 +28,6 @@ import { HouseAndImage } from '../../models/house/house-and-image';
     MatCheckboxModule,
     MatButtonModule,
     MatListModule,
-    MatRadioModule,
     MatSelectModule,
     MatIconModule
 ],
@@ -46,6 +45,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     protected imagesUploaded!: FormData;
     
     @Input() title: string = '';
+    @Input() houseData: HouseResponseDetails | null = null;
 
     @Output() formEvent = new EventEmitter<HouseAndImage>();
 
@@ -81,7 +81,55 @@ export class Form extends HouseFormBuilder implements OnInit {
     }
   }
   
+  private tipologyFromRooms(rooms: number): string {
+    if (rooms > 9) return 'TN';
+    return `T${rooms}`;
+  }
+
   ngOnInit(): void {
+  this.houseForm.get('number_of_rooms')!.valueChanges.subscribe(rooms => {
+    if (rooms != null && rooms > 0) {
+      this.houseForm.get('tipology')!.setValue(this.tipologyFromRooms(rooms), { emitEvent: false });
+    }
+  });
+
+  if (this.houseData) {
+    this.houseForm.patchValue({
+      title: this.houseData.title,
+      description: this.houseData.description,
+      avaliable: this.houseData.avaliable,
+      number_of_rooms: this.houseData.number_of_rooms,
+      tipology: this.houseData.tipology,
+      status_post: this.houseData.status_post,
+      status_condition: this.houseData.status_condition,
+      type_negotiation: this.houseData.type_negotiation,
+      furnished: this.houseData.furnished,
+      swimming_pool: this.houseData.swimming_pool,
+      kitchen: this.houseData.kitchen,
+      backyard: this.houseData.backyard,
+      bathroom: this.houseData.bathroom,
+      price: this.houseData.price,
+      washing_machine: this.houseData.washing_machine,
+      equipped_kitchen: this.houseData.equipped_kitchen,
+      wifi: this.houseData.wifi,
+      air_conditioning: this.houseData.air_conditioning,
+      tv: this.houseData.tv,
+      furnished_room: this.houseData.furnished_room,
+      running_water: this.houseData.running_water,
+      water_tank: this.houseData.water_tank,
+      electricity: this.houseData.electricity,
+      post_address: {
+        address: {
+          street1: this.houseData.post_address?.address?.street1,
+          street2: this.houseData.post_address?.address?.street2,
+          zipeCode: this.houseData.post_address?.address?.zipeCode,
+        },
+        locality: {
+          id: this.houseData.post_address?.locality?.id
+        }
+      }
+    });
+  }
   this.addressService.findCountries()
     .subscribe({
       next: countries => {

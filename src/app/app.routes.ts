@@ -3,6 +3,10 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {
+        path: 'server-down',
+        loadComponent: () => import('./server-down/server-down').then(m => m.ServerDown)
+    },
+    {
         path: 'home',
         loadComponent: () => import('./home/home').then(m => m.Home),
         //canActivate: [authGuard]
@@ -61,6 +65,18 @@ export const routes: Routes = [
                         path: 'nova',
                         loadComponent: () => import('./house/new/new').then(m => m.New)
                     },
+                    {
+                        path: ':id/editar',
+                        loadComponent: () => import('./house/edit/edit').then(m => m.Edit)
+                    },
+                    {
+                        path: ':id',
+                        loadComponent: () => import('./house/show/show').then(m => m.Show)
+                    },
+                    {
+                        path: ':id/fotos',
+                        loadComponent: () => import('./house/photos/photos').then(m => m.Photos)
+                    }
                     /*{
                         path: 'favoritas',
                         loadComponent: () => import('./house/favorites/favorites').then(m => m.Favorites)
