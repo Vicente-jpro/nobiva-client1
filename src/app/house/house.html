@@ -2,9 +2,7 @@
   <mat-tab label="Comprar"> 
     <div class="container-fluid">
         @for(house of houses(); track house.idHouse){
-          <app-house-partial 
-          [houseData]="house" 
-          (deleteEvent)="onDelete($event)"/>
+          <app-house-partial [houseData]="house"/>
             
         }@empty {
         <p class="text-center fs-3 mt-5">

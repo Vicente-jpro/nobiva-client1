@@ -22,7 +22,7 @@ export class Favorite {
   protected service = inject(FavoriteHouseService);
   @Output() onSaveFavoriteEvent = new EventEmitter<DisplayMessage>();
   display = new DisplayMessage();
-
+  
   onSave(): void {
 
     this.service.save(this.houseData.idHouse).subscribe({
@@ -40,4 +40,5 @@ export class Favorite {
       }
     });
   }
+
 }

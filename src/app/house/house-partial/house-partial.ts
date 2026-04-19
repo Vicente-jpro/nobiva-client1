@@ -43,5 +43,4 @@ export class HousePartial {
 
   edit(idHouse: string): void {
      this.router.navigate(['casas/', idHouse, 'editar']);
-  }
-}
+  }}

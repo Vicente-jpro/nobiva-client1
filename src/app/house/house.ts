@@ -32,17 +32,6 @@ export class House implements OnInit {
     });
   }
 
-  onDelete(idHouse: string) {
-    this.service.delete(idHouse).subscribe({
-      next: () => {
-        this.houses.update(list => list.filter(house => house.idHouse !== idHouse));
-      },
-      error: (err) => {
-        console.error('Error deleting house:', err);
-      }
-    });
-  }
-
   onShowDetails(event: { houseData: HouseResponse, roomData: RoomResponse }) {
     console.log('Show details event received:', event);
     
