@@ -86,14 +86,14 @@ export class Show implements OnInit {
         this.display.success = response.message;
         this.display.errors = [];
         this.changeDetection.markForCheck();
-        setTimeout(() => this.router.navigate(['/menu/casas']), 2000);
+        setTimeout(() => this.router.navigate(['/menu/casas']), 3000);
       },
       error: (err) => {
         this.display.success = '';
         this.display.errors = err.error.errors;
         console.error('Error deleting house:', err.error);
         this.changeDetection.markForCheck();
-        setTimeout(() => this.router.navigate(['/menu/casas']), 2000);
+        setTimeout(() => this.router.navigate(['/menu/casas']), 3000);
       }
     });
   }

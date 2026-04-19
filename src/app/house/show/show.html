@@ -70,10 +70,6 @@
             <mat-icon>edit</mat-icon>
             Editar
         </button>
-        <button matButton (click)="onDelete(house.id)">
-            <mat-icon>delete</mat-icon>
-            Eliminar
-        </button>
         <button matFab extended>
             <mat-icon>check_circle</mat-icon>
             Aprovar publicação
@@ -81,6 +77,10 @@
         <button matFab extended>
             <mat-icon>cancel</mat-icon>
             Reprovar publicação
+        </button>
+        <button matButton (click)="onDelete(house.id)">
+            <mat-icon>delete</mat-icon>
+            Eliminar
         </button>
     </div>
 
