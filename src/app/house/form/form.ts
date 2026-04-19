@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UploadFile } from '../../upload-file/upload-file';
 import { HouseAndImage } from '../../models/house/house-and-image';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
+import { Tipology } from '../../models/property-tipology';
 
 @Component({
   selector: 'app-form',
@@ -82,7 +83,7 @@ export class Form extends HouseFormBuilder implements OnInit {
   }
   
   private tipologyFromRooms(rooms: number): string {
-    if (rooms > 9) return 'TN';
+    if (rooms > 9) return Tipology.Tn.toString();
     return `T${rooms}`;
   }
 
@@ -180,7 +181,5 @@ export class Form extends HouseFormBuilder implements OnInit {
         }
       });
   }
-
-
 
 }

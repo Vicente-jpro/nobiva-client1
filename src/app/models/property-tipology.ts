@@ -8,5 +8,5 @@ export enum Tipology {
     T7 = "T7",
     T8 = "T8",
     T9 = "T9",
-    Tn = "TN"
+    Tn = "Tn"
 };

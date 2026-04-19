@@ -20,8 +20,8 @@ export class HouseService {
     return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses`, house);
   }
 
-  findAll(): Observable<HouseResponse[]> {
-    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses`);
+  findAll(pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses?page=${pageNumber}`);
   }
 
   delete(idHouse: string): Observable<MessageInfo> {
