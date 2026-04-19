@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core'; 
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -22,6 +22,7 @@ import { Danger } from '../../alerts/danger/danger';
   ],
   templateUrl: './show.html',
   styleUrl: './show.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Show implements OnInit {
 
@@ -43,16 +44,17 @@ export class Show implements OnInit {
         next: (houseResponse) => {
           this.house = houseResponse;
           console.log('House details:', this.house);
+          this.changeDetection.markForCheck();
         },
         error: (err) => {
-          console.error('Error loading house details:', err);
+          console.error('Error loading house details:', err.error);
         }
       });
     }
   }
 
   onEdit(): void {
-    this.router.navigate(['/menu/casas/editar', this.houseId]);
+    this.router.navigate(['/menu/casas/', this.houseId, 'editar']);
   }
 
   onShowPhotos(images: Image[]): void {
