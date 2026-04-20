@@ -118,6 +118,7 @@
               <tr>
                 <th style="width: 60px;">Imagem</th>
                 <th>Título</th>
+                <th>Email</th>
                 <th>Tipologia</th>
                 <th>Preço</th>
                 <th>Estado</th>
@@ -144,6 +145,15 @@
                        class="fw-semibold text-decoration-none text-dark">
                       {{ house.title || '—' }}
                     </a>
+                  </td>
+                  <td class="text-muted small">
+                    @if (house.email) {
+                      <a [href]="'mailto:' + house.email" class="text-decoration-none text-muted">
+                        <i class="bi bi-envelope me-1"></i>{{ house.email }}
+                      </a>
+                    } @else {
+                      <span>—</span>
+                    }
                   </td>
                   <td>
                     <span class="badge bg-light text-dark border">{{ house.tipology || '—' }}</span>
@@ -182,7 +192,7 @@
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="7" class="text-center py-5 text-muted">
+                  <td colspan="8" class="text-center py-5 text-muted">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Nenhum imóvel encontrado.
                   </td>
