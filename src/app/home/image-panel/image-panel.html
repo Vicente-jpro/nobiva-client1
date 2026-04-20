@@ -1,26 +1,37 @@
 <section class="hero">
-    <form class="example-form">
-        <mat-form-field>
-        <mat-label>País</mat-label>
-        <mat-select>
-            @for (country of countries; track country) {
-            <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
-            }
-        </mat-select>
-        </mat-form-field>
+  <div class="hero-content">
+    <h2 class="text-center fw-bold text-purple mb-4">Encontre o seu imóvel</h2>
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <label class="form-label fw-semibold">País</label>
+        <select class="form-select" [(ngModel)]="selectedCountry">
+          <option value="">Selecione um país</option>
+          @for (country of countries; track country.value) {
+            <option [value]="country.value">{{ country.viewValue }}</option>
+          }
+        </select>
+      </div>
 
-        <mat-form-field>
-        <mat-label>Cidade</mat-label>
-        <mat-select>
-            @for (city of cities; track city) {
-            <mat-option [value]="city.value">{{city.viewValue}}</mat-option>
-            }
-        </mat-select>
-        </mat-form-field>
+      <div class="col-12 col-md-4">
+        <label class="form-label fw-semibold">Cidade</label>
+        <select class="form-select" [(ngModel)]="selectedCity">
+          <option value="">Selecione uma cidade</option>
+          @for (city of cities; track city.value) {
+            <option [value]="city.value">{{ city.viewValue }}</option>
+          }
+        </select>
+      </div>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Localidade</mat-label>
-            <input matInput placeholder="Ex: Cazenga" value="Cazenga">
-        </mat-form-field>
-    </form>
+      <div class="col-12 col-md-4">
+        <label class="form-label fw-semibold">Localidade</label>
+        <input type="text" class="form-control" placeholder="Ex: Cazenga" [(ngModel)]="locality">
+      </div>
+    </div>
+
+    <div class="d-grid mt-4">
+      <button type="button" class="btn btn-nobiva btn-lg">
+        <i class="bi bi-search me-2"></i>Pesquisar
+      </button>
+    </div>
+  </div>
 </section>

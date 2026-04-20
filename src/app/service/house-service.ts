@@ -4,6 +4,8 @@ import { HouseCreateRequest } from '../models/house/house-create-request';
 import { Observable } from 'rxjs';
 import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
+import { MessageInfo } from '../user/messageInfo';
+import { TypeNegotiation } from '../models/negotiation-type';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +21,15 @@ export class HouseService {
     return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses`, house);
   }
 
-  findAll(): Observable<HouseResponse[]> {
-    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses`);
+  findByTypeNegotiation(
+    typeNegotiation: TypeNegotiation, 
+    pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient
+    .get<HouseResponse[]>(`${this.apiUrl}/houses?type-negotiation=${typeNegotiation}&page=${pageNumber}`);
   }
 
-  delete(idHouse: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/houses/${idHouse}`);
+  delete(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.delete<MessageInfo>(`${this.apiUrl}/houses/${idHouse}`);
   }
 
   uploadImages(idHouse: string, images: FormData): Observable<void> {
@@ -39,5 +44,20 @@ export class HouseService {
     return this.httpClient.put<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`, house);
   }
 
+  findAllByOwner(pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/user-owner?page=${pageNumber}`);
+  }
+
+  findAll(pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/all?page=${pageNumber}`);
+  }
+
+  approve(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/approve`, {});
+  }
+
+  reject(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/reject`, {});
+  }
   
 }

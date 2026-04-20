@@ -1,7 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 export interface HomeItem {
   description: string;
@@ -10,18 +7,14 @@ export interface HomeItem {
 
 @Component({
   selector: 'app-card',
-  imports: [MatButtonModule, MatCardModule],
+  imports: [],
   templateUrl: './card.html',
   styleUrl: './card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Card {
-
-  @Input() itemData : HomeItem = {
+  @Input() itemData: HomeItem = {
     description: '',
     imageUrl: ''
-  }
-
+  };
 }
-
-

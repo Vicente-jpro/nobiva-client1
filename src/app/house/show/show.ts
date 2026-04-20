@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core'; 
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
 import { HouseService } from '../../service/house-service';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
 import { Image } from '../../models/image';
@@ -13,13 +10,7 @@ import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-show',
-  imports: [
-    MatButtonModule, 
-    MatDividerModule, 
-    MatIconModule,
-    Success,
-    Danger,
-  ],
+  imports: [Success, Danger],
   templateUrl: './show.html',
   styleUrl: './show.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +27,7 @@ export class Show implements OnInit {
   display = new DisplayMessage();
 
   houseId = '';
+
   ngOnInit(): void {
     this.houseId = this.route.snapshot.paramMap.get('id') ?? '';
 
@@ -43,7 +35,6 @@ export class Show implements OnInit {
       this.service.findById(this.houseId).subscribe({
         next: (houseResponse) => {
           this.house = houseResponse;
-          console.log('House details:', this.house);
           this.changeDetection.markForCheck();
         },
         error: (err) => {
@@ -68,17 +59,30 @@ export class Show implements OnInit {
       next: (response) => {
         this.display.success = response.message;
         this.display.errors = [];
-        console.log('Favorite saved successfully:', response);
         this.changeDetection.markForCheck();
       },
       error: (errorResponse) => {
         this.display.success = '';
         this.display.errors = errorResponse.error.errors;
-        console.error('Error saving favorite:', errorResponse.error.errors);
         this.changeDetection.markForCheck();
       }
     });
   }
 
-
+  onDelete(idHouse: string): void {
+    this.service.delete(idHouse).subscribe({
+      next: (response) => {
+        this.display.success = response.message;
+        this.display.errors = [];
+        this.changeDetection.markForCheck();
+        setTimeout(() => this.router.navigate(['/menu/casas']), 3000);
+      },
+      error: (err) => {
+        this.display.success = '';
+        this.display.errors = err.error.errors;
+        this.changeDetection.markForCheck();
+        setTimeout(() => this.router.navigate(['/menu/casas']), 3000);
+      }
+    });
+  }
 }

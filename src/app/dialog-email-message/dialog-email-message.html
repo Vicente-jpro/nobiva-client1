@@ -1,5 +1,53 @@
-<button matMiniFab aria-label="Example icon button with a home icon" 
-    class="mt-2 mx-3"
-    (click)="openDialog()">
-    <mat-icon>email</mat-icon>
+<!-- Email trigger button -->
+<button type="button" class="btn btn-outline-primary btn-sm mt-2"
+        (click)="openModal()" aria-label="Enviar email ao proprietário">
+  <i class="bi bi-envelope me-1"></i>Contactar
 </button>
+
+<!-- Bootstrap inline modal overlay -->
+@if (modalVisible) {
+  <div class="modal d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" (click)="closeModal()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-envelope me-2"></i>Enviar email ao proprietário
+          </h5>
+          <button type="button" class="btn-close" (click)="closeModal()" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <app-success [successMessageData]="display.success" />
+          <app-danger [dangerMessagesData]="display.errors" />
+
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">O seu email</label>
+              <input type="email" class="form-control" formControlName="clientEmail"
+                     placeholder="o-seu-email@exemplo.com"
+                     [class.is-invalid]="contactForm.get('clientEmail')?.invalid && contactForm.get('clientEmail')?.touched">
+              @if (getEmailError()) {
+                <div class="invalid-feedback">{{ getEmailError() }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Mensagem</label>
+              <textarea class="form-control" rows="4" formControlName="message"
+                        [class.is-invalid]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
+              @if (getMessageError()) {
+                <div class="invalid-feedback">{{ getMessageError() }}</div>
+              }
+            </div>
+
+            <div class="modal-footer px-0 pb-0">
+              <button type="button" class="btn btn-secondary btn-sm" (click)="closeModal()">Fechar</button>
+              <button type="submit" class="btn btn-nobiva btn-sm">
+                <i class="bi bi-send me-1"></i>Enviar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}

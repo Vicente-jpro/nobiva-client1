@@ -1,220 +1,243 @@
-<div class="container d-flex justify-content-center">
-    <mat-card class="shipping-card">
-        <p class="text-center fs-3"> {{title}} </p>
-        <mat-card-content>
-            <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
+<div class="container py-4">
+  <div class="card shadow border-0 mx-auto" style="max-width: 700px;">
+    <div class="card-body p-4">
+      <h4 class="text-center fw-bold text-purple mb-4">{{ title }}</h4>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Título do imóvel</mat-label>
-                        <input matInput type="text" formControlName="title">
-                    </mat-form-field>
-                </div>
+      <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
 
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Número de quartos</mat-label>
-                            <input matInput type="number" formControlName="number_of_rooms">
-                        </mat-form-field>
-                    </div>
-                    
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Número de cozinhas</mat-label>
-                            <input matInput type="number" formControlName="kitchen">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Quartos de banho</mat-label>
-                            <input matInput type="number" formControlName="bathroom">
-                        </mat-form-field>
-                    </div>
-                    
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Preço</mat-label>
-                            <input matInput type="number" formControlName="price">
-                        </mat-form-field>
-                    </div>
-                </div>
+        <!-- Título -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Título do imóvel</label>
+          <input type="text" class="form-control" formControlName="title"
+                 [class.is-invalid]="houseForm.get('title')?.invalid && houseForm.get('title')?.touched">
+          @if (houseForm.get('title')?.invalid && houseForm.get('title')?.touched) {
+            <div class="invalid-feedback">Título obrigatório (mínimo 5 caracteres).</div>
+          }
+        </div>
 
+        <!-- Rooms / kitchen row -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label fw-semibold">Número de quartos</label>
+            <input type="number" class="form-control" formControlName="number_of_rooms">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Número de cozinhas</label>
+            <input type="number" class="form-control" formControlName="kitchen">
+          </div>
+        </div>
 
+        <!-- Bathroom / Price -->
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label fw-semibold">Quartos de banho</label>
+            <input type="number" class="form-control" formControlName="bathroom">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Preço (Kz)</label>
+            <input type="number" class="form-control" formControlName="price">
+          </div>
+        </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Tipologia</mat-label>
-                        <input matInput formControlName="tipology" readonly>
-                        <mat-hint>Preenchido automaticamente com base no número de quartos</mat-hint>
-                    </mat-form-field>
-                </div>
+        <!-- Tipology -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Tipologia</label>
+          <input type="text" class="form-control bg-light" formControlName="tipology" readonly>
+          <div class="form-text">Preenchido automaticamente com base no número de quartos.</div>
+        </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Condição do imóvel</mat-label>
-                        <mat-select formControlName="status_condition">
-                            @for (condition of statusConditionOptions; track condition) {
-                            <mat-option [value]="condition.value">{{condition.viewValue}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+        <!-- Status condition -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Condição do imóvel</label>
+          <select class="form-select" formControlName="status_condition">
+            <option value="">Selecionar...</option>
+            @for (condition of statusConditionOptions; track condition.value) {
+              <option [value]="condition.value">{{ condition.viewValue }}</option>
+            }
+          </select>
+        </div>
 
-                
+        <!-- Status post -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Estado da publicação</label>
+          <select class="form-select" formControlName="status_post">
+            <option value="">Selecionar...</option>
+            @for (status of statusPostOptions; track status.value) {
+              <option [value]="status.value">{{ status.viewValue }}</option>
+            }
+          </select>
+        </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Condição do imóvel</mat-label>
-                        <mat-select formControlName="status_post">
-                            @for (status of statusPostOptions; track status) {
-                            <mat-option [value]="status.value">{{status.viewValue}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+        <!-- Type negotiation -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Tipo de Negociação</label>
+          <select class="form-select" formControlName="type_negotiation">
+            <option value="">Selecionar...</option>
+            @for (type of typeNegotiationOptions; track type.value) {
+              <option [value]="type.value">{{ type.viewValue }}</option>
+            }
+          </select>
+        </div>
 
-                <div class="row">
-                    <mat-form-field class="full-width">
-                        <mat-label>Tipo de Negociação</mat-label>
-                        <mat-select formControlName="type_negotiation">
-                            @for (type of typeNegotiationOptions; track type) {
-                            <mat-option [value]="type.value">{{type.viewValue}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+        <!-- Address section -->
+        <div formGroupName="post_address">
+          <div formGroupName="locality">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">País</label>
+              <select class="form-select" formControlName="countrySelected"
+                      (change)="onCountryChange(+$any($event.target).value)">
+                <option value="">Selecionar país...</option>
+                @for (country of countryOptions; track country.value) {
+                  <option [value]="country.value">{{ country.viewValue }}</option>
+                }
+              </select>
+            </div>
 
-                <div formGroupName="post_address">
-                    <div formGroupName="locality">
-                        
-                        <div class="row">
-                            <mat-form-field class="full-width">
-                                <mat-label>Pais</mat-label>
-                                <mat-select formControlName="countrySelected" (selectionChange)="onCountryChange($event.value)">
-                                    @for (country of countryOptions; track country) {
-                                    <mat-option [value]="country.value">{{country.viewValue}}</mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                       
-                        <div class="row">
-                            <mat-form-field class="full-width">
-                                <mat-label>Provincia</mat-label>
-                                <mat-select formControlName="provinceSelected" (selectionChange)="onProvinceChange($event.value)">
-                                    @for (province of provinceOptions; track province) {
-                                    <mat-option [value]="province.value">{{province.viewValue}}</mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Província</label>
+              <select class="form-select" formControlName="provinceSelected"
+                      (change)="onProvinceChange(+$any($event.target).value)">
+                <option value="">Selecionar província...</option>
+                @for (province of provinceOptions; track province.value) {
+                  <option [value]="province.value">{{ province.viewValue }}</option>
+                }
+              </select>
+            </div>
 
-                        <div class="row">
-                            <mat-form-field class="full-width">
-                                <mat-label>Localidade</mat-label>
-                                <mat-select formControlName="id">
-                                    @for (locality of localityOptions; track locality) {
-                                    <mat-option [value]="locality.value">{{locality.viewValue}}</mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Localidade</label>
+              <select class="form-select" formControlName="id">
+                <option value="">Selecionar localidade...</option>
+                @for (locality of localityOptions; track locality.value) {
+                  <option [value]="locality.value">{{ locality.viewValue }}</option>
+                }
+              </select>
+            </div>
+          </div>
 
-                    <div formGroupName="address">
-                        <div class="row">
-                            <mat-form-field class="full-width">
-                                <mat-label>Endereço</mat-label>
-                                <input matInput type="text" value="street1" formControlName="street1">
-                            </mat-form-field>
+          <div formGroupName="address">
+            <div class="row mb-3">
+              <div class="col-md-8 mb-3 mb-md-0">
+                <label class="form-label fw-semibold">Endereço</label>
+                <input type="text" class="form-control" formControlName="street1">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-semibold">Código postal</label>
+                <input type="text" class="form-control" formControlName="zipeCode">
+              </div>
+            </div>
+          </div>
+        </div>
 
-                            <mat-form-field class="full-width">
-                                <mat-label>Código postal</mat-label>
-                                <input matInput type="text" value="zipeCode" formControlName="zipeCode">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Descrição</label>
+          <textarea class="form-control" rows="4" formControlName="description"></textarea>
+        </div>
 
+        <hr>
 
-                <div class="row">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Descrição</mat-label>
-                        <textarea matInput value="description" formControlName="description" ></textarea>
-                    </mat-form-field>
-                </div>
-        
-                <hr>
+        <!-- Checkboxes grid -->
+        <p class="fw-semibold mb-2">Características</p>
+        <div class="row mb-3">
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="avaliable" formControlName="avaliable">
+              <label class="form-check-label" for="avaliable">Disponível</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="backyard" formControlName="backyard">
+              <label class="form-check-label" for="backyard">Quintal</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="swimming_pool" formControlName="swimming_pool">
+              <label class="form-check-label" for="swimming_pool">Piscina</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="furnished" formControlName="furnished">
+              <label class="form-check-label" for="furnished">Mobilada</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="washing_machine" formControlName="washing_machine">
+              <label class="form-check-label" for="washing_machine">Máquina de lavar</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="equipped_kitchen" formControlName="equipped_kitchen">
+              <label class="form-check-label" for="equipped_kitchen">Cozinha equipada</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="wifi" formControlName="wifi">
+              <label class="form-check-label" for="wifi">Wi-Fi</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="air_conditioning" formControlName="air_conditioning">
+              <label class="form-check-label" for="air_conditioning">Ar condicionado</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="tv" formControlName="tv">
+              <label class="form-check-label" for="tv">Televisão</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="furnished_room" formControlName="furnished_room">
+              <label class="form-check-label" for="furnished_room">Quarto mobilado</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="running_water" formControlName="running_water">
+              <label class="form-check-label" for="running_water">Água canalizada</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="water_tank" formControlName="water_tank">
+              <label class="form-check-label" for="water_tank">Reservatório de água</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 mb-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="electricity" formControlName="electricity">
+              <label class="form-check-label" for="electricity">Electricidade</label>
+            </div>
+          </div>
+        </div>
 
-                <div class="row">
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="avaliable">Disponível</mat-checkbox>        
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="backyard">Quintal</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="swimming_pool">Piscina</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="furnished">Mobilada</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="washing_machine">Máquina de lavar</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="equipped_kitchen">Cozinha equipada</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="wifi">Wi-Fi</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="air_conditioning">Ar condicionado</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="tv">Televisão</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="furnished_room">Quarto mobilado</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="running_water">Água canalizada</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="water_tank">Reservatório de água</mat-checkbox>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <mat-checkbox formControlName="electricity">Electricidade</mat-checkbox>
-                    </div>
-                </div>
+        <!-- File upload -->
+        <div class="mb-3">
+          <input #fileInput type="file" accept="image/*" multiple hidden (change)="onFileSelected($event)">
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="fileInput.click()">
+            <i class="bi bi-upload me-1"></i>Carregar imagens
+          </button>
+          @if (selectedFiles && selectedFiles.length > 0) {
+            <span class="text-muted ms-2 small">{{ selectedFiles.length }} ficheiro(s) selecionado(s)</span>
+          }
+        </div>
 
-                <div class="row align-items-center mb-3">
-                    <div class="col-auto">
-                        <input #fileInput type="file" accept="image/*" multiple hidden 
-                        (change)="onFileSelected($event)"/>
-                        <button matButton="outlined" type="button" (click)="fileInput.click()">
-                            <mat-icon>upload</mat-icon>
-                            Carregar imagens
-                        </button>
-                    </div>
-                    <div class="col">
-                        @if (selectedFiles && selectedFiles.length > 0) {
-                            <span class="text-muted">{{ selectedFiles.length }} ficheiro(s) selecionado(s)</span>
-                        }
-                    </div>
-                </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-nobiva" [disabled]="!houseForm.valid">
+            <i class="bi bi-floppy me-1"></i>Salvar
+          </button>
+        </div>
 
-                <div class="row">
-                    <div class="col justify-content-end">
-                         <button matButton="filled" type="submit" [disabled]="!houseForm.valid">Salvar</button>  
-                    </div>
-                </div>
-
-            </form>    
-        </mat-card-content>
-    </mat-card>
+      </form>
+    </div>
+  </div>
 </div>
-

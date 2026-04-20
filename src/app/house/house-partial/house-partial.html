@@ -1,67 +1,58 @@
 <div class="row mt-3">
-    <mat-card appearance="outlined">
-        <mat-card-content>
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <img [src]="houseData.imageUrl" class="img-fluid rounded"
+                 style="max-height:255px; object-fit:cover; width:100%" alt="Imagem do imóvel" />
+          </div>
+          <div class="col-12 col-md-8">
+            <app-success [successMessageData]="display.success" />
+            <app-danger [dangerMessagesData]="display.errors" />
 
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <img [src]="houseData.imageUrl" class="img-fluid" style="max-height:255px; object-fit:cover; width:100%" />
-                </div>
-                <div class="col-12 col-md-8">
+            <h5 class="fw-bold mt-2">{{ houseData.title }}</h5>
 
-                    <p> 
-                        <app-success [successMessageData]="display.success"/>
-                        <app-danger [dangerMessagesData]="display.errors"/>
-                    </p>
+            @if (houseData.avaliable) {
+              <p class="mb-1">
+                <span class="badge bg-success me-2">Disponível</span>
+                {{ houseData.tipology }}
+              </p>
+            } @else {
+              <p class="mb-1">
+                <span class="badge bg-secondary me-2">Indisponível</span>
+                {{ houseData.tipology }}
+              </p>
+            }
 
-                    <p > <button matButton class="fs-5">{{ houseData.title }}</button> </p>
-                    @if (houseData.avaliable) {
-                        <p >{{ houseData.tipology }}, Disponivel</p>
-                    }@else {
-                          <p >{{ houseData.tipology }}, Indisponível</p>
-                    }
-                    <p> {{ houseData.street1 }}, {{ houseData.locality }}, {{ houseData.province }}, {{ houseData.country }}</p>
-                    <p class="fs-4" > <strong>{{ houseData.price }}</strong> </p>
-                  
-                    <p >{{ houseData.description }}</p>
-                    
-                    <div class="row">
-                        <div class="col">
-                            <mat-card-actions>
+            <p class="text-muted small mb-1">
+              <i class="bi bi-geo-alt me-1"></i>
+              {{ houseData.street1 }}, {{ houseData.locality }}, {{ houseData.province }}, {{ houseData.country }}
+            </p>
 
-                                <div class="example-button-row">
-                                    <div class="example-flex-container">
-                                        
-                                        <app-favorite 
-                                         [roomData]="roomData"
-                                        [houseData]="houseData" 
-                                        (onSaveFavoriteEvent)="saveFavorite($event)"/>
+            <p class="fs-4 fw-bold text-purple mb-1">{{ houseData.price | number }} Kz</p>
 
-                                        <app-dialog-email-message 
-                                        [roomData]="roomData"
-                                        [houseData]="houseData" />
-                                    </div>
-                                </div>
+            <p class="text-muted small">{{ houseData.description }}</p>
 
-                            </mat-card-actions>
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                                <mat-card-actions>
-                                <section>
-                                    <div class="example-button-row">
-                                        <div class="example-flex-container">
-                                            <button mat-raised-button color="primary" 
-                                            [routerLink]="[houseData.idHouse]">Ver Detalhes</button>
-                                        </div>
-                                    </div>
-                                </section>
-                            </mat-card-actions>
-                        </div>
-                    </div>
-                
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+              <div class="d-flex gap-2">
+                <app-favorite
+                  [roomData]="roomData"
+                  [houseData]="houseData"
+                  (onSaveFavoriteEvent)="saveFavorite($event)" />
 
-                </div>
+                <app-dialog-email-message
+                  [roomData]="roomData"
+                  [houseData]="houseData" />
+              </div>
+
+              <a class="btn btn-nobiva btn-sm" [routerLink]="[houseData.idHouse]">
+                <i class="bi bi-eye me-1"></i>Ver Detalhes
+              </a>
             </div>
-
-        </mat-card-content>
-    </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
