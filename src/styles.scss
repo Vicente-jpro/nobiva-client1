@@ -1,87 +1,129 @@
-@use '@angular/material' as mat;
+/* Global styles – Bootstrap-based, no Angular Material theme */
 
 html {
   height: 100%;
-  @include mat.theme((
-    color: (
-      primary: mat.$magenta-palette,
-      tertiary: mat.$violet-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
   height: 100%;
-}
-/* You can add global styles to this file, and also import other style files */
-
-.purple-lighten-5{
-    background-color: #f3e5f5 !important;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
 }
 
-.menu-icon{
-  font-size: larger !important;
+/* Brand colour helpers */
+.text-purple  { color: #7c3aed !important; }
+.bg-nobiva    { background-color: #7c3aed !important; }
+.btn-nobiva {
+  background-color: #7c3aed;
+  color: #fff;
+  border: none;
+  &:hover { background-color: #6d28d9; color: #fff; }
 }
 
-// Card image styling
-.example-card {
-  max-width: 330px;
-
-  .img-card {
-    height: 18rem;
-    object-fit: cover;
-  }
+/* Navbar customisation */
+.navbar-nobiva {
+  background-color: #7c3aed;
+  .navbar-brand, .nav-link { color: #fff !important; }
+  .nav-link:hover { color: #e9d5ff !important; }
 }
 
-.component-center {
+/* Hero section */
+.hero {
+  position: relative;
+  min-height: 75vh;
+  background: url('https://www.visateam.pt/wp-content/uploads/2018/07/Luanda_1500x800.jpg') no-repeat center center / cover;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  text-align: center;
-  
-  // Ensure child elements are centered
-  & > * {
-    margin: 0 auto;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  form, .hero-content {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.92);
+    border-radius: 12px;
+    padding: 2rem;
+    min-width: 320px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   }
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
+/* Card image styling */
+.card-img-house {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
 }
 
-.col {
-  flex: 1;
-  margin-right: 20px;
+.img-card {
+  height: 18rem;
+  object-fit: cover;
 }
 
-.col:last-child {
-  margin-right: 0;
-}
-
+/* Text helpers */
 .text-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-.text-purple {
-  color: #9c27b0 !important;
+/* Legacy class kept for compatibility */
+.purple-lighten-5 {
+  background-color: #f3e5f5 !important;
 }
+
+/* Form container helper */
+.form-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Dashboard sidebar */
+.dashboard-sidebar {
+  min-width: 220px;
+  background-color: #1e1b4b;
+  color: #fff;
+  min-height: 100vh;
+
+  .sidebar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: 0.75rem 1rem;
+    &:hover, &.active {
+      color: #fff;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 6px;
+    }
+  }
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+/* Status badges */
+.badge-aprovado   { background-color: #16a34a; }
+.badge-pendente   { background-color: #d97706; }
+.badge-reprovado  { background-color: #dc2626; }
+.badge-bloqueado  { background-color: #6b7280; }

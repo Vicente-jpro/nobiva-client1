@@ -1,15 +1,20 @@
 <div class="container-fluid">
+  <div class="form-check form-switch my-3">
+    <input class="form-check-input" type="checkbox" role="switch"
+           id="sidebarToggle" [(ngModel)]="isChecked">
+    <label class="form-check-label" for="sidebarToggle">
+      {{ isChecked ? 'Ocultar menu' : 'Mostrar menu' }}
+    </label>
+  </div>
 
- <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
-
-<div class="row">
-  @if(isChecked) {
-
-    <div class="col-12 col-lg-3">
-      <app-house-tree/>
-    </div>
-  }
+  <div class="row">
+    @if (isChecked) {
+      <div class="col-12 col-lg-3">
+        <app-house-tree />
+      </div>
+    }
     <div class="col-12 col-lg">
-    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

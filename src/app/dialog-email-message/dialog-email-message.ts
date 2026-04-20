@@ -1,19 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder} from '@angular/forms';
-
-
-import {
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { EmailContactTask } from '../models/email-contact-task';
 import { EmailContactTaskService } from '../service/email-contact-task';
 import { DisplayMessage } from '../models/display-message';
@@ -26,65 +13,43 @@ import { Success } from '../alerts/success/success';
 
 @Component({
   selector: 'app-dialog-email-message',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [FormsModule, ReactiveFormsModule, Success, Danger],
   templateUrl: './dialog-email-message.html',
   styleUrl: './dialog-email-message.scss',
-})
-export class DialogEmailMessage {
-  readonly dialog = inject(MatDialog);
-
-  @Input() houseData = new HouseResponse();
-
-  @Input() roomData = new RoomResponse();
-
-  protected message = new DisplayMessage();
-
-  openDialog() {
-    this.dialog.open(DialogElementsExampleDialog, { 
-      data: { 
-        house: this.houseData,
-        room: this.roomData,
-
-      } });
-  }
-}
-
-@Component({
-  selector: 'dialog-elements-example-dialog',
-  templateUrl: './dialog-elements-example-dialog.html',
-  imports: [
-    MatDialogTitle, 
-    MatDialogContent, 
-    MatDialogActions, 
-    MatDialogClose, 
-    MatButtonModule,
-    FormsModule, 
-    MatFormFieldModule, 
-    MatInputModule,
-    ReactiveFormsModule,
-    Success,
-    Danger
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogElementsExampleDialog {
+export class DialogEmailMessage {
+
+  @Input() houseData = new HouseResponse();
+  @Input() roomData = new RoomResponse();
 
   private formBuilder = inject(FormBuilder);
-  private data = inject<{ house: HouseResponse, room: RoomResponse }>(MAT_DIALOG_DATA);
   private emailContactTask = new EmailContactTask();
   private service = inject(EmailContactTaskService);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID);
+
   protected display = new DisplayMessage();
+  protected modalVisible = false;
+
   userService = inject(AuthService);
 
   contactForm = this.formBuilder.group({
     clientEmail: ['', [Validators.required, Validators.email]],
-    message: ['Olá, estou interessado no imóvel e gostaria de obter mais informações.', 
+    message: ['Olá, estou interessado no imóvel e gostaria de obter mais informações.',
       [Validators.required]]
   });
 
+  openModal(): void {
+    this.modalVisible = true;
+  }
+
+  closeModal(): void {
+    this.modalVisible = false;
+  }
+
   getEmailError(): string {
-    const email = this.contactForm.get('ownerEmail');
+    const email = this.contactForm.get('clientEmail');
     if (email?.hasError('required')) return 'O email é obrigatório';
     if (email?.hasError('email')) return 'Insira um email válido';
     return '';
@@ -97,22 +62,21 @@ export class DialogElementsExampleDialog {
   }
 
   onSubmit() {
+    if (this.contactForm.invalid) return;
+
     this.emailContactTask = this.contactForm.value as EmailContactTask;
+    this.emailContactTask.ownerEmail = this.houseData.email;
 
-    this.emailContactTask.ownerEmail = this.data.house.email;
-
-    if (this.data.house.idHouse) {
-        this.emailContactTask.houseId = this.data.house.idHouse;
-    }else if (this.data.room.idRoom) {
-       this.emailContactTask.roomId = this.data.room.idRoom; 
+    if (this.houseData.idHouse) {
+      this.emailContactTask.houseId = this.houseData.idHouse;
+    } else if (this.roomData.idRoom) {
+      this.emailContactTask.roomId = this.roomData.idRoom;
     }
 
     this.sendEmail(this.emailContactTask);
-
   }
 
   sendEmail(message: EmailContactTask): void {
-    console.log('Sending email with data:', message);
     this.service.send(message).subscribe({
       next: (response) => {
         this.display.success = response.message;
@@ -123,7 +87,6 @@ export class DialogElementsExampleDialog {
         this.display.errors = errorResponse.error.errors;
         this.display.success = '';
         this.changeDetectorRef.markForCheck();
-        console.error('Erro ao enviar email:', errorResponse.error.errors);
       }
     });
   }

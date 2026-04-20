@@ -47,5 +47,17 @@ export class HouseService {
   findAllByOwner(pageNumber: number): Observable<HouseResponse[]> {
     return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/user-owner?page=${pageNumber}`);
   }
+
+  findAll(pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/all?page=${pageNumber}`);
+  }
+
+  approve(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/approve`, {});
+  }
+
+  reject(idHouse: string): Observable<MessageInfo> {
+    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/reject`, {});
+  }
   
 }

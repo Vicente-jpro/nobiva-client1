@@ -1,7 +1,10 @@
-<section>
-    <div class="list">
-        @for(item of items; track item) {
-            <app-card [itemData]="item"></app-card> 
-        }
-    </div>
+<section class="container py-5">
+  <h3 class="text-center fw-bold mb-4">Destaques</h3>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    @for (item of items; track item.imageUrl) {
+      <div class="col">
+        <app-card [itemData]="item"></app-card>
+      </div>
+    }
+  </div>
 </section>

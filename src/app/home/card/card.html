@@ -1,15 +1,14 @@
-
-<mat-card class="example-card">
-  <img mat-card-image src="{{itemData.imageUrl}}" alt="{{itemData.imageUrl}}" class="img-card">
-  <mat-card-content>
-    <p>
-      {{itemData.description}}
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button matButton>LIKE</button>
-    <button matButton>SHARE</button>
-  </mat-card-actions>
-</mat-card>
-
-
+<div class="card h-100 shadow-sm border-0">
+  <img [src]="itemData.imageUrl" [alt]="itemData.description" class="card-img-house card-img-top">
+  <div class="card-body d-flex flex-column">
+    <p class="card-text text-muted flex-grow-1">{{ itemData.description }}</p>
+    <div class="d-flex gap-2 mt-2">
+      <button type="button" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-hand-thumbs-up me-1"></i>Gostei
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-share me-1"></i>Partilhar
+      </button>
+    </div>
+  </div>
+</div>

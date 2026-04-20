@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -9,9 +10,12 @@ export const routes: Routes = [
     {
         path: 'home',
         loadComponent: () => import('./home/home').then(m => m.Home),
-        //canActivate: [authGuard]
     },
-    
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard),
+        canActivate: [adminGuard]
+    },
     {
         path: 'user',
         children: [
@@ -19,7 +23,6 @@ export const routes: Routes = [
                 path: 'password-recover',
                 loadComponent: () => import('./user/password-recover/password-recover').then(m => m.PasswordRecover)
             },
-
             {
                 path: 'login',
                 loadComponent: () => import('./user/login/login').then(m => m.Login)
@@ -36,7 +39,6 @@ export const routes: Routes = [
                         loadComponent: () => import('./user/signup/edit/edit').then(m => m.Edit)
                     }
                 ]
-                
             },
             {
                 path: 'change-password',
@@ -46,7 +48,6 @@ export const routes: Routes = [
                 path: 'confirme-account',
                 loadComponent: () => import('./user/confirme-account/confirme-account').then(m => m.ConfirmeAccount)
             }
-
         ]
     },
 
@@ -57,7 +58,7 @@ export const routes: Routes = [
             {
                 path: 'casas',
                 children: [
-                   {
+                    {
                         path: '',
                         loadComponent: () => import('./house/house').then(m => m.House)
                     },
@@ -77,20 +78,8 @@ export const routes: Routes = [
                         path: ':id/fotos',
                         loadComponent: () => import('./house/photos/photos').then(m => m.Photos)
                     }
-                    /*{
-                        path: 'favoritas',
-                        loadComponent: () => import('./house/favorites/favorites').then(m => m.Favorites)
-                    },
-                    {
-                        path: 'minhas',
-                        loadComponent: () => import('./house/my-houses/my-houses').then(m => m.MyHouses)
-                    }*/
-                ]    
-
-
+                ]
             }
         ]
     },
-
-
 ];
