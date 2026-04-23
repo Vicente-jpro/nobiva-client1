@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from "@angular/router";
 import { HouseTree } from "../house/house-tree/house-tree";
+import { Filter } from "../house/filter/filter";
 
 
 @Component({
@@ -9,8 +10,9 @@ import { HouseTree } from "../house/house-tree/house-tree";
   imports: [
     FormsModule,
     RouterOutlet,
-    HouseTree
-  ],
+    HouseTree,
+    Filter
+],
   templateUrl: './menu-property.html',
   styleUrl: './menu-property.scss',
 })
@@ -20,4 +22,6 @@ export class MenuProperty {
   taggleChecked() {
     this.isChecked = !this.isChecked;
   }
+
+  applyFilter(){}
 }

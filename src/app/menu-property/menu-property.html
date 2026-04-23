@@ -11,6 +11,8 @@
     @if (isChecked) {
       <div class="col-12 col-lg-3">
         <app-house-tree />
+
+        <app-filter (applyFilterEvent)="applyFilter()"></app-filter>
       </div>
     }
     <div class="col-12 col-lg">
