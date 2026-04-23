@@ -58,41 +58,7 @@
     }
 
     <!-- Filter row -->
-    <div class="card border-0 shadow-sm mb-4">
-      <div class="card-body">
-        <div class="row g-3 align-items-end">
-          <div class="col-12 col-md-4">
-            <label class="form-label fw-semibold small">Pesquisar</label>
-            <input type="text" class="form-control form-control-sm"
-                   placeholder="Título, localidade..."
-                   [(ngModel)]="filterSearch">
-          </div>
-          <div class="col-6 col-md-3">
-            <label class="form-label fw-semibold small">Estado</label>
-            <select class="form-select form-select-sm" [(ngModel)]="filterStatus">
-              <option value="">Todos</option>
-              <option [value]="StatusPost.APROVADO">Aprovado</option>
-              <option [value]="StatusPost.PENDENTE">Pendente</option>
-              <option [value]="StatusPost.REPROVADO">Reprovado</option>
-              <option [value]="StatusPost.BLOQUEADO">Bloqueado</option>
-            </select>
-          </div>
-          <div class="col-6 col-md-3">
-            <label class="form-label fw-semibold small">Tipo</label>
-            <select class="form-select form-select-sm" [(ngModel)]="filterType">
-              <option value="">Todos</option>
-              <option [value]="TypeNegotiation.VENDA">Venda</option>
-              <option [value]="TypeNegotiation.ARRENDAMENTO">Arrendamento</option>
-            </select>
-          </div>
-          <div class="col-12 col-md-2">
-            <button type="button" class="btn btn-nobiva btn-sm w-100" (click)="applyFilter()">
-              <i class="bi bi-funnel me-1"></i>Filtrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-filter (applyFilterEvent)="applyFilter()"></app-filter>
 
     <!-- Loading -->
     @if (loading) {

@@ -4,11 +4,13 @@ import { HousePartial } from './house-partial/house-partial';
 import { HouseResponse } from '../models/house/house-response';
 import { RoomResponse } from '../models/room/room-response';
 import { TypeNegotiation } from '../models/negotiation-type';
+import { AuthService } from '../service/auth.service';
+import { Filter } from "./filter/filter";
 
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial],
+  imports: [HousePartial, Filter],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +18,7 @@ import { TypeNegotiation } from '../models/negotiation-type';
 export class House implements OnInit {
 
   protected houses = signal<HouseResponse[]>([]);
+  user = inject(AuthService); 
 
   private service = inject(HouseService);
   chengeDetection = inject(ChangeDetectorRef);
@@ -36,6 +39,10 @@ export class House implements OnInit {
     this.findAllByOwner(this.myPage);
   }
 
+  applyFilter(){
+
+  }
+  
   setTab(tab: string): void {
     this.activeTab = tab;
   }
@@ -74,16 +81,19 @@ export class House implements OnInit {
   }
 
   findAllByOwner(pageNumber: number) {
-    this.service.findAllByOwner(pageNumber).subscribe({
-      next: (response) => {
-        this.myhouses.set(response);
-        this.chengeDetection.markForCheck();
-        console.log('Houses retrieved successfully:', response);
-      },
-      error: (err) => {
-        console.error('Error retrieving houses:', err);
-      }
-    });
+    if (this.user.isLoggedIn()) {
+      this.service.findAllByOwner(pageNumber).subscribe({
+        next: (response) => {
+          this.myhouses.set(response);
+          this.chengeDetection.markForCheck();
+          console.log('Houses retrieved successfully:', response);
+        },
+        error: (err) => {
+          console.error('Error retrieving houses:', err);
+        }
+      });
+   }
+
   }
 
 }

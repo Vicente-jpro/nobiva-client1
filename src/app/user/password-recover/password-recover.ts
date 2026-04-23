@@ -1,9 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatAnchor } from "@angular/material/button";
 import { Router, RouterLink } from "@angular/router";
 import { UserEmail } from '../../models/user/UserEmail';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,14 +9,8 @@ import { UserService } from '../../service/user-service';
 @Component({
   selector: 'app-password-recover',
   imports: [
-
     ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAnchor,
     RouterLink
-
   ],
   templateUrl: './password-recover.html',
   styleUrl: './password-recover.scss',

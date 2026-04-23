@@ -7,10 +7,11 @@ import { HouseResponse } from '../models/house/house-response';
 import { StatusPost } from '../models/property-status';
 import { TypeNegotiation } from '../models/negotiation-type';
 import { DecimalPipe } from '@angular/common';
+import { Filter } from '../house/filter/filter';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, DecimalPipe],
+  imports: [FormsModule, RouterLink, DecimalPipe, Filter],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,10 +29,6 @@ export class Dashboard implements OnInit {
   protected actionMessage = '';
   protected actionError = '';
   protected page = 0;
-
-  protected filterStatus = '';
-  protected filterType = '';
-  protected filterSearch = '';
 
   protected readonly StatusPost = StatusPost;
   protected readonly TypeNegotiation = TypeNegotiation;
@@ -57,28 +54,8 @@ export class Dashboard implements OnInit {
     });
   }
 
-  applyFilter(): void {
-    let result = this.houses();
+  applyFilter(){
 
-    if (this.filterStatus) {
-      result = result.filter(h => h.status_post === this.filterStatus);
-    }
-
-    if (this.filterType) {
-      result = result.filter(h => h.type_negotiation === this.filterType);
-    }
-
-    if (this.filterSearch.trim()) {
-      const search = this.filterSearch.toLowerCase();
-      result = result.filter(h =>
-        h.title?.toLowerCase().includes(search) ||
-        h.locality?.toLowerCase().includes(search) ||
-        h.province?.toLowerCase().includes(search)
-      );
-    }
-
-    this.filteredHouses.set(result);
-    this.cdr.markForCheck();
   }
 
   approve(idHouse: string): void {
@@ -142,10 +119,10 @@ export class Dashboard implements OnInit {
 
   getStatusBadge(status: string): string {
     switch (status) {
-      case StatusPost.APROVADO: return 'badge-aprovado';
-      case StatusPost.PENDENTE: return 'badge-pendente';
-      case StatusPost.REPROVADO: return 'badge-reprovado';
-      case StatusPost.BLOQUEADO: return 'badge-bloqueado';
+      case StatusPost.APROVADO: return StatusPost.APROVADO;
+      case StatusPost.PENDENTE: return StatusPost.PENDENTE;
+      case StatusPost.REPROVADO: return StatusPost.REPROVADO;
+      case StatusPost.BLOQUEADO: return StatusPost.BLOQUEADO;
       default: return 'bg-secondary';
     }
   }
