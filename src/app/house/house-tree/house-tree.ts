@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth.service';
 
 interface FoodNode {
   name: string;
@@ -17,6 +18,7 @@ export class HouseTree {
   private router = inject(Router);
   dataSource = EXAMPLE_DATA;
   expandedNodes = new Set<string>();
+  user = inject(AuthService);
 
   toggle(name: string): void {
     if (this.expandedNodes.has(name)) {

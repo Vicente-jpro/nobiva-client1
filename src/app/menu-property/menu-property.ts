@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from "@angular/router";
 import { HouseTree } from "../house/house-tree/house-tree";
 import { Filter } from "../house/filter/filter";
+import { AuthService } from '../service/auth.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { Filter } from "../house/filter/filter";
 })
 export class MenuProperty {
   isChecked = true;
+
 
   taggleChecked() {
     this.isChecked = !this.isChecked;
