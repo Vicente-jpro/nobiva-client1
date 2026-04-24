@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Dashboard } from '../../dashboard/dashboard';
 import { StatusPost } from '../../models/property-status';
 import { TypeNegotiation } from '../../models/negotiation-type';
 import { Tipology } from '../../models/property-tipology';
@@ -37,7 +36,7 @@ export class Filter implements OnInit {
   @Output() applyFilterEvent = new EventEmitter<void>();
 
   protected filterStatus = '';
-  protected filterType = '';
+  protected filterTypeNegociation = '';
   protected filterSearch = '';
   protected filterMinPrice: number | null = null;
   protected filterMaxPrice: number | null = null;
@@ -68,16 +67,24 @@ export class Filter implements OnInit {
     });
   }
 
-
+  
     applyFilter(): void {
+
+
+    this.houseFilter.minPrice = this.filterMinPrice ?? 100;
+    this.houseFilter.maxPrice = this.filterMaxPrice ?? 1000000;
+    this.houseFilter.locality = this.filterSearch;
+    this.houseFilter.title = this.filterSearch;
+
+
     let result = this.houses();
 
     if (this.filterStatus) {
       result = result.filter(h => h.status_post === this.filterStatus);
     }
 
-    if (this.filterType) {
-      result = result.filter(h => h.type_negotiation === this.filterType);
+    if (this.filterTypeNegociation) {
+      result = result.filter(h => h.type_negotiation === this.filterTypeNegociation);
     }
 
     if (this.filterSearch.trim()) {

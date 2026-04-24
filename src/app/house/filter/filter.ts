@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Dashboard } from '../../dashboard/dashboard';
 import { StatusPost } from '../../models/property-status';
 import { TypeNegotiation } from '../../models/negotiation-type';
 import { Tipology } from '../../models/property-tipology';
 import { HouseService } from '../../service/house-service';
 import { AuthService } from '../../service/auth.service';
-import { HouseResponse } from '../../models/house/house-response';
 import { HouseFilter } from '../../models/house/house-filter';
 
 @Component({
@@ -16,17 +14,11 @@ import { HouseFilter } from '../../models/house/house-filter';
 })
 export class Filter implements OnInit {
 
-  
   private houseService = inject(HouseService);
   protected authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
 
-  protected houses = signal<HouseResponse[]>([]);
-  protected filteredHouses = signal<HouseResponse[]>([]);
-
   protected loading = false;
-  protected actionMessage = '';
-  protected actionError = '';
   protected page = 0;
 
   statusPost = StatusPost;
@@ -36,73 +28,39 @@ export class Filter implements OnInit {
 
   @Output() applyFilterEvent = new EventEmitter<void>();
 
+  
   protected filterStatus = '';
-  protected filterType = '';
+  protected filterTypeNegociation = '';
   protected filterSearch = '';
   protected filterMinPrice: number | null = null;
   protected filterMaxPrice: number | null = null;
   protected filterTipologies: string[] = [];
 
-  protected houseFilter = new HouseFilter();
+  protected houseFilter = HouseFilter.builder();
   
 
   ngOnInit(): void {
-    this.houseFilter.negotiation = this.negotiation.ARRENDAMENTO;
+    this.houseFilter.setNegotiation(this.negotiation.ARRENDAMENTO);
+    
     this.loadHouses();
   }
 
   loadHouses(): void {
     this.loading = true;
-    this.houseService.findByFilter(this.houseFilter ,this.page).subscribe({
-      next: (response) => {
-        this.houses.set(response);
-        this.applyFilter();
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (err) => {
-        console.error('Error loading houses:', err);
-        this.loading = false;
-        this.cdr.markForCheck();
-      }
-    });
   }
 
 
-    applyFilter(): void {
-    let result = this.houses();
 
-    if (this.filterStatus) {
-      result = result.filter(h => h.status_post === this.filterStatus);
-    }
+  applyFilter(): void {
 
-    if (this.filterType) {
-      result = result.filter(h => h.type_negotiation === this.filterType);
-    }
+    this.houseFilter = HouseFilter.builder()
+      .setTitle(this.filterSearch)
+      .setNegotiation(this.filterTypeNegociation)
+      .setStatusPost(this.filterStatus)
+      .setLocality(this.filterSearch)
+      .setMinPrice(this.filterMinPrice ?? 100)
+      .setMaxPrice(this.filterMaxPrice ?? 900000000);
 
-    if (this.filterSearch.trim()) {
-      const search = this.filterSearch.toLowerCase();
-      result = result.filter(h =>
-        h.title?.toLowerCase().includes(search) ||
-        h.locality?.toLowerCase().includes(search) ||
-        h.province?.toLowerCase().includes(search)
-      );
-    }
-
-    if (this.filterMinPrice !== null && this.filterMinPrice !== undefined) {
-      result = result.filter(h => h.price >= this.filterMinPrice!);
-    }
-
-    if (this.filterMaxPrice !== null && this.filterMaxPrice !== undefined) {
-      result = result.filter(h => h.price <= this.filterMaxPrice!);
-    }
-
-    if (this.filterTipologies.length > 0) {
-      result = result.filter(h => this.filterTipologies.includes(h.tipology));
-    }
-
-
-    this.filteredHouses.set(result);
   }
 
   toggleTipology(value: string): void {

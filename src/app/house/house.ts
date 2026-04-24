@@ -40,7 +40,6 @@ export class House implements OnInit {
     this.houseFilter.negotiation = this.negotiationType;
     
     this.findByFilter(this.houseFilter, this.page);
-    this.findAllByOwner(this.myPage);
   }
 
   applyFilter(){
@@ -79,6 +78,7 @@ export class House implements OnInit {
   }
 
   changeTypeNegotiation(type: TypeNegotiation) {
+    this.negotiationType = type;
     this.houseFilter.negotiation = type;
     this.page = 0;
     this.findByFilter(this.houseFilter, this.page);
