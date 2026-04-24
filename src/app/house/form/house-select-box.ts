@@ -2,6 +2,7 @@ import { TypeNegotiation } from "../../models/negotiation-type";
 import { StatusCondition } from "../../models/property-condition";
 import { StatusPost } from "../../models/property-status";
 import { Tipology } from "../../models/property-tipology";
+import { ProvinceSelectBox } from "./province-select-box";
 
 interface baseValueNumberOption {
   value: number;
@@ -12,8 +13,6 @@ interface baseValueStringOption {
   value: string;
   viewValue: string;
 }
-
-interface ProvinceOption extends baseValueNumberOption { }
 
 interface CountryOption extends baseValueNumberOption { }
 
@@ -33,9 +32,8 @@ interface TipologyOption extends baseValueStringOption { }
 
 interface StatusConditionOption extends baseValueStringOption { }
 
-export abstract class HouseSelectBox {
+export abstract class HouseSelectBox extends ProvinceSelectBox {
     
-    provinceOptions: ProvinceOption[] = [];
     countryOptions: CountryOption[] = [];
     localityOptions: LocalityOption[] = [];
 

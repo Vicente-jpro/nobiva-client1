@@ -8,7 +8,7 @@ import { Locality } from '../models/address/locality';
 @Injectable({
   providedIn: 'root',
 })
-export class Address {
+export class AddressService {
   private httpClient = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api'; // URL da API para usuários
 
@@ -23,6 +23,10 @@ export class Address {
 
   findLocalitiesByProvinceId(provinceId: number): Observable<Locality[]> {
     return this.httpClient.get<Locality[]>(`${this.apiUrl}/provincias/${provinceId}/localidades`);
+  }
+
+  findProvinces(): Observable<Province[]> {
+    return this.httpClient.get<Province[]>(`${this.apiUrl}/provincias`);
   }
 
 }

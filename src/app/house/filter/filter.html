@@ -5,13 +5,12 @@
           [(ngModel)]="filterSearch">
 </div>
 
-  <label class="form-label fw-semibold small">Tipo</label>
+  <label class="form-label fw-semibold small">Tipo de Negociação</label>
   <select class="form-select form-select-sm" [(ngModel)]="filterTypeNegociation">
     <option value="">Todos</option>
     <option [value]="negotiation.VENDA">Venda</option>
     <option [value]="negotiation.ARRENDAMENTO">Arrendamento</option>
   </select>
-
 
   <label class="form-label fw-semibold small">Tipologia</label>
   <div class="d-flex flex-wrap gap-2">

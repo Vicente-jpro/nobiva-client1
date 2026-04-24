@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, Input, Output, EventEmitter
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HouseFormBuilder } from './house-form-builder';
 import { AuthService } from '../../service/auth.service';
-import { Address } from '../../service/address';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { UploadFile } from '../../upload-file/upload-file';
 import { HouseAndImage } from '../../models/house/house-and-image';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
 import { Tipology } from '../../models/property-tipology';
+import { AddressService } from '../../service/address-service';
 
 @Component({
   selector: 'app-form',
@@ -20,7 +20,7 @@ import { Tipology } from '../../models/property-tipology';
 export class Form extends HouseFormBuilder implements OnInit {
 
   protected authService = inject(AuthService);
-  protected addressService = inject(Address);
+  protected addressService = inject(AddressService);
   private houseModel = new HouseCreateRequest();
   protected selectedFiles!: FileList;
   protected imagesUploaded!: FormData;

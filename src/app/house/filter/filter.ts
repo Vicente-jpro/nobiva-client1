@@ -3,18 +3,18 @@ import { FormsModule } from '@angular/forms';
 import { StatusPost } from '../../models/property-status';
 import { TypeNegotiation } from '../../models/negotiation-type';
 import { Tipology } from '../../models/property-tipology';
-import { HouseService } from '../../service/house-service';
 import { AuthService } from '../../service/auth.service';
 import { HouseFilter } from '../../models/house/house-filter';
+import { AddressService } from '../../service/address-service';
+import { ProvinceSelectBox } from '../form/province-select-box';
 
 @Component({
   selector: 'app-filter',
   imports: [FormsModule],
   templateUrl: './filter.html',
 })
-export class Filter implements OnInit {
+export class Filter extends ProvinceSelectBox implements OnInit {
 
-  private houseService = inject(HouseService);
   protected authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
 
@@ -28,7 +28,7 @@ export class Filter implements OnInit {
 
   @Output() applyFilterEvent = new EventEmitter<HouseFilter>();
 
-  
+  private addressService = inject(AddressService);
   protected filterStatus = '';
   protected filterTypeNegociation = '';
   protected filterSearch = '';
@@ -74,6 +74,20 @@ export class Filter implements OnInit {
       this.filterTipologies = this.filterTipologies.filter(t => t !== value);
     }
     this.cdr.markForCheck();
+  }
+
+  findProvinces(provinceId: number) {
+ 
+    this.addressService.findProvinces()
+      .subscribe({
+        next: provinces => {
+           
+            console.log('Localities retrieved successfully:', provinces);
+        },
+        error: (err) => {
+          console.error('Error fetching localities:', err);
+        }
+      });
   }
 
 

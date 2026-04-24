@@ -7,6 +7,7 @@ export class HouseFilter {
   maxPrice: number = 0;
   minRoom: number = 0;
   maxRoom: number = 0;
+  idProvince: number = 0;
 
   static builder(): HouseFilterBuilder {
     return new HouseFilterBuilder();
@@ -53,6 +54,11 @@ export class HouseFilterBuilder {
 
   setMaxRoom(maxRoom: number): HouseFilterBuilder {
     this.filter.maxRoom = maxRoom;
+    return this;
+  }
+
+  setIdProvince(idProvince: number): HouseFilterBuilder {
+    this.filter.idProvince = idProvince;
     return this;
   }
 
