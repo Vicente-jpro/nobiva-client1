@@ -5,8 +5,6 @@ export class HouseFilter {
   minPrice: number = 0;
   negotiation: string = '';
   maxPrice: number = 0;
-  minRoom: number = 0;
-  maxRoom: number = 0;
   idProvince: number = 0;
   tipologies: string[] = [];
 
@@ -45,16 +43,6 @@ export class HouseFilterBuilder {
 
   setMaxPrice(maxPrice: number): HouseFilterBuilder {
     this.filter.maxPrice = maxPrice;
-    return this;
-  }
-
-  setMinRoom(minRoom: number): HouseFilterBuilder {
-    this.filter.minRoom = minRoom;
-    return this;
-  }
-
-  setMaxRoom(maxRoom: number): HouseFilterBuilder {
-    this.filter.maxRoom = maxRoom;
     return this;
   }
 
