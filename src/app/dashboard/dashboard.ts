@@ -8,6 +8,7 @@ import { StatusPost } from '../models/property-status';
 import { TypeNegotiation } from '../models/negotiation-type';
 import { DecimalPipe } from '@angular/common';
 import { Filter } from '../house/filter/filter';
+import { HouseFilter } from '../models/house/house-filter';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class Dashboard implements OnInit {
   protected actionMessage = '';
   protected actionError = '';
   protected page = 0;
+  protected houseFilter = new HouseFilter();
 
   protected readonly StatusPost = StatusPost;
   protected readonly TypeNegotiation = TypeNegotiation;
@@ -39,7 +41,8 @@ export class Dashboard implements OnInit {
 
   loadHouses(): void {
     this.loading = true;
-    this.houseService.findAll(this.page).subscribe({
+    this.houseFilter.statusPost = StatusPost.PENDENTE;
+    this.houseService.findByFilter(this.houseFilter ,this.page).subscribe({
       next: (response) => {
         this.houses.set(response);
         this.applyFilter();
@@ -120,10 +123,9 @@ export class Dashboard implements OnInit {
   getStatusBadge(status: string): string {
     switch (status) {
       case StatusPost.APROVADO: return StatusPost.APROVADO;
-      case StatusPost.PENDENTE: return StatusPost.PENDENTE;
       case StatusPost.REPROVADO: return StatusPost.REPROVADO;
       case StatusPost.BLOQUEADO: return StatusPost.BLOQUEADO;
-      default: return 'bg-secondary';
+      default: return StatusPost.PENDENTE;
     }
   }
 }

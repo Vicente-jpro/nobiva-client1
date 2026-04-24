@@ -6,6 +6,7 @@ import { RoomResponse } from '../models/room/room-response';
 import { TypeNegotiation } from '../models/negotiation-type';
 import { AuthService } from '../service/auth.service';
 import { Filter } from "./filter/filter";
+import { HouseFilter } from '../models/house/house-filter';
 
 
 @Component({
@@ -29,13 +30,16 @@ export class House implements OnInit {
 
   myhouses = signal<HouseResponse[]>([]);
   myPage = 0;
+  houseFilter: HouseFilter = new HouseFilter();
 
   activeTab = 'casas';
 
   constructor() { }
 
   ngOnInit(): void {
-    this.findByTypeNegotiation(this.negotiationType, this.page);
+    this.houseFilter.negotiation = this.negotiationType;
+    
+    this.findByFilter(this.houseFilter, this.page);
     this.findAllByOwner(this.myPage);
   }
 
@@ -51,8 +55,8 @@ export class House implements OnInit {
     console.log('Show details event received:', event);
   }
 
-  findByTypeNegotiation(typeNegotiation: TypeNegotiation, pageNumber: number) {
-    this.service.findByTypeNegotiation(typeNegotiation, pageNumber).subscribe({
+  findByFilter(houseFilter: HouseFilter, pageNumber: number) {
+    this.service.findByFilter(houseFilter, pageNumber).subscribe({
       next: (response) => {
         this.houses.set(response);
         this.chengeDetection.markForCheck();
@@ -66,7 +70,7 @@ export class House implements OnInit {
 
   goToNextPage() {
     this.page++;
-    this.findByTypeNegotiation(this.negotiationType, this.page);
+    this.findByFilter(this.houseFilter, this.page);
   }
 
   goToNextMyPage() {
@@ -75,9 +79,9 @@ export class House implements OnInit {
   }
 
   changeTypeNegotiation(type: TypeNegotiation) {
-    this.negotiationType = type;
+    this.houseFilter.negotiation = type;
     this.page = 0;
-    this.findByTypeNegotiation(this.negotiationType, this.page);
+    this.findByFilter(this.houseFilter, this.page);
   }
 
   findAllByOwner(pageNumber: number) {
@@ -92,7 +96,7 @@ export class House implements OnInit {
           console.error('Error retrieving houses:', err);
         }
       });
-   }
+    }
 
   }
 

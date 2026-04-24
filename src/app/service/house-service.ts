@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
 import { MessageInfo } from '../user/messageInfo';
-import { TypeNegotiation } from '../models/negotiation-type';
+import { HouseFilter } from '../models/house/house-filter';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +19,6 @@ export class HouseService {
 
   save(house: HouseCreateRequest): Observable<HouseResponseDetails> {
     return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses`, house);
-  }
-
-  findByTypeNegotiation(
-    typeNegotiation: TypeNegotiation, 
-    pageNumber: number): Observable<HouseResponse[]> {
-    return this.httpClient
-    .get<HouseResponse[]>(`${this.apiUrl}/houses?type-negotiation=${typeNegotiation}&page=${pageNumber}`);
   }
 
   delete(idHouse: string): Observable<MessageInfo> {
@@ -48,8 +41,8 @@ export class HouseService {
     return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/user-owner?page=${pageNumber}`);
   }
 
-  findAll(pageNumber: number): Observable<HouseResponse[]> {
-    return this.httpClient.get<HouseResponse[]>(`${this.apiUrl}/houses/all?page=${pageNumber}`);
+  findByFilter(houseFilter: HouseFilter, pageNumber: number): Observable<HouseResponse[]> {
+    return this.httpClient.post<HouseResponse[]>(`${this.apiUrl}/houses/filter?page=${pageNumber}`, houseFilter);
   }
 
   approve(idHouse: string): Observable<MessageInfo> {

@@ -7,6 +7,7 @@ import { Tipology } from '../../models/property-tipology';
 import { HouseService } from '../../service/house-service';
 import { AuthService } from '../../service/auth.service';
 import { HouseResponse } from '../../models/house/house-response';
+import { HouseFilter } from '../../models/house/house-filter';
 
 @Component({
   selector: 'app-filter',
@@ -42,13 +43,17 @@ export class Filter implements OnInit {
   protected filterMaxPrice: number | null = null;
   protected filterTipologies: string[] = [];
 
-    ngOnInit(): void {
+  protected houseFilter = new HouseFilter();
+  
+
+  ngOnInit(): void {
+    this.houseFilter.negotiation = this.negotiation.ARRENDAMENTO;
     this.loadHouses();
   }
 
   loadHouses(): void {
     this.loading = true;
-    this.houseService.findAll(this.page).subscribe({
+    this.houseService.findByFilter(this.houseFilter ,this.page).subscribe({
       next: (response) => {
         this.houses.set(response);
         this.applyFilter();
@@ -95,6 +100,7 @@ export class Filter implements OnInit {
     if (this.filterTipologies.length > 0) {
       result = result.filter(h => this.filterTipologies.includes(h.tipology));
     }
+
 
     this.filteredHouses.set(result);
   }
