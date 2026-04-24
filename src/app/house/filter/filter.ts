@@ -26,7 +26,7 @@ export class Filter implements OnInit {
   tipology = Tipology;
   tipologyKeys = Object.values(Tipology);
 
-  @Output() applyFilterEvent = new EventEmitter<void>();
+  @Output() applyFilterEvent = new EventEmitter<HouseFilter>();
 
   
   protected filterStatus = '';
@@ -53,14 +53,17 @@ export class Filter implements OnInit {
 
   applyFilter(): void {
 
-    this.houseFilter = HouseFilter.builder()
+    const filter = HouseFilter.builder()
       .setTitle(this.filterSearch)
       .setNegotiation(this.filterTypeNegociation)
       .setStatusPost(this.filterStatus)
       .setLocality(this.filterSearch)
       .setMinPrice(this.filterMinPrice ?? 100)
-      .setMaxPrice(this.filterMaxPrice ?? 900000000);
+      .setMaxPrice(this.filterMaxPrice ?? 900000000)
+      .build();
 
+    this.houseFilter = HouseFilter.builder();
+    this.applyFilterEvent.emit(filter);
   }
 
   toggleTipology(value: string): void {

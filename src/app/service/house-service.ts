@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { HouseCreateRequest } from '../models/house/house-create-request';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
 import { MessageInfo } from '../user/messageInfo';
@@ -13,6 +13,12 @@ import { HouseFilter } from '../models/house/house-filter';
 export class HouseService {
   
   private httpClient = inject(HttpClient);
+
+  filterChanged$ = new Subject<HouseFilter>();
+
+  emitFilter(filter: HouseFilter): void {
+    this.filterChanged$.next(filter);
+  }
 
   private apiUrl = 'http://localhost:8080/api'; // URL da API para usuários
   

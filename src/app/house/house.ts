@@ -1,22 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HouseService } from '../service/house-service';
 import { HousePartial } from './house-partial/house-partial';
 import { HouseResponse } from '../models/house/house-response';
 import { RoomResponse } from '../models/room/room-response';
 import { TypeNegotiation } from '../models/negotiation-type';
 import { AuthService } from '../service/auth.service';
-import { Filter } from "./filter/filter";
 import { HouseFilter } from '../models/house/house-filter';
+import { Subscription } from 'rxjs';
 
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial, Filter],
+  imports: [HousePartial],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class House implements OnInit {
+export class House implements OnInit, OnDestroy {
 
   protected houses = signal<HouseResponse[]>([]);
   user = inject(AuthService); 
@@ -34,16 +34,27 @@ export class House implements OnInit {
 
   activeTab = 'casas';
 
+  private filterSub?: Subscription;
+
   constructor() { }
 
   ngOnInit(): void {
     this.houseFilter.negotiation = this.negotiationType;
-    
     this.findByFilter(this.houseFilter, this.page);
+
+    this.filterSub = this.service.filterChanged$.subscribe(filter => {
+      this.applyFilter(filter);
+    });
   }
 
-  applyFilter(){
+  ngOnDestroy(): void {
+    this.filterSub?.unsubscribe();
+  }
 
+  applyFilter(filter: HouseFilter): void {
+    this.houseFilter = filter;
+    this.page = 0;
+    this.findByFilter(this.houseFilter, this.page);
   }
   
   setTab(tab: string): void {
