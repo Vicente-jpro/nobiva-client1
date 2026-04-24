@@ -35,13 +35,19 @@ export class Filter extends ProvinceSelectBox implements OnInit {
   protected filterMinPrice: number | null = null;
   protected filterMaxPrice: number | null = null;
   protected filterTipologies: string[] = [];
+  protected filterIdProvince: number = 0;
 
   protected houseFilter = HouseFilter.builder();
   
 
   ngOnInit(): void {
     this.houseFilter.setNegotiation(this.negotiation.ARRENDAMENTO);
-    
+    this.addressService.findProvinces().subscribe({
+      next: provinces => {
+        this.provinceOptions = provinces.map(p => ({ value: p.id, viewValue: p.name }));
+      },
+      error: (err) => console.error('Error fetching provinces:', err)
+    });
     this.loadHouses();
   }
 
@@ -60,8 +66,11 @@ export class Filter extends ProvinceSelectBox implements OnInit {
       .setLocality(this.filterSearch)
       .setMinPrice(this.filterMinPrice ?? 100)
       .setMaxPrice(this.filterMaxPrice ?? 900000000)
+      .setIdProvince(this.filterIdProvince)
+      .setTipologies(this.filterTipologies)
       .build();
 
+    console.log('Applying filter:', filter);
     this.houseFilter = HouseFilter.builder();
     this.applyFilterEvent.emit(filter);
   }
@@ -74,20 +83,6 @@ export class Filter extends ProvinceSelectBox implements OnInit {
       this.filterTipologies = this.filterTipologies.filter(t => t !== value);
     }
     this.cdr.markForCheck();
-  }
-
-  findProvinces(provinceId: number) {
- 
-    this.addressService.findProvinces()
-      .subscribe({
-        next: provinces => {
-           
-            console.log('Localities retrieved successfully:', provinces);
-        },
-        error: (err) => {
-          console.error('Error fetching localities:', err);
-        }
-      });
   }
 
 

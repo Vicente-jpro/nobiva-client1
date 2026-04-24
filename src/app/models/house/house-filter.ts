@@ -8,6 +8,7 @@ export class HouseFilter {
   minRoom: number = 0;
   maxRoom: number = 0;
   idProvince: number = 0;
+  tipologies: string[] = [];
 
   static builder(): HouseFilterBuilder {
     return new HouseFilterBuilder();
@@ -59,6 +60,11 @@ export class HouseFilterBuilder {
 
   setIdProvince(idProvince: number): HouseFilterBuilder {
     this.filter.idProvince = idProvince;
+    return this;
+  }
+
+  setTipologies(tipologies: string[]): HouseFilterBuilder {
+    this.filter.tipologies = tipologies;
     return this;
   }
 
