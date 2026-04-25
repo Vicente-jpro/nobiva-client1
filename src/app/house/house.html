@@ -28,20 +28,6 @@
   <!-- Casas tab -->
   @if (activeTab === 'casas') {
 
-    <div class="d-flex flex-wrap gap-2 mb-3">
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-outline-primary"
-                [class.active]="negotiationType === negotiation.VENDA"
-                (click)="changeTypeNegotiation(negotiation.VENDA)">
-          Comprar
-        </button>
-        <button type="button" class="btn btn-outline-primary"
-                [class.active]="negotiationType === negotiation.ARRENDAMENTO"
-                (click)="changeTypeNegotiation(negotiation.ARRENDAMENTO)">
-          Alugar
-        </button>
-      </div>
-    </div>
 
     <div class="container-fluid px-0">
       @for (house of houses(); track house.idHouse) {

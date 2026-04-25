@@ -64,18 +64,17 @@ export class Filter extends ProvinceSelectBox implements OnInit {
       .setNegotiation(this.filterTypeNegociation)
       .setStatusPost(this.filterStatus)
       .setLocality(this.filterSearch)
-      .setMinPrice(this.filterMinPrice ?? 100)
-      .setMaxPrice(this.filterMaxPrice ?? 900000000)
+      .setIdProvince(this.filterIdProvince)
+      .setMinPrice(this.filterMinPrice ?? 0)
+      .setMaxPrice(this.filterMaxPrice ?? 0)
       .setTipologies(this.filterTipologies)
       
-      if (this.filterIdProvince) {
-        filter.setIdProvince(this.filterIdProvince);
-      }
+      .build();
 
 
     console.log('Applying filter:', filter);
     this.houseFilter = HouseFilter.builder();
-    this.applyFilterEvent.emit(filter.build());
+    this.applyFilterEvent.emit(filter);
   }
 
   toggleTipology(value: string): void {

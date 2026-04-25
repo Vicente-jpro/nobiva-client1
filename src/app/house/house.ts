@@ -39,7 +39,6 @@ export class House implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
-    this.houseFilter.negotiation = this.negotiationType;
     this.findByFilter(this.houseFilter, this.page);
 
     this.filterSub = this.service.filterChanged$.subscribe(filter => {
@@ -52,6 +51,7 @@ export class House implements OnInit, OnDestroy {
   }
 
   applyFilter(filter: HouseFilter): void {
+    this.houses.set([]);
     this.houseFilter = filter;
     this.page = 0;
     this.findByFilter(this.houseFilter, this.page);
@@ -68,8 +68,9 @@ export class House implements OnInit, OnDestroy {
   findByFilter(houseFilter: HouseFilter, pageNumber: number) {
     this.service.findByFilter(houseFilter, pageNumber).subscribe({
       next: (response) => {
-        this.houses.set(response);
+        this.houses.update(current => [...current, ...response]);
         this.chengeDetection.markForCheck();
+        console.log('House filter: ', houseFilter);
         console.log('Houses retrieved successfully:', response);
       },
       error: (err) => {
@@ -86,13 +87,6 @@ export class House implements OnInit, OnDestroy {
   goToNextMyPage() {
     this.myPage++;
     this.findAllByOwner(this.myPage);
-  }
-
-  changeTypeNegotiation(type: TypeNegotiation) {
-    this.negotiationType = type;
-    this.houseFilter.negotiation = type;
-    this.page = 0;
-    this.findByFilter(this.houseFilter, this.page);
   }
 
   findAllByOwner(pageNumber: number) {
