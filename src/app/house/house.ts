@@ -39,6 +39,7 @@ export class House implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
+    this.houseFilter.negotiation = this.negotiationType;
     this.findByFilter(this.houseFilter, this.page);
 
     this.filterSub = this.service.filterChanged$.subscribe(filter => {
