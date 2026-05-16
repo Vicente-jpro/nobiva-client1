@@ -1,7 +1,13 @@
 <div class="d-flex justify-content-end gap-2">
-  <button type="button" class="btn btn-light"><i class="bi bi-buildings me-1"></i>Casas</button>
-  <button type="button" class="btn btn-light"><i class="bi bi-person-lines-fill me-1"></i>Minhas publicações</button>
-  <button type="button" class="btn btn-light"><i class="bi bi-heart me-1"></i>Favoritas</button>
+  <button type="button" class="btn btn-light">
+    <i class="bi bi-buildings me-1"></i>Casas
+  </button>
+  <button type="button" class="btn btn-light" (click)="getHouseOwner(ACTION.OWNER_HOUSE)">
+    <i class="bi bi-person-lines-fill me-1"></i>Minhas publicações
+  </button>
+  <button type="button" class="btn btn-light">
+    <i class="bi bi-heart me-1"></i>Favoritas
+  </button>
 </div>
 
 <div class="container-fluid py-3">

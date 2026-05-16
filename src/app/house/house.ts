@@ -12,13 +12,20 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial, HouseOwner],
+  imports: [HousePartial],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class House implements OnInit, OnDestroy {
-  
+  readonly ACTION = {
+    HOUSES: 'HOUSES',
+    OWNER_HOUSE: 'OWNER_HOUSE',
+    FAVORITES_HOUSE: 'FAVORITES_HOUSE'
+  };
+
+  private currentAction = this.ACTION.HOUSES;
+
   private changeDetection = inject(ChangeDetectorRef);
   protected houses = signal<HouseResponse[]>([]);
   user = inject(AuthService); 
@@ -61,13 +68,24 @@ export class House implements OnInit, OnDestroy {
 
   goToNextPage() {
     this.page++;
-    this.findByFilter(this.houseFilter, this.page);
-  }
-  onShowDetails(event: { houseData: HouseResponse, roomData: RoomResponse }) {
-    console.log('Show details event received:', event);
+
+    switch (this.currentAction) {
+      case this.ACTION.OWNER_HOUSE:
+        this.findAllByOwner(this.page);
+        break;
+
+      case this.ACTION.FAVORITES_HOUSE:
+        // Implement logic to load favorite houses
+        break;
+
+      case this.ACTION.HOUSES:
+        this.findByFilter(this.houseFilter, this.page);
+        break;
+    }
+
   }
 
-  findByFilter(houseFilter: HouseFilter, pageNumber: number) {
+  private findByFilter(houseFilter: HouseFilter, pageNumber: number) {
     this.service.findByFilter(houseFilter, pageNumber).subscribe({
       next: (response) => {
         this.houses.update(current => [...current, ...response]);
@@ -81,10 +99,27 @@ export class House implements OnInit, OnDestroy {
     });
   }
 
-  getHouseOwner() {
-    this.page = 0;
-    this.houses.set([]);
-    this.findAllByOwner(this.page);
+  getHouseOwner(action: string) {
+    switch (action) {
+      case this.ACTION.OWNER_HOUSE:
+        this.page = 0;
+        this.houses.set([]);
+        this.findAllByOwner(this.page);
+        this.currentAction = this.ACTION.OWNER_HOUSE;
+        break;
+
+      case this.ACTION.FAVORITES_HOUSE:
+        // Implement logic to load favorite houses
+        this.currentAction = this.ACTION.FAVORITES_HOUSE;
+        break;
+
+      case this.ACTION.HOUSES:
+        this.page = 0;
+        this.houses.set([]);
+        this.findByFilter(this.houseFilter, this.page);
+        this.currentAction = this.ACTION.HOUSES;
+        break;
+    }
   }
 
     private findAllByOwner(pageNumber: number): void {
