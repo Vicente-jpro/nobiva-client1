@@ -1,0 +1,15 @@
+<div class="container-fluid px-0">
+  @for (house of myhouses(); track house.idHouse) {
+    <app-house-partial [houseData]="house" />
+  } @empty {
+    <p class="text-center fs-3 mt-5">
+      <strong>Não tem publicações.</strong>
+    </p>
+  }
+</div>
+
+<div class="d-grid gap-2 mt-3 mb-2">
+  <button type="button" class="btn btn-nobiva" (click)="goToNextMyPage()">
+    <i class="bi bi-eye me-2"></i>Próxima página
+  </button>
+</div>

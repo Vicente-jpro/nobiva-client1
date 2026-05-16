@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HouseService } from '../service/house-service';
 import { HousePartial } from './house-partial/house-partial';
+import { HouseOwner } from './house-owner/house-owner';
 import { HouseResponse } from '../models/house/house-response';
 import { RoomResponse } from '../models/room/room-response';
 import { TypeNegotiation } from '../models/negotiation-type';
@@ -11,13 +12,14 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial],
+  imports: [HousePartial, HouseOwner],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class House implements OnInit, OnDestroy {
-
+  
+  private changeDetection = inject(ChangeDetectorRef);
   protected houses = signal<HouseResponse[]>([]);
   user = inject(AuthService); 
 
@@ -28,8 +30,6 @@ export class House implements OnInit, OnDestroy {
   negotiationType = TypeNegotiation.ARRENDAMENTO;
   negotiation = TypeNegotiation;
 
-  myhouses = signal<HouseResponse[]>([]);
-  myPage = 0;
   houseFilter: HouseFilter = new HouseFilter();
 
   activeTab = 'casas';
@@ -58,10 +58,11 @@ export class House implements OnInit, OnDestroy {
     this.findByFilter(this.houseFilter, this.page);
   }
   
-  setTab(tab: string): void {
-    this.activeTab = tab;
-  }
 
+  goToNextPage() {
+    this.page++;
+    this.findByFilter(this.houseFilter, this.page);
+  }
   onShowDetails(event: { houseData: HouseResponse, roomData: RoomResponse }) {
     console.log('Show details event received:', event);
   }
@@ -80,30 +81,27 @@ export class House implements OnInit, OnDestroy {
     });
   }
 
-  goToNextPage() {
-    this.page++;
-    this.findByFilter(this.houseFilter, this.page);
+  getHouseOwner() {
+    this.page = 0;
+    this.houses.set([]);
+    this.findAllByOwner(this.page);
   }
 
-  goToNextMyPage() {
-    this.myPage++;
-    this.findAllByOwner(this.myPage);
-  }
-
-  findAllByOwner(pageNumber: number) {
+    private findAllByOwner(pageNumber: number): void {
     if (this.user.isLoggedIn()) {
       this.service.findAllByOwner(pageNumber).subscribe({
         next: (response) => {
-          this.myhouses.set(response);
-          this.chengeDetection.markForCheck();
-          console.log('Houses retrieved successfully:', response);
+
+          this.houses.update(current => [...current, ...response]);
+          this.changeDetection.markForCheck();
+          console.log('Owner houses retrieved successfully:', response);
         },
         error: (err) => {
-          console.error('Error retrieving houses:', err);
+          console.error('Error retrieving owner houses:', err);
         }
       });
     }
-
   }
 
 }
+

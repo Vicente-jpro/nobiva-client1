@@ -1,5 +1,14 @@
 /* Global styles – Bootstrap-based, no Angular Material theme */
 
+/* ── Purple palette ──────────────────────────────────────── */
+:root {
+  --purple-50:  #f3e5f5;   /* lighten-5 */
+  --purple-100: #e1bee7;   /* lighten-4 */
+  --purple-200: #ce93d8;   /* lighten-3 */
+  --purple-300: #ba68c8;   /* lighten-2 */
+  --purple-400: #ab47bc;   /* lighten-1  (primary) */
+}
+
 html {
   height: 100%;
 }
@@ -8,25 +17,38 @@ body {
   margin: 0;
   height: 100%;
   font-family: 'Roboto', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--purple-50);
   color: #212529;
 }
 
 /* Brand colour helpers */
-.text-purple  { color: #7c3aed !important; }
-.bg-nobiva    { background-color: #7c3aed !important; }
+.text-purple  { color: var(--purple-400) !important; }
+.bg-nobiva    { background-color: var(--purple-400) !important; }
 .btn-nobiva {
-  background-color: #7c3aed;
+  background-color: var(--purple-400);
   color: #fff;
   border: none;
-  &:hover { background-color: #6d28d9; color: #fff; }
+  &:hover { background-color: var(--purple-300); color: #fff; }
 }
+
+/* Purple utility classes */
+.bg-purple-50  { background-color: var(--purple-50)  !important; }
+.bg-purple-100 { background-color: var(--purple-100) !important; }
+.bg-purple-200 { background-color: var(--purple-200) !important; }
+.bg-purple-300 { background-color: var(--purple-300) !important; }
+.bg-purple-400 { background-color: var(--purple-400) !important; }
+
+.text-purple-50  { color: var(--purple-50)  !important; }
+.text-purple-100 { color: var(--purple-100) !important; }
+.text-purple-200 { color: var(--purple-200) !important; }
+.text-purple-300 { color: var(--purple-300) !important; }
+.text-purple-400 { color: var(--purple-400) !important; }
 
 /* Navbar customisation */
 .navbar-nobiva {
-  background-color: #7c3aed;
+  background-color: var(--purple-400);
   .navbar-brand, .nav-link { color: #fff !important; }
-  .nav-link:hover { color: #e9d5ff !important; }
+  .nav-link:hover { color: var(--purple-50) !important; }
 }
 
 /* Hero section */
@@ -80,7 +102,7 @@ body {
 
 /* Legacy class kept for compatibility */
 .purple-lighten-5 {
-  background-color: #f3e5f5 !important;
+  background-color: var(--purple-50) !important;
 }
 
 /* Form container helper */
@@ -93,7 +115,7 @@ body {
 /* Dashboard sidebar */
 .dashboard-sidebar {
   min-width: 220px;
-  background-color: #1e1b4b;
+  background-color: var(--purple-400);
   color: #fff;
   min-height: 100vh;
 
@@ -101,15 +123,15 @@ body {
     font-size: 1.4rem;
     font-weight: 700;
     padding: 1.5rem 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
   }
 
   .nav-link {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.85);
     padding: 0.75rem 1rem;
     &:hover, &.active {
       color: #fff;
-      background-color: rgba(255,255,255,0.1);
+      background-color: var(--purple-300);
       border-radius: 6px;
     }
   }
@@ -118,8 +140,20 @@ body {
 .dashboard-content {
   flex: 1;
   padding: 1.5rem;
-  background-color: #f1f5f9;
+  background-color: var(--purple-50);
   min-height: 100vh;
+}
+
+/* Bootstrap overrides */
+.btn-success {
+  background-color: var(--purple-200) !important;
+  border-color: var(--purple-200) !important;
+  color: #fff !important;
+  &:hover, &:focus, &:active {
+    background-color: var(--purple-300) !important;
+    border-color: var(--purple-300) !important;
+    color: #fff !important;
+  }
 }
 
 /* Status badges */

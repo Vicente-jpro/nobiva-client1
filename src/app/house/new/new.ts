@@ -25,12 +25,12 @@ export class New implements OnInit {
       this.service.save(houseAndImages.house!).subscribe({
       next: (response) => {
         this.dialog.content = 'A casa foi salva com sucesso.';
-        console.log("HouseAndImages:", houseAndImages);
+
         if (houseAndImages.imageFormData) {
           this.uploadImages(response.id, houseAndImages.imageFormData);
         }
         this.dialog.openDialog();
-        console.log('House saved successfully:', houseAndImages.imageFormData); 
+        console.log('House saved successfully:', response); 
       },
       error: (err) => {
         this.dialog.content = err.error?.message || 'Ocorreu um erro ao salvar a casa.';
