@@ -8,6 +8,7 @@ import { TypeNegotiation } from '../models/negotiation-type';
 import { AuthService } from '../service/auth.service';
 import { HouseFilter } from '../models/house/house-filter';
 import { Subscription } from 'rxjs';
+import { FavoriteHouseService } from '../service/favorite-house-service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class House implements OnInit, OnDestroy {
 
   negotiationType = TypeNegotiation.ARRENDAMENTO;
   negotiation = TypeNegotiation;
-
+  private favoriteHouseService = inject(FavoriteHouseService);
+  
   houseFilter: HouseFilter = new HouseFilter();
 
   activeTab = 'casas';
@@ -75,7 +77,7 @@ export class House implements OnInit, OnDestroy {
         break;
 
       case this.ACTION.FAVORITES_HOUSE:
-        // Implement logic to load favorite houses
+          this.findFavoriteHouses(this.page);
         break;
 
       case this.ACTION.HOUSES:
@@ -99,27 +101,28 @@ export class House implements OnInit, OnDestroy {
     });
   }
 
-  getHouseOwner(action: string) {
+  getHouses(action: string) {
+    this.page = 0;
+    this.houses.set([]);
+
     switch (action) {
       case this.ACTION.OWNER_HOUSE:
-        this.page = 0;
-        this.houses.set([]);
-        this.findAllByOwner(this.page);
         this.currentAction = this.ACTION.OWNER_HOUSE;
+        this.findAllByOwner(this.page);
         break;
 
       case this.ACTION.FAVORITES_HOUSE:
-        // Implement logic to load favorite houses
         this.currentAction = this.ACTION.FAVORITES_HOUSE;
+        this.findFavoriteHouses(this.page);
         break;
 
       case this.ACTION.HOUSES:
-        this.page = 0;
-        this.houses.set([]);
-        this.findByFilter(this.houseFilter, this.page);
         this.currentAction = this.ACTION.HOUSES;
+        this.findByFilter(this.houseFilter, this.page);
+        console.log('Current action set to HOUSES');
         break;
     }
+
   }
 
     private findAllByOwner(pageNumber: number): void {
@@ -138,5 +141,19 @@ export class House implements OnInit, OnDestroy {
     }
   }
 
-}
+  private findFavoriteHouses(pageNumber: number): void {
+    if (this.user.isLoggedIn()) {
+      this.favoriteHouseService.findAll(pageNumber).subscribe({
+        next: (response) => {
+          this.houses.update(current => [...current, ...response]);
+          this.changeDetection.markForCheck();
+          console.log('Favorite houses retrieved successfully:', response);
+        },
+        error: (err) => {
+          console.error('Error retrieving favorite houses:', err);
+        }
+      });
+    }
+  }
 
+}
