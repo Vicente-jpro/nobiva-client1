@@ -28,16 +28,19 @@ export class House implements OnInit, OnDestroy {
   private currentAction = this.ACTION.HOUSES;
 
   private changeDetection = inject(ChangeDetectorRef);
+  
   protected houses = signal<HouseResponse[]>([]);
-  user = inject(AuthService); 
 
+  private user = inject(AuthService); 
+  private favoriteHouseService = inject(FavoriteHouseService);  
   private service = inject(HouseService);
+
   chengeDetection = inject(ChangeDetectorRef);
-  page = 0;
+  page = signal(0);
 
   negotiationType = TypeNegotiation.ARRENDAMENTO;
   negotiation = TypeNegotiation;
-  private favoriteHouseService = inject(FavoriteHouseService);
+
   
   houseFilter: HouseFilter = new HouseFilter();
 
@@ -49,7 +52,7 @@ export class House implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.houseFilter.negotiation = this.negotiationType;
-    this.findByFilter(this.houseFilter, this.page);
+    this.findByFilter(this.houseFilter, this.page());
 
     this.filterSub = this.service.filterChanged$.subscribe(filter => {
       this.applyFilter(filter);
@@ -63,25 +66,26 @@ export class House implements OnInit, OnDestroy {
   applyFilter(filter: HouseFilter): void {
     this.houses.set([]);
     this.houseFilter = filter;
-    this.page = 0;
-    this.findByFilter(this.houseFilter, this.page);
+    this.page.set(0);
+    this.findByFilter(this.houseFilter, this.page());
   }
   
 
   goToNextPage() {
-    this.page++;
+    this.page.update(p => p + 1);
 
     switch (this.currentAction) {
       case this.ACTION.OWNER_HOUSE:
-        this.findAllByOwner(this.page);
+        this.findAllByOwner(this.page());
         break;
 
       case this.ACTION.FAVORITES_HOUSE:
-          this.findFavoriteHouses(this.page);
+        this.findFavoriteHouses(this.page());
         break;
 
       case this.ACTION.HOUSES:
-        this.findByFilter(this.houseFilter, this.page);
+        this.findByFilter(this.houseFilter, this.page());
+        console.log('Loading next page of houses with filter:', this.houseFilter, this.page());
         break;
     }
 
@@ -102,23 +106,23 @@ export class House implements OnInit, OnDestroy {
   }
 
   getHouses(action: string) {
-    this.page = 0;
+    this.page.set(0);
     this.houses.set([]);
 
     switch (action) {
       case this.ACTION.OWNER_HOUSE:
         this.currentAction = this.ACTION.OWNER_HOUSE;
-        this.findAllByOwner(this.page);
+        this.findAllByOwner(this.page());
         break;
 
       case this.ACTION.FAVORITES_HOUSE:
         this.currentAction = this.ACTION.FAVORITES_HOUSE;
-        this.findFavoriteHouses(this.page);
+        this.findFavoriteHouses(this.page());
         break;
 
       case this.ACTION.HOUSES:
         this.currentAction = this.ACTION.HOUSES;
-        this.findByFilter(this.houseFilter, this.page);
+        this.findByFilter(this.houseFilter, this.page());
         console.log('Current action set to HOUSES');
         break;
     }

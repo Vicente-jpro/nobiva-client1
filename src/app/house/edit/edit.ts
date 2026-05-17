@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../form/form';
 import { HouseService } from '../../service/house-service';
@@ -6,6 +6,7 @@ import { HouseResponseDetails } from '../../models/house/house-response-details'
 import { HouseAndImage } from '../../models/house/house-and-image';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
 import { DialogMessageData } from '../../dialog-message/dialog-message-data';
+import { HouseFormBuilder } from '../form/house-form-builder';
 
 @Component({
   selector: 'app-edit',
@@ -13,7 +14,7 @@ import { DialogMessageData } from '../../dialog-message/dialog-message-data';
   templateUrl: './edit.html',
   styleUrl: './edit.scss',
 })
-export class Edit implements OnInit {
+export class Edit extends HouseFormBuilder implements OnInit {
   titleData = 'Editar Casa';
   houseId = '';
   houseData: HouseResponseDetails | null = null;
@@ -22,6 +23,7 @@ export class Edit implements OnInit {
   private router = inject(Router);
   private service = inject(HouseService);
   private dialog = new DialogMessageData();
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.houseId = this.route.snapshot.paramMap.get('id') ?? '';
@@ -30,6 +32,8 @@ export class Edit implements OnInit {
     this.service.findById(this.houseId).subscribe({
       next: (house) => {
         this.houseData = house;
+        this.cdr.markForCheck();
+        console.log('House data loaded:', this.houseData);
       },
       error: (err) => {
         console.error('Error loading house:', err);
