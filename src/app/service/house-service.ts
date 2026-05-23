@@ -40,7 +40,7 @@ export class HouseService {
   }
 
   update(idHouse: string, house: HouseCreateRequest): Observable<HouseResponseDetails> {
-    return this.httpClient.put<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`, house);
+    return this.httpClient.patch<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}`, house);
   }
 
   findAllByOwner(pageNumber: number): Observable<HouseResponse[]> {

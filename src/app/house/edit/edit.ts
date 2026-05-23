@@ -33,7 +33,7 @@ export class Edit extends HouseFormBuilder implements OnInit {
       next: (house) => {
         this.houseData = house;
         this.cdr.markForCheck();
-        console.log('House data loaded:', this.houseData);
+        console.log('House data loaded:', JSON.stringify(this.houseData, null, 2));
       },
       error: (err) => {
         console.error('Error loading house:', err);

@@ -117,6 +117,44 @@ export class Form extends HouseFormBuilder implements OnInit {
             value: country.id,
             viewValue: country.name
           }));
+
+          if (this.houseData) {
+            const countryId = this.houseData.post_address?.locality?.province?.country?.id;
+            const provinceId = this.houseData.post_address?.locality?.province?.id;
+            const localityId = this.houseData.post_address?.locality?.id;
+
+            if (countryId) {
+              this.houseForm.get('post_address.locality.countrySelected')?.setValue(countryId);
+
+              this.addressService.findProvincesByCountryId(countryId).subscribe({
+                next: provinces => {
+                  this.provinceOptions = provinces.map(province => ({
+                    value: province.id,
+                    viewValue: province.name
+                  }));
+
+                  if (provinceId) {
+                    this.houseForm.get('post_address.locality.provinceSelected')?.setValue(provinceId);
+
+                    this.addressService.findLocalitiesByProvinceId(provinceId).subscribe({
+                      next: localities => {
+                        this.localityOptions = localities.map(locality => ({
+                          value: locality.id,
+                          viewValue: locality.locality
+                        }));
+
+                        if (localityId) {
+                          this.houseForm.get('post_address.locality.id')?.setValue(localityId);
+                        }
+                      },
+                      error: (err) => console.error('Error fetching localities:', err)
+                    });
+                  }
+                },
+                error: (err) => console.error('Error fetching provinces:', err)
+              });
+            }
+          }
         },
         error: (err) => {
           console.error('Error fetching countries:', err);

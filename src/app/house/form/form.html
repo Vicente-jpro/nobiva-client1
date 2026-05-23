@@ -220,6 +220,19 @@
           </div>
         </div>
 
+        <!-- Existing images (edit mode) -->
+        @if (houseData && houseData.image && houseData.image.length > 0) {
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Imagens guardadas</label>
+            <div class="d-flex flex-wrap gap-2">
+              @for (img of houseData.image; track img.id) {
+                <img [src]="img.url" alt="Imagem da casa"
+                     style="width:100px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6;">
+              }
+            </div>
+          </div>
+        }
+
         <!-- File upload -->
         <div class="mb-3">
           <input #fileInput type="file" accept="image/*" multiple hidden (change)="onFileSelected($event)">
