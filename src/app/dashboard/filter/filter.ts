@@ -80,11 +80,11 @@ export class Filter implements OnInit {
     let result = this.houses();
 
     if (this.filterStatus) {
-      result = result.filter(h => h.status_post === this.filterStatus);
+      result = result.filter(h => h.statusPost === this.filterStatus);
     }
 
     if (this.filterTypeNegociation) {
-      result = result.filter(h => h.type_negotiation === this.filterTypeNegociation);
+      result = result.filter(h => h.typeNegotiation === this.filterTypeNegociation);
     }
 
     if (this.filterSearch.trim()) {

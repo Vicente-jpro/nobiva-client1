@@ -65,8 +65,8 @@ export class Filter extends ProvinceSelectBox implements OnInit {
       .setStatusPost(this.filterStatus)
       .setLocality(this.filterSearch)
       .setIdProvince(this.filterIdProvince)
-      .setMinPrice(this.filterMinPrice ?? 0)
-      .setMaxPrice(this.filterMaxPrice ?? 0)
+      .setMinPrice(this.filterMinPrice ?? null)
+      .setMaxPrice(this.filterMaxPrice ?? null)
       .setTipologies(this.filterTipologies)
       
       .build();

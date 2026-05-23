@@ -56,7 +56,7 @@ export class Edit extends HouseFormBuilder implements OnInit {
       error: (err) => {
         this.dialog.content = err.error?.message || 'Ocorreu um erro ao atualizar a casa.';
         this.dialog.openDialog();
-        console.error('Error updating house:', err);
+        console.error('Error updating house:', err.error.errors);
       }
     });
   }

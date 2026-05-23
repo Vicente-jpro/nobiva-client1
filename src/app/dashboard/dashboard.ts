@@ -24,41 +24,53 @@ export class Dashboard implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   protected houses = signal<HouseResponse[]>([]);
-  protected filteredHouses = signal<HouseResponse[]>([]);
 
-  protected loading = false;
+  protected loading = signal(false);
   protected actionMessage = '';
   protected actionError = '';
-  protected page = 0;
+  protected page = signal(0);
   protected houseFilter = new HouseFilter();
 
   protected readonly StatusPost = StatusPost;
   protected readonly TypeNegotiation = TypeNegotiation;
 
   ngOnInit(): void {
-    this.loadHouses();
+    this.houseFilter.statusPost = StatusPost.PENDENTE;
+    this.findByFilter(this.houseFilter, this.page());
   }
 
   loadHouses(): void {
-    this.loading = true;
-    this.houseFilter.statusPost = StatusPost.PENDENTE;
-    this.houseService.findByFilter(this.houseFilter ,this.page).subscribe({
+    this.houses.set([]);
+    this.page.set(0);
+    this.findByFilter(this.houseFilter, this.page());
+  }
+
+  applyFilter(filter: HouseFilter): void {
+    this.houses.set([]);
+    this.houseFilter = filter;
+    this.page.set(0);
+    this.findByFilter(this.houseFilter, this.page());
+  }
+
+  goToNextPage(): void {
+    this.page.update(p => p + 1);
+    this.findByFilter(this.houseFilter, this.page());
+  }
+
+  private findByFilter(houseFilter: HouseFilter, pageNumber: number): void {
+    this.loading.set(true);
+    this.houseService.findByFilter(houseFilter, pageNumber).subscribe({
       next: (response) => {
-        this.houses.set(response);
-        this.applyFilter();
-        this.loading = false;
+        this.houses.update(current => [...current, ...response]);
+        this.loading.set(false);
         this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error loading houses:', err);
-        this.loading = false;
+        this.loading.set(false);
         this.cdr.markForCheck();
       }
     });
-  }
-
-  applyFilter(){
-
   }
 
   approve(idHouse: string): void {
@@ -108,24 +120,22 @@ export class Dashboard implements OnInit {
     });
   }
 
-  nextPage(): void {
-    this.page++;
-    this.loadHouses();
-  }
-
   prevPage(): void {
-    if (this.page > 0) {
-      this.page--;
-      this.loadHouses();
+    if (this.page() > 0) {
+      this.page.update(p => p - 1);
+      this.houses.set([]);
+      this.findByFilter(this.houseFilter, this.page());
     }
   }
 
   getStatusBadge(status: string): string {
     switch (status) {
-      case StatusPost.APROVADO: return StatusPost.APROVADO;
-      case StatusPost.REPROVADO: return StatusPost.REPROVADO;
-      case StatusPost.BLOQUEADO: return StatusPost.BLOQUEADO;
-      default: return StatusPost.PENDENTE;
+      case StatusPost.APROVADO: return "text-bg-success";
+      case StatusPost.REPROVADO: return "text-bg-danger";
+      case StatusPost.BLOQUEADO: return "text-bg-secondary";
+      default: return "text-bg-warning";
     }
   }
+
+
 }

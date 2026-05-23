@@ -58,10 +58,10 @@
     }
 
     <!-- Filter row -->
-    <app-filter (applyFilterEvent)="applyFilter()"></app-filter>
+    <app-filter (applyFilterEvent)="applyFilter($event)"></app-filter>
 
     <!-- Loading -->
-    @if (loading) {
+    @if (loading()) {
       <div class="text-center py-5">
         <div class="spinner-border text-purple" role="status">
           <span class="visually-hidden">Carregando...</span>
@@ -71,11 +71,11 @@
     }
 
     <!-- Houses table -->
-    @if (!loading) {
+    @if (!loading()) {
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 py-3">
           <span class="fw-semibold">
-            {{ filteredHouses().length }} imóvel(is) encontrado(s)
+            {{ houses().length }} imóvel(is) encontrado(s)
           </span>
         </div>
         <div class="table-responsive">
@@ -93,7 +93,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (house of filteredHouses(); track house.idHouse) {
+              @for (house of houses(); track house.idHouse) {
                 <tr>
                   <td>
                     @if (house.imageUrl) {
@@ -128,9 +128,9 @@
                     {{ house.price | number }} Kz
                   </td>
                   <td>
-                    <span class="badge text-white {{ getStatusBadge(house.status_post) }}">
-                      {{ house.status_post || 'N/D' }}
-                    </span>
+                      <span class="badge {{ getStatusBadge(house.statusPost) }}">
+                        {{ house.statusPost || 'N/D' }} 
+                      </span>
                   </td>
                   <td class="text-muted small">
                     <i class="bi bi-geo-alt me-1"></i>
@@ -171,13 +171,13 @@
 
       <!-- Pagination -->
       <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
-        <span class="text-muted small">Página {{ page + 1 }}</span>
+        <span class="text-muted small">Página {{ page() + 1 }}</span>
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary btn-sm"
-                  [disabled]="page === 0" (click)="prevPage()">
+                  [disabled]="page() === 0" (click)="prevPage()">
             <i class="bi bi-chevron-left me-1"></i>Anterior
           </button>
-          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="nextPage()">
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goToNextPage()">
             Próxima<i class="bi bi-chevron-right ms-1"></i>
           </button>
         </div>

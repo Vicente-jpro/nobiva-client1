@@ -2,9 +2,9 @@ export class HouseFilter {
   title: string = '';
   statusPost: string = '';
   locality: string = '';
-  minPrice: number = 0;
+  minPrice: number | null = null;
   negotiation: string = '';
-  maxPrice: number = 0;
+  maxPrice: number | null = null;
   idProvince: number = 0;
   tipologies: string[] = [];
 
@@ -31,7 +31,7 @@ export class HouseFilterBuilder {
     return this;
   }
 
-  setMinPrice(minPrice: number): HouseFilterBuilder {
+  setMinPrice(minPrice: number | null): HouseFilterBuilder {
     this.filter.minPrice = minPrice;
     return this;
   }
@@ -41,7 +41,7 @@ export class HouseFilterBuilder {
     return this;
   }
 
-  setMaxPrice(maxPrice: number): HouseFilterBuilder {
+  setMaxPrice(maxPrice: number | null): HouseFilterBuilder {
     this.filter.maxPrice = maxPrice;
     return this;
   }

@@ -11,6 +11,7 @@ export class HouseResponse {
     country: string = '';
     province: string = '';
     imageUrl: string = '';
-    status_post: string = '';
-    type_negotiation: string = '';
+    statusPost: string = '';
+    createdAt: string = '';
+    typeNegotiation: string = '';
 }
