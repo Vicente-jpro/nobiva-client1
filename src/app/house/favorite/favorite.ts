@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { HouseResponse } from '../../models/house/house-response';
 import { RoomResponse } from '../../models/room/room-response';
 import { FavoriteHouseService } from '../../service/favorite-house-service';
@@ -20,18 +20,19 @@ export class Favorite {
   protected service = inject(FavoriteHouseService);
   @Output() onSaveFavoriteEvent = new EventEmitter<DisplayMessage>();
   display = new DisplayMessage();
+  private cdr = inject(ChangeDetectorRef);
 
   onSave(): void {
     this.service.save(this.houseData.idHouse).subscribe({
       next: (response) => {
-        this.display.success = response.message;
-        this.display.errors = [];
+        this.display = { success: response.message, errors: [] };
         this.onSaveFavoriteEvent.emit(this.display);
+        this.cdr.markForCheck();
       },
       error: (errorResponse) => {
-        this.display.success = '';
-        this.display.errors = errorResponse.error.errors;
+        this.display = { success: '', errors: errorResponse.error.errors };
         this.onSaveFavoriteEvent.emit(this.display);
+        this.cdr.markForCheck();
       }
     });
   }

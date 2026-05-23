@@ -9,10 +9,13 @@ import { TypeNegotiation } from '../models/negotiation-type';
 import { DecimalPipe } from '@angular/common';
 import { Filter } from '../house/filter/filter';
 import { HouseFilter } from '../models/house/house-filter';
+import { DisplayMessage } from '../models/display-message';
+import { Success } from '../alerts/success/success';
+import { Danger } from '../alerts/danger/danger';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, DecimalPipe, Filter],
+  imports: [FormsModule, RouterLink, DecimalPipe, Filter, Success, Danger],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,8 +29,7 @@ export class Dashboard implements OnInit {
   protected houses = signal<HouseResponse[]>([]);
 
   protected loading = signal(false);
-  protected actionMessage = '';
-  protected actionError = '';
+  protected display = new DisplayMessage();
   protected page = signal(0);
   protected houseFilter = new HouseFilter();
 
@@ -76,13 +78,11 @@ export class Dashboard implements OnInit {
   approve(idHouse: string): void {
     this.houseService.approve(idHouse).subscribe({
       next: (res) => {
-        this.actionMessage = res.message || 'Casa aprovada com sucesso.';
-        this.actionError = '';
+        this.display = { success: res.message || 'Casa aprovada com sucesso.', errors: [] };
         this.loadHouses();
       },
       error: (err) => {
-        this.actionError = 'Erro ao aprovar a casa.';
-        this.actionMessage = '';
+        this.display = { success: '', errors: ['Erro ao aprovar a casa.'] };
         this.cdr.markForCheck();
       }
     });
@@ -91,13 +91,11 @@ export class Dashboard implements OnInit {
   reject(idHouse: string): void {
     this.houseService.reject(idHouse).subscribe({
       next: (res) => {
-        this.actionMessage = res.message || 'Casa reprovada.';
-        this.actionError = '';
+        this.display = { success: res.message || 'Casa reprovada.', errors: [] };
         this.loadHouses();
       },
       error: (err) => {
-        this.actionError = 'Erro ao reprovar a casa.';
-        this.actionMessage = '';
+        this.display = { success: '', errors: ['Erro ao reprovar a casa.'] };
         this.cdr.markForCheck();
       }
     });
@@ -108,13 +106,11 @@ export class Dashboard implements OnInit {
 
     this.houseService.delete(idHouse).subscribe({
       next: (res) => {
-        this.actionMessage = res.message || 'Casa eliminada.';
-        this.actionError = '';
+        this.display = { success: res.message || 'Casa eliminada.', errors: [] };
         this.loadHouses();
       },
       error: (err) => {
-        this.actionError = 'Erro ao eliminar a casa.';
-        this.actionMessage = '';
+        this.display = { success: '', errors: ['Erro ao eliminar a casa.'] };
         this.cdr.markForCheck();
       }
     });

@@ -3,6 +3,9 @@
     <div class="card-body p-4">
       <h3 class="text-center fw-bold text-purple mb-4">{{ title || 'Criar conta' }}</h3>
 
+      <app-success [successMessageData]="display.success" />
+      <app-danger [dangerMessagesData]="display.errors" />
+
       <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
 
         <div class="mb-3">

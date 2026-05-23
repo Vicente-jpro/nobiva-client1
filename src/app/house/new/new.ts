@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Form } from '../form/form';
 import { HouseService } from '../../service/house-service';
-import { DialogMessageData } from '../../dialog-message/dialog-message-data';
 import { HouseAndImage } from '../../models/house/house-and-image';
+import { DisplayMessage } from '../../models/display-message';
 
 
 @Component({
@@ -15,27 +15,23 @@ export class New implements OnInit {
   titleData: string = 'Nova Casa';
 
   private service = inject(HouseService);
-  private dialog = new DialogMessageData();
-
-  ngOnInit(): void {
-      this.dialog.title = 'Casa';
-  }
+  display = new DisplayMessage();
+  private cdr = inject(ChangeDetectorRef);
+  ngOnInit(): void {}
 
   onSubmit(houseAndImages: HouseAndImage) {
-      this.service.save(houseAndImages.house!).subscribe({
+    this.service.save(houseAndImages.house!).subscribe({
       next: (response) => {
-        this.dialog.content = 'A casa foi salva com sucesso.';
-
+        this.display = { success: 'A casa foi salva com sucesso.', errors: [] };
         if (houseAndImages.imageFormData) {
           this.uploadImages(response.id, houseAndImages.imageFormData);
         }
-        this.dialog.openDialog();
-        console.log('House saved successfully:', response); 
+        this.cdr.markForCheck();
+        console.log('House saved successfully:', response);
       },
       error: (err) => {
-        this.dialog.content = err.error?.message || 'Ocorreu um erro ao salvar a casa.';
-        this.dialog.openDialog();
-        console.error('Error saving house:', err);
+        this.display = { success: '', errors: err.error.errors || ['Ocorreu um erro ao salvar a casa.'] };
+        this.cdr.markForCheck();
       }
     });
   }
@@ -44,10 +40,11 @@ export class New implements OnInit {
   private uploadImages(idHouse: string, imagesFormData: FormData) {
     this.service.uploadImages(idHouse, imagesFormData).subscribe({
       next: () => {
-        console.log('Images uploaded successfully');
+        this.cdr.markForCheck();
       },
       error: (err) => {
-        console.error('Error uploading images:', err);
+        this.display = { success: '', errors: err.error.errors || ['Ocorreu um erro ao enviar as imagens.'] };
+    
       }
     });
   }

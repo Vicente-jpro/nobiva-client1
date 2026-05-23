@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogMessage } from '../../dialog-message/dialog-message';
 import { UserService } from '../../service/user-service';
+import { DisplayMessage } from '../../models/display-message';
+import { Success } from '../../alerts/success/success';
+import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-change-password',
@@ -17,22 +18,23 @@ import { UserService } from '../../service/user-service';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAnchor
+    MatAnchor,
+    Success,
+    Danger
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
 })
 export class ChangePassword implements OnInit {
-  readonly dialog = inject(MatDialog);
-
   private route = inject(ActivatedRoute);
   private service = inject(UserService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private changeDetection = inject(ChangeDetectorRef);
 
   private token: string = '';
-  private dialogTitleData: string = '';
-  private dialogContentData: string = '';
+
+  display = new DisplayMessage();
 
   user: UserChangePassword = {
     newPassword: '',
@@ -44,43 +46,24 @@ export class ChangePassword implements OnInit {
     confirmePassword: [this.user.confirmePassword, [Validators.required, Validators.minLength(6)]],
   });
 
-  openDialog() {
-    this.dialog.open(DialogMessage, {
-      data: {
-        title: this.dialogTitleData,
-        content: this.dialogContentData
-      }
-    });
-  }
-
   ngOnInit() {
     this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
   }
 
   onSubmit() {
-    /**  if (this.changePasswordForm.invalid) {
-       this.loginForm.markAllAsTouched();
-       return;
-     }
-       */
     this.user = this.changePasswordForm.value as UserChangePassword;
     
     this.service.changePassword(this.user, this.token).subscribe({
       next: (response) => {
-        this.dialogTitleData = 'Redefinição de palavra passe';
-        this.dialogContentData = response.message;
+        this.display = { success: response.message, errors: [] };
         console.log("user password changed", this.user);
-
-        this.openDialog();
+        this.changeDetection.markForCheck();
         this.router.navigate(['/user/login']);
       },
       error: (errorResponse) => {
-        this.dialogTitleData = 'Erro na redefinição de palavra passe';
-        this.dialogContentData = errorResponse.error.message;
-        this.openDialog();
+        this.display = { success: '', errors: errorResponse.error.errors || ['Erro ao redefinir a palavra passe.'] };
       }
-
     });
   }
 

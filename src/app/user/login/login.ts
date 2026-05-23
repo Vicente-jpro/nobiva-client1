@@ -1,14 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { UserLogin } from '../../models/user/userLogin';
 import { UserService } from '../../service/user-service';
 import { AuthService } from '../../service/auth.service';
+import { DisplayMessage } from '../../models/display-message';
+import { Danger } from '../../alerts/danger/danger';
 
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, Danger],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -17,8 +19,8 @@ export class Login {
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
-
-  errorMessage = '';
+  private changeDetection = inject(ChangeDetectorRef);
+  display = new DisplayMessage();
 
   user: UserLogin = {
     email: '',
@@ -45,9 +47,10 @@ export class Login {
         this.authService.saveAuthData(response);
         this.router.navigate(['/home']);
       },
-      error: (errorResponse) => {
-        this.errorMessage = 'Email ou a Palavra passe está incorreto.';
-        console.error('Login failed:', errorResponse);
+      error: (err) => {
+        this.display = { success: '', errors: err.error.errors || ['Email ou a Palavra passe está incorreto.'] };
+        this.changeDetection.markForCheck();
+        console.error('Login failed:', err);
       }
     });
   }

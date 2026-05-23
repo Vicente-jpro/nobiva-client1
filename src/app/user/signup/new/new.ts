@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Form } from '../form/form';
-import { DialogMessage } from '../../../dialog-message/dialog-message';
 import { UserSignup } from '../../../models/user/userSignup';
 import { UserRole } from '../../../models/user/userRole';
 import { UserService } from '../../../service/user-service';
+import { DisplayMessage } from '../../../models/display-message';
 
 @Component({
   selector: 'app-new',
@@ -13,48 +12,38 @@ import { UserService } from '../../../service/user-service';
   templateUrl: './new.html'
 })
 export class New {
-  readonly dialog = inject(MatDialog);
   private service = inject(UserService);
-  private router = inject(Router)
+  private router = inject(Router);
+  private changeDetection = inject(ChangeDetectorRef);
   readonly role = UserRole;
 
   protected formTitle: string = 'Criar conta';
-  private dialogTitleData: string = '';
-  private dialogContentData: string = '';
+  display = new DisplayMessage();
 
-  openDialog() {
-    this.dialog.open(DialogMessage, {
-      data: {
-        title: this.dialogTitleData,
-        content: this.dialogContentData
-      }
-    });
-  }
-
-  onSubmit(user: UserSignup){
-    console.log('User submitted:', user);
+  onSubmit(user: UserSignup) {
     this.save(user);
   }
 
   save(user: UserSignup) {
     this.service.save(user).subscribe({
       next: (response) => {
-        this.dialogTitleData = user.username ? `Bem-vindo, ${user.username}!` : 'Bem-vindo!';
-        this.dialogContentData = response.message;
+        this.display = { success: response.message, errors: [] };
+        console.log('Account created successfully:', response.message);
+        this.changeDetection.markForCheck();
         this.router.navigate(['/login']);
-        this.openDialog();
-
       },
-      error: (errorResponse) => {
-        this.dialogTitleData = 'Erro ao criar conta';
-        this.dialogContentData =  errorResponse.error.message;
-        
-        if(user.password !== user.passwordConfirmed) {
-          this.dialogTitleData = 'Erro de validação';
-          this.dialogContentData = 'Palavra passe de confirmação não pode ser diferente da palavra passe.';
+      error: (err) => {
+        console.error('Error creating account:', err);
+        let errors: string[];
+        if (user.password !== user.passwordConfirmed) {
+          errors = ['Palavra passe de confirmação não pode ser diferente da palavra passe.'];
+        } else if (Array.isArray(err.error?.errors)) {
+          errors = err.error.errors;
+        } else {
+          errors = [err.error?.errors || 'Erro ao criar conta.'];
         }
-        this.openDialog();
-        
+        this.display = { success: '', errors };
+        this.changeDetection.markForCheck();
       }
     });
   }

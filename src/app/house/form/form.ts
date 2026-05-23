@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HouseFormBuilder } from './house-form-builder';
 import { AuthService } from '../../service/auth.service';
@@ -8,10 +8,13 @@ import { HouseAndImage } from '../../models/house/house-and-image';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
 import { Tipology } from '../../models/property-tipology';
 import { AddressService } from '../../service/address-service';
+import { DisplayMessage } from '../../models/display-message';
+import { Success } from '../../alerts/success/success';
+import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, Success, Danger],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,12 +24,14 @@ export class Form extends HouseFormBuilder implements OnInit {
 
   protected authService = inject(AuthService);
   protected addressService = inject(AddressService);
+  private cdr = inject(ChangeDetectorRef);
   private houseModel = new HouseCreateRequest();
   protected selectedFiles!: FileList;
   protected imagesUploaded!: FormData;
 
   @Input() title: string = '';
   @Input() houseData: HouseResponseDetails | null = null;
+  @Input() display: DisplayMessage = new DisplayMessage();
 
   @Output() formEvent = new EventEmitter<HouseAndImage>();
 
@@ -57,6 +62,7 @@ export class Form extends HouseFormBuilder implements OnInit {
       const uploadFile = new UploadFile();
       this.imagesUploaded = uploadFile.onUpload(this.selectedFiles);
       console.log('FormData with selected files:', this.imagesUploaded.getAll('images'));
+      this.cdr.markForCheck();
     }
   }
 
@@ -188,9 +194,6 @@ export class Form extends HouseFormBuilder implements OnInit {
             value: locality.id,
             viewValue: locality.locality
           }));
-        },
-        error: (err) => {
-          console.error('Error fetching localities:', err);
         }
       });
   }

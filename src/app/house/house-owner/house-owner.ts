@@ -35,10 +35,9 @@ export class HouseOwner implements OnInit {
         next: (response) => {
           this.myhouses.update(current => [...current, ...response]);
           this.changeDetection.markForCheck();
-          console.log('Owner houses retrieved successfully:', response);
         },
         error: (err) => {
-          console.error('Error retrieving owner houses:', err);
+          this.changeDetection.markForCheck();
         }
       });
     }

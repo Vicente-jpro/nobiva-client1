@@ -1,28 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { UserEmail } from '../../models/user/UserEmail';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogMessage } from '../../dialog-message/dialog-message';
 import { UserService } from '../../service/user-service';
+import { DisplayMessage } from '../../models/display-message';
+import { Success } from '../../alerts/success/success';
+import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-password-recover',
   imports: [
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    Success,
+    Danger
   ],
   templateUrl: './password-recover.html',
   styleUrl: './password-recover.scss',
 })
 export class PasswordRecover {
-  readonly dialog = inject(MatDialog);
   private service = inject(UserService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
-
-  dialogTitleData: string = '';
-  dialogContentData: string = '';
+  private changeDetection = inject(ChangeDetectorRef);
+  display = new DisplayMessage();
 
   user: UserEmail = { email: '' }
 
@@ -30,14 +31,6 @@ export class PasswordRecover {
     email: [this.user.email, [Validators.required, Validators.email]],
   });
 
-  openDialog() {
-    this.dialog.open(DialogMessage, {
-      data: {
-        title: this.dialogTitleData,
-        content: this.dialogContentData
-      }
-    });
-  }
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -50,20 +43,14 @@ export class PasswordRecover {
 
     this.service.resetPassword(this.user).subscribe({
       next: (response) => {
-
-        this.dialogTitleData = 'Pedido de recuperação de palavra passe';
-        this.dialogContentData = response.message;
-
-        this.openDialog();
-
+        this.display = { success: response.message, errors: [] };
+        this.changeDetection.markForCheck();
         console.log('Password reset request:', response.message);
-
-     
       },
-      error: (errorResponse) => {
-        console.error('Login failed:', errorResponse);
-        // You might want to show an error message to the user here
-        // For example, using a snackbar or alert
+      error: (err) => {
+        this.display = { success: '', errors: err.error.errors || ['Erro ao enviar o email de recuperação.'] };
+        console.error('Password recover failed:', err);
+        this.changeDetection.markForCheck();
       }
     });
   }

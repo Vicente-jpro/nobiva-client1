@@ -4,6 +4,9 @@ import { RouterLink } from "@angular/router";
 import { UserSignup } from '../../../models/user/userSignup';
 import { UserRole } from '../../../models/user/userRole';
 import { AuthService } from '../../../service/auth.service';
+import { DisplayMessage } from '../../../models/display-message';
+import { Success } from '../../../alerts/success/success';
+import { Danger } from '../../../alerts/danger/danger';
 
 
 export interface Task {
@@ -14,7 +17,7 @@ export interface Task {
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule, FormsModule, RouterLink],
+  imports: [ReactiveFormsModule, FormsModule, RouterLink, Success, Danger],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +26,8 @@ export class Form {
   private formBuilder = inject(FormBuilder);
   protected authService = inject(AuthService);
   protected role = UserRole;
+
+  @Input() display: DisplayMessage = new DisplayMessage();
 
   @Input() title: string = '';
   @Output() formEvent = new EventEmitter<UserSignup>();
@@ -83,7 +88,8 @@ export class Form {
     this.formEvent.emit(this.user);
 
     if (this.signUpForm.value.password !== this.signUpForm.value.passwordConfirmed) {
-      console.error('As senhas não coincidem!');
+      this.display = { success: '', errors: ['As senhas não coincidem!'] };
+    
       return;
     }
   }

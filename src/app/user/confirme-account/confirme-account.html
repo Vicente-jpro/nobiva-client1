@@ -1,6 +1,9 @@
 <p class="text-center text-title">Enviar email para ativação da conta</p>
 
 <div class="form-container">
+    <app-success [successMessageData]="display.success" />
+    <app-danger [dangerMessagesData]="display.errors" />
+
     <form [formGroup]="confimeAccountForm" (ngSubmit)="onSubmit()">
 
         <mat-card class="shipping-card">

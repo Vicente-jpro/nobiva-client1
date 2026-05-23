@@ -1,9 +1,13 @@
 
 @if (dangerMessagesData.length > 0) {
-    @for (message of dangerMessagesData; track message) {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ message }}          
-        </div>
-    }
+         
+        @for (message of dangerMessagesData; track message) {
+            
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}         
+               </div>
+            
+        }
+       
 }
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAnchor } from "@angular/material/button";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { UserEmail } from '../../models/user/UserEmail';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogMessage } from '../../dialog-message/dialog-message';
 import { UserService } from '../../service/user-service';
+import { DisplayMessage } from '../../models/display-message';
+import { Success } from '../../alerts/success/success';
+import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-confirme-account',
@@ -18,7 +19,9 @@ import { UserService } from '../../service/user-service';
     MatFormFieldModule,
     MatInputModule,
     MatAnchor,
-    RouterLink
+    RouterLink,
+    Success,
+    Danger
   ],
   templateUrl: './confirme-account.html',
   styleUrl: './confirme-account.scss',
@@ -29,26 +32,18 @@ export class ConfirmeAccount implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private service = inject(UserService);
-  private dialog = inject(MatDialog);
   private formBuilder = inject(FormBuilder);
+  private changeDetection = inject(ChangeDetectorRef);
 
-  private dialogTitleData: string = '';
-  private dialogContentData: string = '';
+  display = new DisplayMessage();
 
-    user: UserEmail = { email: '' }
+  user: UserEmail = { email: '' }
 
   confimeAccountForm = this.formBuilder.group({
     email: [this.user.email, [Validators.required, Validators.email]],
   });
 
-  openDialog() {
-    this.dialog.open(DialogMessage, {
-      data: {
-        title: this.dialogTitleData,
-        content: this.dialogContentData
-      }
-    });
-  }
+  openDialog() {}
 
   ngOnInit(): void {
      this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
@@ -59,18 +54,13 @@ export class ConfirmeAccount implements OnInit {
      console.log("Token for account confirmation:", this.token);
       this.service.confimeAccount(this.token).subscribe({
         next: (response) => {
-         
-          this.dialogTitleData = "Conta Ativada";
-          this.dialogContentData = response.message;
-
-           this.router.navigate(['/user/login']);
-
-          this.openDialog();
+          this.display = { success: response.message, errors: [] };
+          this.changeDetection.markForCheck();
+          this.router.navigate(['/user/login']);
         },
         error: (errorResponse) => {
-          this.dialogTitleData = "Erro ao confirmar a conta";
-          this.dialogContentData = errorResponse.error.details || "Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.";
-          this.openDialog();
+          this.changeDetection.markForCheck();
+          this.display = { success: '', errors: [errorResponse.error.details || 'Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.'] };
           console.error("Erro ao confirmar a conta", errorResponse);
         }
       });
@@ -83,15 +73,13 @@ export class ConfirmeAccount implements OnInit {
 
     this.service.sendVerificationEmail(this.user).subscribe({
       next: (response) => {
-        this.dialogTitleData = "Email de verificação enviado";
-        this.dialogContentData = response.message;
-        this.openDialog();
+        this.display = { success: response.message, errors: [] };
+        this.changeDetection.markForCheck();
       },
       error: (errorResponse) => {
-        this.dialogTitleData = "Erro ao enviar email de verificação";
-        this.dialogContentData = errorResponse.error.details || "Ocorreu um erro ao enviar o email de verificação. Por favor, tente novamente.";
-        this.openDialog();
+        this.display = { success: '', errors: errorResponse.error.errors || ['Ocorreu um erro ao enviar o email de verificação. Por favor, tente novamente.'] };
         console.error("Erro ao enviar email de verificação", errorResponse);
+        this.changeDetection.markForCheck();
       }
     });
   }

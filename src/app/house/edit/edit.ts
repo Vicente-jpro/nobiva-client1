@@ -5,8 +5,8 @@ import { HouseService } from '../../service/house-service';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
 import { HouseAndImage } from '../../models/house/house-and-image';
 import { HouseCreateRequest } from '../../models/house/house-create-request';
-import { DialogMessageData } from '../../dialog-message/dialog-message-data';
 import { HouseFormBuilder } from '../form/house-form-builder';
+import { DisplayMessage } from '../../models/display-message';
 
 @Component({
   selector: 'app-edit',
@@ -18,25 +18,24 @@ export class Edit extends HouseFormBuilder implements OnInit {
   titleData = 'Editar Casa';
   houseId = '';
   houseData: HouseResponseDetails | null = null;
+  display = new DisplayMessage();
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private service = inject(HouseService);
-  private dialog = new DialogMessageData();
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.houseId = this.route.snapshot.paramMap.get('id') ?? '';
-    this.dialog.title = 'Casa';
 
     this.service.findById(this.houseId).subscribe({
       next: (house) => {
         this.houseData = house;
         this.cdr.markForCheck();
-        console.log('House data loaded:', JSON.stringify(this.houseData, null, 2));
       },
       error: (err) => {
-        console.error('Error loading house:', err);
+        this.display = { success: '', errors: err.error.errors  };
+        this.cdr.markForCheck();
       }
     });
   }
@@ -46,17 +45,15 @@ export class Edit extends HouseFormBuilder implements OnInit {
 
     this.service.update(this.houseId, houseRequest).subscribe({
       next: (response) => {
-        this.dialog.content = 'A casa foi atualizada com sucesso.';
+        this.display = { success: 'A casa foi atualizada com sucesso.', errors: [] };
         if (houseAndImages.imageFormData) {
           this.uploadImages(response.id, houseAndImages.imageFormData);
         }
-        this.dialog.openDialog();
         this.router.navigate(['/menu/casas', this.houseId]);
       },
       error: (err) => {
-        this.dialog.content = err.error?.message || 'Ocorreu um erro ao atualizar a casa.';
-        this.dialog.openDialog();
-        console.error('Error updating house:', err.error.errors);
+        this.display = { success: '', errors: err.error.errors };
+        this.cdr.markForCheck();
       }
     });
   }
