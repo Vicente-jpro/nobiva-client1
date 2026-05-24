@@ -43,9 +43,6 @@
       </button>
     </div>
 
-    <!-- Action messages -->
-    <app-success [successMessageData]="display.success" />
-    <app-danger [dangerMessagesData]="display.errors" />
 
     <!-- Filter row -->
     <app-filter (applyFilterEvent)="applyFilter($event)"></app-filter>
@@ -64,6 +61,11 @@
     @if (!loading()) {
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 py-3">
+      
+          <!-- Action messages -->
+          <app-success [successMessageData]="display.success" />
+          <app-danger [dangerMessagesData]="display.errors" />
+
           <span class="fw-semibold">
             {{ houses().length }} imóvel(is) encontrado(s)
           </span>
@@ -78,7 +80,7 @@
                 <th>Tipologia</th>
                 <th>Preço</th>
                 <th>Estado</th>
-                <th>Localização</th>
+                <th>Data Publicação</th>
                 <th class="text-end">Ações</th>
               </tr>
             </thead>
@@ -123,8 +125,7 @@
                       </span>
                   </td>
                   <td class="text-muted small">
-                    <i class="bi bi-geo-alt me-1"></i>
-                    {{ house.locality || '' }}{{ house.province ? ', ' + house.province : '' }}
+                    {{ house.createdAt ? (house.createdAt | date:'dd/MM/yyyy HH:mm:ss') : 'DD/MM/YYYY HH:MM:SS' }}
                   </td>
                   <td class="text-end">
                     <div class="d-flex gap-1 justify-content-end flex-wrap">

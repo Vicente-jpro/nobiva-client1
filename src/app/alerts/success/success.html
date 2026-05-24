@@ -1,5 +1,7 @@
 @if( successMessageData) {
-    <div class="alert alert-success" role="alert">
-        {{ successMessageData }}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+         {{ successMessageData }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+

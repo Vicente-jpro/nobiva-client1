@@ -52,11 +52,11 @@ export class HouseService {
   }
 
   approve(idHouse: string): Observable<MessageInfo> {
-    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/approve`, {});
+    return this.httpClient.patch<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/approve`, {});
   }
 
   reject(idHouse: string): Observable<MessageInfo> {
-    return this.httpClient.put<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/reject`, {});
+    return this.httpClient.patch<MessageInfo>(`${this.apiUrl}/houses/${idHouse}/reject`, {});
   }
   
 }
