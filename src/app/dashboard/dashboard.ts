@@ -13,10 +13,11 @@ import { DisplayMessage } from '../models/display-message';
 import { Success } from '../alerts/success/success';
 import { Danger } from '../alerts/danger/danger';
 import { PlanManagement } from '../plan/plan';
+import { SubscriptionsAdmin } from '../subscription/admin/subscriptions-admin';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger, PlanManagement],
+  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger, PlanManagement, SubscriptionsAdmin],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +30,7 @@ export class Dashboard implements OnInit {
 
   protected houses = signal<HouseResponse[]>([]);
 
-  protected activeView = signal<'houses' | 'plans'>('houses');
+  protected activeView = signal<'houses' | 'plans' | 'subscriptions'>('houses');
   protected loading = signal(false);
   protected display = new DisplayMessage();
   protected page = signal(0);
@@ -43,7 +44,7 @@ export class Dashboard implements OnInit {
     this.findByFilter(this.houseFilter, this.page());
   }
 
-  setView(view: 'houses' | 'plans'): void {
+  setView(view: 'houses' | 'plans' | 'subscriptions'): void {
     this.activeView.set(view);
   }
 
