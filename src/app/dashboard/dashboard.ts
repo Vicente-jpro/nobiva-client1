@@ -12,10 +12,11 @@ import { HouseFilter } from '../models/house/house-filter';
 import { DisplayMessage } from '../models/display-message';
 import { Success } from '../alerts/success/success';
 import { Danger } from '../alerts/danger/danger';
+import { PlanManagement } from '../plan/plan';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger],
+  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger, PlanManagement],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +29,7 @@ export class Dashboard implements OnInit {
 
   protected houses = signal<HouseResponse[]>([]);
 
+  protected activeView = signal<'houses' | 'plans'>('houses');
   protected loading = signal(false);
   protected display = new DisplayMessage();
   protected page = signal(0);
@@ -39,6 +41,10 @@ export class Dashboard implements OnInit {
   ngOnInit(): void {
     this.houseFilter.statusPost = StatusPost.PENDENTE;
     this.findByFilter(this.houseFilter, this.page());
+  }
+
+  setView(view: 'houses' | 'plans'): void {
+    this.activeView.set(view);
   }
 
   loadHouses(): void {

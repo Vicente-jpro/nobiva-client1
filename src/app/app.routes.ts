@@ -56,6 +56,16 @@ export const routes: Routes = [
         loadComponent: () => import('./menu-property/menu-property').then(m => m.MenuProperty),
         children: [
             {
+                path: 'subscricoes',
+                loadComponent: () => import('./subscription/admin/subscriptions-admin').then(m => m.SubscriptionsAdmin),
+                canActivate: [adminGuard]
+            },
+            {
+                path: 'minha-subscricao',
+                loadComponent: () => import('./subscription/my-subscription/my-subscription').then(m => m.MySubscription),
+                canActivate: [authGuard]
+            },
+            {
                 path: 'casas',
                 children: [
                     {

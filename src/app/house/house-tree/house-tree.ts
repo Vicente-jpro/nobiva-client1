@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 
-interface FoodNode {
+interface NavNode {
   name: string;
-  children?: FoodNode[];
+  icon?: string;
+  adminOnly?: boolean;
+  children?: NavNode[];
 }
 
 @Component({
@@ -16,9 +18,13 @@ interface FoodNode {
 })
 export class HouseTree {
   private router = inject(Router);
-  dataSource = EXAMPLE_DATA;
-  expandedNodes = new Set<string>();
   user = inject(AuthService);
+  expandedNodes = new Set<string>();
+
+  get dataSource(): NavNode[] {
+    const isAdmin = this.user.hasAnyRole(['ADMINSTRADOR', 'SUPER_ADMINSTRADOR']);
+    return TREE_DATA.filter(n => !n.adminOnly || isAdmin);
+  }
 
   toggle(name: string): void {
     if (this.expandedNodes.has(name)) {
@@ -32,26 +38,49 @@ export class HouseTree {
     return this.expandedNodes.has(name);
   }
 
-  sendSelectedTreeToHouse(name: string): void {
-    switch (name) {
-      case 'Nova':
-        this.router.navigate(['/menu/casas/nova']);
-        break;
-      case 'Favoritas':
-        this.router.navigate(['/menu/casas/favoritas']);
-        break;
-      case 'Minhas':
-        this.router.navigate(['/menu/casas/minhas']);
-        break;
-      default:
-        this.router.navigate(['/menu/casas']);
-    }
+  navigate(name: string): void {
+    const routes: Record<string, string> = {
+      // Casas
+      'Nova': '/menu/casas/nova',
+      'Listar': '/menu/casas',
+      'Favoritas': '/menu/casas/favoritas',
+      'Minhas': '/menu/casas/minhas',
+      // Planos
+      'Gerir Planos': '/menu/planos',
+      // Subscrições
+      'Pendentes': '/menu/subscricoes',
+      'Minha Subscrição': '/menu/minha-subscricao',
+    };
+    const path = routes[name];
+    if (path) this.router.navigate([path]);
   }
 }
 
-const EXAMPLE_DATA: FoodNode[] = [
+const TREE_DATA: NavNode[] = [
   {
     name: 'Casas',
-    children: [{ name: 'Nova' }, { name: 'Listar' }, { name: 'Favoritas' }, { name: 'Minhas' }],
+    icon: 'bi-houses',
+    children: [
+      { name: 'Nova', icon: 'bi-plus-circle' },
+      { name: 'Listar', icon: 'bi-list-ul' },
+      { name: 'Favoritas', icon: 'bi-heart' },
+      { name: 'Minhas', icon: 'bi-person-check' },
+    ],
+  },
+  {
+    name: 'Planos',
+    icon: 'bi-patch-check',
+    adminOnly: true,
+    children: [
+      { name: 'Gerir Planos', icon: 'bi-sliders' },
+    ],
+  },
+  {
+    name: 'Subscrições',
+    icon: 'bi-credit-card-2-front',
+    children: [
+      { name: 'Minha Subscrição', icon: 'bi-person-badge' },
+      { name: 'Pendentes', icon: 'bi-hourglass-split', adminOnly: true },
+    ],
   },
 ];

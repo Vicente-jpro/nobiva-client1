@@ -1,0 +1,72 @@
+/* Plan card */
+.plan-card {
+  border-radius: 1rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+}
+
+/* Top accent bar */
+.plan-accent {
+  height: 6px;
+  width: 100%;
+  border-radius: 1rem 1rem 0 0;
+}
+.plan-accent-info    { background: #0dcaf0; }
+.plan-accent-success { background: #198754; }
+.plan-accent-warning { background: #ffc107; }
+.plan-accent-nobiva  { background: var(--purple-400); }
+.plan-accent-secondary { background: #6c757d; }
+
+/* Icon wrapper */
+.plan-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.plan-icon-info    { background: rgba(13, 202, 240, 0.15); color: #0dcaf0; }
+.plan-icon-success { background: rgba(25, 135, 84, 0.15); color: #198754; }
+.plan-icon-warning { background: rgba(255, 193, 7, 0.2); color: #b38600; }
+.plan-icon-nobiva  { background: rgba(171, 71, 188, 0.15); color: var(--purple-400); }
+.plan-icon-secondary { background: rgba(108, 117, 125, 0.15); color: #6c757d; }
+
+/* Price display */
+.plan-price {
+  line-height: 1;
+}
+
+/* Badge color override */
+.badge.bg-nobiva {
+  background-color: var(--purple-400) !important;
+}
+
+/* fs-7 helper */
+.fs-7 {
+  font-size: 0.8rem;
+}
+
+/* Modal backdrop */
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.modal {
+  z-index: 1050;
+}
+
+.modal-content {
+  border-radius: 1rem;
+}
+
+.bg-nobiva {
+  background-color: var(--purple-400) !important;
+}

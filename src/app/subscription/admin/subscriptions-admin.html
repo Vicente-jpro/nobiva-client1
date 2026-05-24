@@ -1,0 +1,117 @@
+<!-- Header -->
+<div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+  <div>
+    <h3 class="fw-bold mb-0">
+      <i class="bi bi-people me-2 text-purple"></i>Subscrições de Utilizadores
+    </h3>
+    <small class="text-muted">Gerir e ativar subscrições pendentes</small>
+  </div>
+  <button class="btn btn-nobiva btn-sm" (click)="load()">
+    <i class="bi bi-arrow-clockwise me-1"></i>Atualizar
+  </button>
+</div>
+
+<!-- Alerts -->
+<app-success [successMessageData]="display.success" />
+<app-danger [dangerMessagesData]="display.errors" />
+
+<!-- Status filter tabs -->
+<ul class="nav nav-pills mb-4 gap-1">
+  @for (s of statuses; track s.value) {
+    <li class="nav-item">
+      <button class="nav-link"
+              [class.active]="selectedStatus === s.value"
+              (click)="selectedStatus = s.value; load()">
+        {{ s.label }}
+      </button>
+    </li>
+  }
+</ul>
+
+<!-- Loading -->
+@if (loading()) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-purple" role="status"></div>
+    <p class="mt-2 text-muted">A carregar subscrições...</p>
+  </div>
+}
+
+<!-- Table -->
+@if (!loading()) {
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0 py-3 d-flex align-items-center justify-content-between">
+      <span class="fw-semibold">
+        {{ subscriptions().length }} subscrição(ões) encontrada(s)
+      </span>
+    </div>
+
+    @if (subscriptions().length === 0) {
+      <div class="text-center py-5 text-muted">
+        <i class="bi bi-inbox display-4 d-block mb-2"></i>
+        Nenhuma subscrição com estado <strong>{{ selectedStatus }}</strong>.
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Utilizador</th>
+              <th>E-mail</th>
+              <th>Plano</th>
+              <th>Duração</th>
+              <th>Estado</th>
+              <th>Trial</th>
+              <th class="text-end">Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (sub of subscriptions(); track sub.id) {
+              <tr>
+                <td class="fw-semibold">{{ sub.user?.name ?? '—' }}</td>
+                <td class="text-muted small">{{ sub.user?.email ?? '—' }}</td>
+                <td>
+                  <span class="badge bg-purple-100 text-purple-400 px-2 py-1">
+                    {{ sub.type.type }}
+                  </span>
+                </td>
+                <td class="small text-muted">
+                  {{ sub.usedDays }} / {{ sub.maxDuration }} dias
+                </td>
+                <td>
+                  <span class="badge bg-{{ statusBadge[sub.status] ?? 'secondary' }}-subtle
+                                      text-{{ statusBadge[sub.status] ?? 'secondary' }}
+                                      border border-{{ statusBadge[sub.status] ?? 'secondary' }}-subtle px-2 py-1">
+                    {{ sub.status }}
+                  </span>
+                </td>
+                <td>
+                  @if (sub.expermetal) {
+                    <span class="badge bg-info-subtle text-info border border-info-subtle">Sim</span>
+                  } @else {
+                    <span class="text-muted small">—</span>
+                  }
+                </td>
+                <td class="text-end">
+                  @if (sub.status === 'EM_AVALIACAO') {
+                    <button class="btn btn-nobiva btn-sm"
+                            [disabled]="activating() === sub.id"
+                            (click)="activate(sub)">
+                      @if (activating() === sub.id) {
+                        <span class="spinner-border spinner-border-sm me-1"></span>
+                      } @else {
+                        <i class="bi bi-check-circle me-1"></i>
+                      }
+                      Ativar
+                    </button>
+                  } @else {
+                    <span class="text-muted small">—</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+}

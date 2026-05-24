@@ -1,0 +1,27 @@
+.nav-pills .nav-link {
+  border-radius: 99px;
+  color: var(--purple-400);
+  font-size: 0.875rem;
+  padding: 0.35rem 1rem;
+
+  &.active {
+    background-color: var(--purple-400);
+    color: #fff;
+  }
+
+  &:hover:not(.active) {
+    background-color: var(--purple-50);
+  }
+}
+
+/* Table tweaks */
+.table th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6c757d;
+}
+
+.card {
+  border-radius: 1rem;
+}
