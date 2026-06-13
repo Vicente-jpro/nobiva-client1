@@ -7,6 +7,7 @@ export class HouseFilter {
   maxPrice: number | null = null;
   idProvince: number = 0;
   tipologies: string[] = [];
+  
 
   static builder(): HouseFilterBuilder {
     return new HouseFilterBuilder();
