@@ -24,7 +24,7 @@ import { Danger } from '../../alerts/danger/danger';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MySubscription implements OnInit {
-  private subscriptionService = inject(SubscriptionService);
+  private service = inject(SubscriptionService);
   private planService = inject(PlanService);
   private cdr = inject(ChangeDetectorRef);
 
@@ -74,7 +74,7 @@ export class MySubscription implements OnInit {
   }
 
   loadSubscription(): void {
-    this.subscriptionService.findByUser().subscribe({
+    this.service.findByUser().subscribe({
       next: (sub) => {
         this.subscription.set(sub);
         this.loading.set(false);
@@ -118,7 +118,7 @@ export class MySubscription implements OnInit {
 
     if (sub) {
       // already has subscription → update
-      this.subscriptionService.update({ PlanType: plan }).subscribe({
+      this.service.update({ PlanType: plan }).subscribe({
         next: (msg) => {
           this.display = { success: msg || 'Plano atualizado com sucesso.', errors: [] };
           this.saving.set(false);
@@ -133,7 +133,7 @@ export class MySubscription implements OnInit {
       });
     } else {
       // no subscription → create
-      this.subscriptionService.subscribe(plan).subscribe({
+      this.service.subscribe(plan).subscribe({
         next: (msg) => {
           this.display = { success: msg || 'Plano ativado com sucesso.', errors: [] };
           this.saving.set(false);
