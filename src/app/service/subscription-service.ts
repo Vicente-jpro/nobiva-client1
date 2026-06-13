@@ -12,6 +12,7 @@ export class SubscriptionService {
   private apiUrl = 'http://localhost:8080/api/subscriptions';
 
   subscribe(plan: PlanModel): Observable<string> {
+    console.log('Subscribing to plan:', plan);
     return this.http.post(this.apiUrl, plan, { responseType: 'text' });
   }
 

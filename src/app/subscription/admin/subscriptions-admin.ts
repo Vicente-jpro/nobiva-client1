@@ -56,7 +56,7 @@ export class SubscriptionsAdmin implements OnInit {
         this.cdr.markForCheck();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error?.errors ?? ['Erro ao carregar subscrições.'] };
+        this.display = { success: '', errors: err.error.errors || ['Erro ao carregar subscrições.'] };
         this.loading.set(false);
         this.cdr.markForCheck();
       },
@@ -77,7 +77,8 @@ export class SubscriptionsAdmin implements OnInit {
         this.load();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error?.errors ?? ['Erro ao ativar subscrição.'] };
+        console.error('Error activating subscription:', err);
+        this.display = { success: '', errors: err.error.errors || ['Erro ao ativar subscrição.'] };
         this.activating.set(null);
         this.cdr.markForCheck();
       },

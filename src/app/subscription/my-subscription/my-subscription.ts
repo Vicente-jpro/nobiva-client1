@@ -126,7 +126,7 @@ export class MySubscription implements OnInit {
           this.loadSubscription();
         },
         error: (err) => {
-          this.display = { success: '', errors: err.error?.errors ?? ['Erro ao atualizar plano.'] };
+          this.display = { success: '', errors: err.error.errors || ['Erro ao atualizar plano.'] };
           this.saving.set(false);
           this.cdr.markForCheck();
         },

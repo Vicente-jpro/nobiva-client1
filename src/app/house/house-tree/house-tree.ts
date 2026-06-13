@@ -23,6 +23,7 @@ export class HouseTree {
 
   get dataSource(): NavNode[] {
     const isAdmin = this.user.hasAnyRole(['ADMINSTRADOR', 'SUPER_ADMINSTRADOR']);
+    
     return TREE_DATA.filter(n => !n.adminOnly || isAdmin);
   }
 
@@ -45,18 +46,16 @@ export class HouseTree {
       'Listar': '/menu/casas',
       'Favoritas': '/menu/casas/favoritas',
       'Minhas': '/menu/casas/minhas',
-      // Planos
-      'Gerir Planos': '/menu/planos',
       // Subscrições
-      'Pendentes': '/menu/subscricoes',
       'Minha Subscrição': '/menu/minha-subscricao',
     };
+
     const path = routes[name];
     if (path) this.router.navigate([path]);
   }
 }
 
-const TREE_DATA: NavNode[] = [
+let TREE_DATA: NavNode[] = [
   {
     name: 'Casas',
     icon: 'bi-houses',
@@ -65,22 +64,6 @@ const TREE_DATA: NavNode[] = [
       { name: 'Listar', icon: 'bi-list-ul' },
       { name: 'Favoritas', icon: 'bi-heart' },
       { name: 'Minhas', icon: 'bi-person-check' },
-    ],
-  },
-  {
-    name: 'Planos',
-    icon: 'bi-patch-check',
-    adminOnly: true,
-    children: [
-      { name: 'Gerir Planos', icon: 'bi-sliders' },
-    ],
-  },
-  {
-    name: 'Subscrições',
-    icon: 'bi-credit-card-2-front',
-    children: [
-      { name: 'Minha Subscrição', icon: 'bi-person-badge' },
-      { name: 'Pendentes', icon: 'bi-hourglass-split', adminOnly: true },
     ],
   },
 ];

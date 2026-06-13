@@ -73,7 +73,7 @@ export class PlanManagement implements OnInit {
         this.cdr.markForCheck();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error?.errors ?? ['Erro ao carregar planos.'] };
+        this.display = { success: '', errors: err.error.errors || ['Erro ao carregar planos.'] };
         this.loading.set(false);
         this.cdr.markForCheck();
       },
@@ -119,7 +119,7 @@ export class PlanManagement implements OnInit {
         this.loadPlans();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error?.errors ?? ['Ocorreu um erro ao salvar.'] };
+        this.display = { success: '', errors: err.error.errors || ['Ocorreu um erro ao salvar.'] };
         this.saving.set(false);
         this.cdr.markForCheck();
       },
@@ -148,7 +148,7 @@ export class PlanManagement implements OnInit {
         this.loadPlans();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error?.errors ?? ['Erro ao eliminar.'] };
+        this.display = { success: '', errors: err.error.errors || ['Erro ao eliminar.'] };
         this.showDeleteModal.set(false);
         this.cdr.markForCheck();
       },
