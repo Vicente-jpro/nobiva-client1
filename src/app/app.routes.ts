@@ -74,11 +74,13 @@ export const routes: Routes = [
                     },
                     {
                         path: 'nova',
-                        loadComponent: () => import('./house/new/new').then(m => m.New)
+                        loadComponent: () => import('./house/new/new').then(m => m.New),
+                        canActivate: [authGuard]
                     },
                     {
                         path: ':id/editar',
-                        loadComponent: () => import('./house/edit/edit').then(m => m.Edit)
+                        loadComponent: () => import('./house/edit/edit').then(m => m.Edit),
+                        canActivate: [authGuard]
                     },
                     {
                         path: ':id',
@@ -86,7 +88,8 @@ export const routes: Routes = [
                     },
                     {
                         path: ':id/fotos',
-                        loadComponent: () => import('./house/photos/photos').then(m => m.Photos)
+                        loadComponent: () => import('./house/photos/photos').then(m => m.Photos),
+                        canActivate: [authGuard]
                     }
                 ]
             }

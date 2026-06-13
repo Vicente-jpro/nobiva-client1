@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 
   // Redirect to login page if not authenticated
-  router.navigate(['/login'], { 
+  router.navigate(['/user/login'], { 
     queryParams: { returnUrl: state.url } 
   });
   return false;
@@ -29,7 +29,7 @@ export const createRoleGuard = (requiredRoles: string[]): CanActivateFn => {
     const router = inject(Router);
 
     if (!authService.isLoggedIn()) {
-      router.navigate(['/login'], { 
+      router.navigate(['/user/login'], { 
         queryParams: { returnUrl: state.url } 
       });
       return false;

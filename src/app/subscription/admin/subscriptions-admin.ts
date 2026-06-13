@@ -72,7 +72,7 @@ export class SubscriptionsAdmin implements OnInit {
 
     this.service.activate(userId, req).subscribe({
       next: (msg) => {
-        this.display = { success: msg || 'Plano ativado com sucesso.', errors: [] };
+        this.display = { success: msg.message || 'Plano ativado com sucesso.', errors: [] };
         this.activating.set(null);
         this.load();
       },

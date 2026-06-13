@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { UserLogin } from '../../models/user/userLogin';
 import { UserService } from '../../service/user-service';
 import { AuthService } from '../../service/auth.service';
@@ -19,6 +19,7 @@ export class Login {
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private changeDetection = inject(ChangeDetectorRef);
   display = new DisplayMessage();
 
@@ -45,7 +46,8 @@ export class Login {
     this.service.login(this.user).subscribe({
       next: (response) => {
         this.authService.saveAuthData(response);
-        this.router.navigate(['/home']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/home';
+        this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
         this.display = { success: '', errors: err.error.errors || ['Email ou a Palavra passe está incorreto.'] };

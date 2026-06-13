@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SubscriptionModel, SubscriptionRequest } from '../models/subscription';
 import { PlanModel } from '../models/plan';
+import { MessageInfo } from '../user/messageInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +12,18 @@ export class SubscriptionService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/subscriptions';
 
-  subscribe(plan: PlanModel): Observable<string> {
+  subscribe(plan: PlanModel): Observable<MessageInfo> {
     console.log('Subscribing to plan:', plan);
-    return this.http.post(this.apiUrl, plan, { responseType: 'text' });
+    return this.http.post<MessageInfo>(this.apiUrl, plan);
   }
 
-  update(request: SubscriptionRequest): Observable<string> {
-    return this.http.patch(this.apiUrl, request, { responseType: 'text' });
+  update(request: SubscriptionRequest): Observable<MessageInfo> {
+    return this.http.patch<MessageInfo>(this.apiUrl, request);
   }
 
-  activate(userId: string, request: SubscriptionRequest): Observable<string> {
-    return this.http.patch(`${this.apiUrl}/${userId}/activate`, request, { responseType: 'text' });
+  activate(userId: string, request: SubscriptionRequest): Observable<MessageInfo> {
+    return this.http.patch<MessageInfo>(`${this.apiUrl}/${userId}/activate`, request);
+
   }
 
   findByStatus(status: string): Observable<SubscriptionModel[]> {

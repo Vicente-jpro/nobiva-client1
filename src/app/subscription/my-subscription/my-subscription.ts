@@ -120,13 +120,14 @@ export class MySubscription implements OnInit {
       // already has subscription → update
       this.service.update({ PlanType: plan }).subscribe({
         next: (msg) => {
-          this.display = { success: msg || 'Plano atualizado com sucesso.', errors: [] };
+          this.display = { success: msg.message || 'Plano atualizado com sucesso.', errors: [] };
           this.saving.set(false);
           this.showChangePlan.set(false);
           this.loadSubscription();
         },
         error: (err) => {
           this.display = { success: '', errors: err.error.errors || ['Erro ao atualizar plano.'] };
+          console.error('Error updating subscription:', err);
           this.saving.set(false);
           this.cdr.markForCheck();
         },
@@ -135,13 +136,13 @@ export class MySubscription implements OnInit {
       // no subscription → create
       this.service.subscribe(plan).subscribe({
         next: (msg) => {
-          this.display = { success: msg || 'Plano ativado com sucesso.', errors: [] };
+          this.display = { success: msg.message || 'Plano ativado com sucesso.', errors: [] };
           this.saving.set(false);
           this.showChangePlan.set(false);
           this.loadSubscription();
         },
         error: (err) => {
-          this.display = { success: '', errors: err.error?.errors ?? ['Erro ao subscrever plano.'] };
+          this.display = { success: '', errors: err.error.errors || ['Erro ao subscrever plano.'] };
           this.saving.set(false);
           this.cdr.markForCheck();
         },
