@@ -9,6 +9,7 @@ import { AuthService } from '../service/auth.service';
 import { HouseFilter } from '../models/house/house-filter';
 import { Subscription } from 'rxjs';
 import { FavoriteHouseService } from '../service/favorite-house-service';
+import { StatusPost } from '../models/property-status';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class House implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.houseFilter.negotiation = this.negotiationType;
+    this.houseFilter.statusPost = StatusPost.APROVADO;
     this.findByFilter(this.houseFilter, this.page());
 
     this.filterSub = this.service.filterChanged$.subscribe(filter => {
@@ -122,6 +124,7 @@ export class House implements OnInit, OnDestroy {
 
       case this.ACTION.HOUSES:
         this.currentAction = this.ACTION.HOUSES;
+        this.houseFilter.statusPost = StatusPost.APROVADO;
         this.findByFilter(this.houseFilter, this.page());
         console.log('Current action set to HOUSES');
         break;
