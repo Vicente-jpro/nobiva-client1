@@ -62,7 +62,7 @@
                 <label class="form-check-label" for="inclino">Inclino</label>
               </div>
             </div>
-            @if (authService.hasAllRoles([role.adminstrador, role.superAdminstrador])) {
+            @if (authService.hasAnyRole([role.adminstrador, role.superAdminstrador])) {
               <div class="col-6">
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="checkbox" id="administrador" formControlName="administrador">

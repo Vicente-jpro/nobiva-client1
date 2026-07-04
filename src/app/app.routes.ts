@@ -4,6 +4,11 @@ import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'menu',
+        pathMatch: 'full'
+    },
+    {
         path: 'server-down',
         loadComponent: () => import('./server-down/server-down').then(m => m.ServerDown)
     },

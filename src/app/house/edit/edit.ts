@@ -44,12 +44,13 @@ export class Edit extends HouseFormBuilder implements OnInit {
     const houseRequest = houseAndImages.house as HouseCreateRequest;
 
     this.service.update(this.houseId, houseRequest).subscribe({
-      next: (response) => {
+      next: (_response) => {
         this.display = { success: 'A casa foi atualizada com sucesso.', errors: [] };
         if (houseAndImages.imageFormData) {
-          this.uploadImages(response.id, houseAndImages.imageFormData);
+          this.uploadImages(this.houseId, houseAndImages.imageFormData);
+        } else {
+          this.router.navigate(['/menu/casas', this.houseId]);
         }
-        this.router.navigate(['/menu/casas', this.houseId]);
       },
       error: (err) => {
         this.display = { success: '', errors: err.error.errors };
@@ -61,10 +62,11 @@ export class Edit extends HouseFormBuilder implements OnInit {
   private uploadImages(idHouse: string, imagesFormData: FormData): void {
     this.service.uploadImages(idHouse, imagesFormData).subscribe({
       next: () => {
-        console.log('Images uploaded successfully');
+        this.router.navigate(['/menu/casas', this.houseId]);
       },
       error: (err) => {
-        console.error('Error uploading images:', err);
+        this.display = { success: '', errors: err.error?.errors || ['Ocorreu um erro ao enviar as imagens.'] };
+        this.cdr.markForCheck();
       }
     });
   }

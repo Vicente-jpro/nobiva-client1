@@ -61,7 +61,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     if (this.selectedFiles) {
       const uploadFile = new UploadFile();
       this.imagesUploaded = uploadFile.onUpload(this.selectedFiles);
-      console.log('FormData with selected files:', this.imagesUploaded.getAll('images'));
+      console.log('FormData with selected files:', this.imagesUploaded.getAll('files'));
       this.cdr.markForCheck();
     }
   }

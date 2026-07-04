@@ -43,8 +43,8 @@ export class New implements OnInit {
         this.cdr.markForCheck();
       },
       error: (err) => {
-        this.display = { success: '', errors: err.error.errors || ['Ocorreu um erro ao enviar as imagens.'] };
-    
+        this.display = { success: '', errors: err.error?.errors || ['Ocorreu um erro ao enviar as imagens.'] };
+        this.cdr.markForCheck();
       }
     });
   }
