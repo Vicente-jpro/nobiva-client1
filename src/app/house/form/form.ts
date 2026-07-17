@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HouseFormBuilder } from './house-form-builder';
 import { AuthService } from '../../service/auth.service';
@@ -35,6 +36,29 @@ export class Form extends HouseFormBuilder implements OnInit {
 
   @Output() formEvent = new EventEmitter<HouseAndImage>();
 
+  private readonly DRAFT_KEY = 'house_form_draft';
+
+  private saveDraft(): void {
+    try {
+      localStorage.setItem(this.DRAFT_KEY, JSON.stringify(this.houseForm.value));
+    } catch {}
+  }
+
+  clearDraft(): void {
+    try {
+      localStorage.removeItem(this.DRAFT_KEY);
+    } catch {}
+  }
+
+  private loadDraft(): any | null {
+    try {
+      const raw = localStorage.getItem(this.DRAFT_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
   onSubmit() {
     let houseAndImages = new HouseAndImage();
     const formValue = this.houseForm.value;
@@ -52,7 +76,7 @@ export class Form extends HouseFormBuilder implements OnInit {
     houseAndImages.house = this.houseModel;
     houseAndImages.imageFormData = this.imagesUploaded;
     console.log('HouseAndImages on submit:', houseAndImages);
-
+    this.clearDraft();
     this.formEvent.emit(houseAndImages);
   }
 
@@ -78,6 +102,10 @@ export class Form extends HouseFormBuilder implements OnInit {
       }
     });
 
+    if (!this.houseData) {
+      this.houseForm.valueChanges.pipe(debounceTime(500)).subscribe(() => this.saveDraft());
+    }
+
     if (this.houseData) {
       this.houseForm.patchValue({
         title: this.houseData.title,
@@ -85,7 +113,6 @@ export class Form extends HouseFormBuilder implements OnInit {
         avaliable: this.houseData.avaliable,
         number_of_rooms: this.houseData.number_of_rooms,
         tipology: this.houseData.tipology,
-        status_post: this.houseData.status_post,
         status_condition: this.houseData.status_condition,
         type_negotiation: this.houseData.type_negotiation,
         furnished: this.houseData.furnished,
@@ -159,6 +186,46 @@ export class Form extends HouseFormBuilder implements OnInit {
                 },
                 error: (err) => console.error('Error fetching provinces:', err)
               });
+            }
+          } else {
+            const draft = this.loadDraft();
+            if (draft) {
+              const { post_address, ...rest } = draft;
+              this.houseForm.patchValue(rest);
+
+              if (post_address?.address) {
+                this.houseForm.get('post_address.address')?.patchValue(post_address.address);
+              }
+
+              const countryId = post_address?.locality?.countrySelected;
+              const provinceId = post_address?.locality?.provinceSelected;
+              const localityId = post_address?.locality?.id;
+
+              if (countryId) {
+                this.houseForm.get('post_address.locality.countrySelected')?.setValue(countryId);
+
+                this.addressService.findProvincesByCountryId(countryId).subscribe({
+                  next: provinces => {
+                    this.provinceOptions = provinces.map(p => ({ value: p.id, viewValue: p.name }));
+
+                    if (provinceId) {
+                      this.houseForm.get('post_address.locality.provinceSelected')?.setValue(provinceId);
+
+                      this.addressService.findLocalitiesByProvinceId(provinceId).subscribe({
+                        next: localities => {
+                          this.localityOptions = localities.map(l => ({ value: l.id, viewValue: l.locality }));
+                          if (localityId) {
+                            this.houseForm.get('post_address.locality.id')?.setValue(localityId);
+                          }
+                          this.cdr.markForCheck();
+                        }
+                      });
+                    }
+                    this.cdr.markForCheck();
+                  }
+                });
+              }
+              this.cdr.markForCheck();
             }
           }
         },
