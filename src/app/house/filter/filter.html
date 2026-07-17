@@ -5,15 +5,6 @@
           [(ngModel)]="filterSearch">
 </div>
 
-  <label class="form-label fw-semibold small">Estado</label>
-  <select class="form-select form-select-sm" [(ngModel)]="filterStatus">
-    <option value="">Todos</option>
-    <option [value]="statusPost.APROVADO">Aprovado</option>
-    <option [value]="statusPost.PENDENTE">Pendente</option>
-    <option [value]="statusPost.REPROVADO">Reprovado</option>
-    <option [value]="statusPost.BLOQUEADO">Bloqueado</option>
-  </select>
-
   <label class="form-label fw-semibold small">Tipo de Negociação</label>
   <select class="form-select form-select-sm" [(ngModel)]="filterTypeNegociation">
     <option value="">Todos</option>

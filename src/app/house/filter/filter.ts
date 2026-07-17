@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { StatusPost } from '../../models/property-status';
 import { TypeNegotiation } from '../../models/negotiation-type';
 import { Tipology } from '../../models/property-tipology';
 import { AuthService } from '../../service/auth.service';
@@ -21,7 +20,6 @@ export class Filter extends ProvinceSelectBox implements OnInit {
   protected loading = false;
   protected page = 0;
 
-  statusPost = StatusPost;
   negotiation = TypeNegotiation;
   tipology = Tipology;
   tipologyKeys = Object.values(Tipology);
@@ -29,7 +27,6 @@ export class Filter extends ProvinceSelectBox implements OnInit {
   @Output() applyFilterEvent = new EventEmitter<HouseFilter>();
 
   private addressService = inject(AddressService);
-  protected filterStatus = '';
   protected filterTypeNegociation = '';
   protected filterSearch = '';
   protected filterMinPrice: number | null = null;
@@ -62,7 +59,6 @@ export class Filter extends ProvinceSelectBox implements OnInit {
     const filter = HouseFilter.builder()
       .setTitle(this.filterSearch)
       .setNegotiation(this.filterTypeNegociation)
-      .setStatusPost(this.filterStatus)
       .setLocality(this.filterSearch)
       .setIdProvince(this.filterIdProvince)
       .setMinPrice(this.filterMinPrice ?? null)
