@@ -1,10 +1,10 @@
 /* Hero subscription card */
 .sub-hero {
-  background: linear-gradient(135deg, var(--purple-400) 0%, #7b1fa2 100%);
-  border-radius: 1.25rem;
-  padding: 2rem;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, #0d2d4a 100%);
+  border-radius: var(--radius-card);
+  padding: 1.8rem;
   color: #fff;
-  box-shadow: 0 8px 32px rgba(123, 31, 162, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 .sub-plan-icon {

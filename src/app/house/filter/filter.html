@@ -1,48 +1,74 @@
-<div class="col">
-  <label class="form-label fw-semibold small">Pesquisar</label>
-  <input type="text" class="form-control form-control-sm"
-          placeholder="Título, localidade..."
-          [(ngModel)]="filterSearch">
+<div class="filter-group">
+  <label class="filter-label">Pesquisar</label>
+  <input type="text" class="form-control mt-2"
+         placeholder="Título, localidade..."
+         [(ngModel)]="filterSearch">
 </div>
 
-  <label class="form-label fw-semibold small">Tipo de Negociação</label>
-  <select class="form-select form-select-sm" [(ngModel)]="filterTypeNegociation">
-    <option value="">Todos</option>
-    <option [value]="negotiation.VENDA">Venda</option>
-    <option [value]="negotiation.ARRENDAMENTO">Arrendamento</option>
-  </select>
+<div class="filter-group mt-4">
+  <label class="filter-label">Tipo de Negociação</label>
+  <div class="row g-2 mt-1">
+    <div class="col-6">
+      <div class="form-check filter-radio-card">
+        <input class="form-check-input" type="radio" [value]="''" [(ngModel)]="filterTypeNegociation">
+        <label class="form-check-label">Todos</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-check filter-radio-card">
+        <input class="form-check-input" type="radio" [value]="negotiation.VENDA" [(ngModel)]="filterTypeNegociation">
+        <label class="form-check-label">Venda</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-check filter-radio-card">
+        <input class="form-check-input" type="radio" [value]="negotiation.ARRENDAMENTO" [(ngModel)]="filterTypeNegociation">
+        <label class="form-check-label">Arrendamento</label>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <label class="form-label fw-semibold small">Província</label>
-  <select class="form-select form-select-sm" [(ngModel)]="filterIdProvince">
+<div class="filter-group mt-4">
+  <label class="filter-label">Província</label>
+  <select class="form-select mt-2" [(ngModel)]="filterIdProvince">
     <option [value]="0">Todas</option>
     @for (p of provinceOptions; track p.value) {
       <option [value]="p.value">{{ p.viewValue }}</option>
     }
   </select>
+</div>
 
-  <label class="form-label fw-semibold small">Preço mín.</label>
-  <input type="number" class="form-control form-control-sm" placeholder="0"
-          [(ngModel)]="filterMinPrice" min="100">
-
-
-  <label class="form-label fw-semibold small">Preço máx.</label>
-  <input type="number" class="form-control form-control-sm mb-3" placeholder="∞"
-          [(ngModel)]="filterMaxPrice" min="100">
-
-  <label class="form-label fw-semibold small">Tipologia</label>
-  <div class="d-flex flex-wrap gap-2 mb-3">
-    @for (t of tipologyKeys; track t) {
-      <div class="form-check form-check-inline m-0">
-        <input class="form-check-input" type="checkbox"
-                [id]="'tip-' + t"
-                [value]="t"
-                [checked]="filterTipologies.includes(t)"
-                (change)="toggleTipology(t)">
-        <label class="form-check-label small" [for]="'tip-' + t">{{ t }}</label>
+<div class="filter-group mt-4">
+  <label class="filter-label">Faixa de preço</label>
+  <div class="row g-2 mt-1">
+    <div class="col-6">
+      <div class="input-group">
+        <span class="input-group-text small">Kz</span>
+        <input type="number" class="form-control" placeholder="Mín" [(ngModel)]="filterMinPrice" min="100">
       </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <span class="input-group-text small">Kz</span>
+        <input type="number" class="form-control" placeholder="Máx" [(ngModel)]="filterMaxPrice" min="100">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-group mt-4">
+  <label class="filter-label">Tipologia</label>
+  <div class="choice-group mt-2">
+    @for (t of tipologyKeys; track t) {
+      <button type="button"
+              class="filter-chip"
+              [class.active]="filterTipologies.includes(t)"
+              (click)="toggleTipology(t)">{{ t }}</button>
     }
   </div>
+</div>
 
-  <button type="button" class="btn btn-nobiva btn-sm w-100" (click)="applyFilter()">
-    <i class="bi bi-funnel me-1"></i>Filtrar
-
+<button type="button" class="btn btn-accent w-100 mt-4" (click)="applyFilter()">
+  <i class="bi bi-sliders2 me-2"></i>Aplicar Filtros
+</button>

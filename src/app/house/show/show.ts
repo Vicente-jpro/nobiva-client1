@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
 import { HouseService } from '../../service/house-service';
 import { HouseResponseDetails } from '../../models/house/house-response-details';
 import { Image } from '../../models/image';
@@ -10,7 +11,7 @@ import { Danger } from '../../alerts/danger/danger';
 
 @Component({
   selector: 'app-show',
-  imports: [Success, Danger],
+  imports: [Success, Danger, RouterLink, DecimalPipe],
   templateUrl: './show.html',
   styleUrl: './show.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,31 +1,86 @@
-<div class="d-flex justify-content-end gap-2">
-  <button type="button" class="btn btn-light" (click)="getHouses(ACTION.HOUSES)">
-    <i class="bi bi-buildings me-1"></i>Casas
-  </button>
-  <button type="button" class="btn btn-light" (click)="getHouses(ACTION.OWNER_HOUSE)">
-    <i class="bi bi-person-lines-fill me-1"></i>Minhas publicações
-  </button>
-  <button type="button" class="btn btn-light" (click)="getHouses(ACTION.FAVORITES_HOUSE)">
-    <i class="bi bi-heart me-1"></i>Favoritas
-  </button>
+<section class="page-hero">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-3">
+        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Imóveis</li>
+      </ol>
+    </nav>
+    <h1 class="page-title">Encontre o seu Imóvel Ideal</h1>
+    <p class="page-subtitle">Explore oportunidades selecionadas com filtros avançados e uma experiência elegante.</p>
+  </div>
+</section>
+
+<div class="results-wrapper">
+  <div class="container pb-5">
+    <div class="row g-4">
+
+      <!-- Sidebar filters -->
+      <div class="col-lg-3 d-none d-lg-block">
+        <div class="sidebar-sticky">
+          <div class="filter-panel card-surface p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="h5 mb-0">Filtros</h3>
+              <button class="btn btn-link p-0 reset-link" type="button"
+                      (click)="resetFilter()">Limpar</button>
+            </div>
+            <app-filter />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="col-lg-9">
+        <div class="toolbar card-surface d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 p-3 mb-4">
+          <div>
+            <div class="small fw-semibold text-soft">Imóveis encontrados</div>
+          </div>
+          <div class="d-flex flex-wrap gap-2 ms-md-auto">
+            <button class="btn btn-outline-soft d-lg-none" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+              <i class="bi bi-funnel me-2"></i>Filtros
+            </button>
+            <button type="button" class="btn btn-outline-soft btn-sm"
+                    (click)="getHouses(ACTION.HOUSES)">
+              <i class="bi bi-buildings me-1"></i>Imóveis
+            </button>
+            <button type="button" class="btn btn-outline-soft btn-sm"
+                    (click)="getHouses(ACTION.OWNER_HOUSE)">
+              <i class="bi bi-person-lines-fill me-1"></i>Minhas publicações
+            </button>
+            <button type="button" class="btn btn-outline-soft btn-sm"
+                    (click)="getHouses(ACTION.FAVORITES_HOUSE)">
+              <i class="bi bi-heart me-1"></i>Favoritas
+            </button>
+          </div>
+        </div>
+
+        @for (house of houses(); track house.idHouse) {
+          <app-house-partial [houseData]="house" />
+        } @empty {
+          <div class="text-center py-5">
+            <i class="bi bi-house-slash" style="font-size:3rem;color:var(--brand-accent);"></i>
+            <p class="mt-3 text-soft fs-5">Nenhum imóvel encontrado. Ajuste os filtros.</p>
+          </div>
+        }
+
+        <div class="d-grid mt-4">
+          <button type="button" class="btn btn-nobiva py-3" (click)="goToNextPage()">
+            <i class="bi bi-arrow-down-circle me-2"></i>Carregar mais
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="container-fluid py-3">
-
-  <div class="container-fluid px-0">
-    @for (house of houses(); track house.idHouse) {
-      <app-house-partial [houseData]="house" />
-    } @empty {
-      <p class="text-center fs-3 mt-5">
-        <strong>Aplica/Troca o filtro para encontrar as casa disponível.</strong>
-      </p>
-    }
+<!-- Mobile filters offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Filtros</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
-
-  <div class="d-grid gap-2 mt-3 mb-2">
-    <button type="button" class="btn btn-nobiva" (click)="goToNextPage()">
-      <i class="bi bi-eye me-2"></i>Próxima página
-    </button>
+  <div class="offcanvas-body">
+    <app-filter />
   </div>
-
 </div>

@@ -1,53 +1,64 @@
-<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
-  <div class="card shadow border-0" style="min-width: 340px; max-width: 440px; width: 100%;">
-    <div class="card-body p-4">
-      <h3 class="text-center fw-bold text-purple mb-4">
-        <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
-      </h3>
+<main class="container-fluid px-0 auth-shell">
+  <div class="row g-0">
+    <div class="col-lg-6 d-none d-lg-flex auth-visual align-items-end">
+      <div class="quote-box">
+        <div class="quote-label">Inspire-se</div>
+        <h2>"Cada lar conta uma nova história — encontre o cenário perfeito para a sua próxima conquista."</h2>
+        <p>Entre na sua conta para salvar favoritos, gerir anúncios e acompanhar novas oportunidades.</p>
+      </div>
+    </div>
+    <div class="col-lg-6 auth-form-wrap">
+      <div class="auth-card card">
+        <div class="brand-mark">Imóvel<span>Dream</span></div>
+        <h1 class="text-center h2 mb-2">Bem-vindo de volta</h1>
+        <p class="text-center text-soft mb-4">Acesse a sua conta para continuar.</p>
 
-      <app-danger [dangerMessagesData]="display.errors" />
+        <app-danger [dangerMessagesData]="display.errors" />
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label for="email" class="form-label fw-semibold">Email</label>
-          <input id="email" type="email" class="form-control"
-                 formControlName="email" placeholder="o seu email"
-                 [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-            <div class="invalid-feedback">
-              @if (loginForm.get('email')?.hasError('required')) {
-                Email é obrigatório.
-              }
-              @if (loginForm.get('email')?.hasError('email')) {
-                Insira um email válido.
-              }
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control" formControlName="email"
+                     placeholder="nome@exemplo.com"
+                     [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
             </div>
-          }
-        </div>
+            @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+              <div class="text-danger small mt-1">
+                @if (loginForm.get('email')?.hasError('required')) { Email é obrigatório. }
+                @if (loginForm.get('email')?.hasError('email')) { Insira um email válido. }
+              </div>
+            }
+          </div>
 
-        <div class="mb-4">
-          <label for="password" class="form-label fw-semibold">Palavra passe</label>
-          <input id="password" type="password" class="form-control"
-                 formControlName="password" placeholder="a sua palavra passe"
-                 [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-            <div class="invalid-feedback">
-              @if (loginForm.get('password')?.hasError('required')) {
-                Palavra passe é obrigatória.
-              }
+          <div class="mb-4">
+            <label class="form-label">Palavra passe</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" class="form-control" formControlName="password"
+                     placeholder="Digite a sua palavra passe"
+                     [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
             </div>
-          }
+            @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+              <div class="text-danger small mt-1">Palavra passe é obrigatória.</div>
+            }
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <a routerLink="/user/password-recover" class="text-brand text-decoration-none small fw-semibold">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary-cta">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+          </button>
+        </form>
+
+        <div class="mt-4 text-center text-soft">
+          Ainda não tem conta?
+          <a routerLink="/user/signup/new" class="text-brand fw-semibold text-decoration-none">Criar conta</a>
         </div>
-
-        <button type="submit" class="btn btn-nobiva w-100 mb-3">
-          <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
-        </button>
-      </form>
-
-      <div class="d-flex justify-content-between mt-2">
-        <a routerLink="/user/signup/new" class="text-decoration-none small">Criar conta</a>
-        <a routerLink="/user/password-recover" class="text-decoration-none small">Recuperar palavra passe</a>
       </div>
     </div>
   </div>
-</div>
+</main>

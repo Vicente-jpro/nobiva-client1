@@ -1,3 +1,61 @@
-<section class="hero">
+<section class="hero" [class.ready]="heroReady">
+  <div class="hero-bg"></div>
+  <div class="container hero-content">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-eyebrow"><i class="bi bi-stars"></i> Nº 1 em Imóveis Premium</div>
+        <h1>Encontre o Lar <span>dos Seus Sonhos</span></h1>
+        <p class="lead">Explore milhares de imóveis selecionados com fotos profissionais e informações completas.</p>
 
+        <div class="search-card">
+          <ul class="nav search-tabs mb-3">
+            <li class="nav-item">
+              <button class="nav-link active" type="button">Comprar</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" type="button">Arrendar</button>
+            </li>
+          </ul>
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <select class="search-input form-select w-100" [(ngModel)]="selectedCountry">
+                <option value="">País</option>
+                @for (c of countries; track c.value) {
+                  <option [value]="c.value">{{ c.viewValue }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-6">
+              <select class="search-input form-select w-100" [(ngModel)]="selectedCity">
+                <option value="">Cidade / Localidade</option>
+                @for (c of cities; track c.value) {
+                  <option [value]="c.value">{{ c.viewValue }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <button class="btn-search" type="button" routerLink="/menu/casas">
+            <i class="bi bi-search me-2"></i>Pesquisar Imóveis
+          </button>
+        </div>
+
+        <div class="hero-stats d-flex gap-4 flex-wrap">
+          <div class="hero-stat">
+            <h3>2.400+</h3>
+            <small>Imóveis disponíveis</small>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <h3>1.200+</h3>
+            <small>Proprietários satisfeitos</small>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <h3>3</h3>
+            <small>Países</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

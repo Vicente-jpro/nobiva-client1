@@ -1,12 +1,20 @@
-.shipping-card {
-  width: 500px;
-
-  /* Card size unchanged - kept at max-width: 500px */
+.form-page-bg {
+  background: linear-gradient(180deg, #f6f9fd 0%, #eef4fb 100%);
+  min-height: calc(100vh - 76px);
+  padding: 2.4rem 0 0;
 }
 
-.full-width {
-  width: 100%;
+.wizard-shell { max-width: 860px; margin: 0 auto; }
+
+.wizard-card {
+  padding: 2rem;
+  border: 1px solid rgba(26,60,94,.06);
 }
+
+.wizard-title { font-size: clamp(2rem, 4vw, 2.8rem); color: var(--brand-primary); margin-bottom: .55rem; }
+.wizard-subtitle { color: var(--text-muted-alt); line-height: 1.7; margin-bottom: 1.8rem; }
+
+.full-width { width: 100%; }
 
 .text-center {
   text-align: center;

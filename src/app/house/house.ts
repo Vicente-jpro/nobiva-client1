@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HouseService } from '../service/house-service';
 import { HousePartial } from './house-partial/house-partial';
+import { Filter } from './filter/filter';
 import { HouseOwner } from './house-owner/house-owner';
 import { HouseResponse } from '../models/house/house-response';
 import { RoomResponse } from '../models/room/room-response';
@@ -14,7 +16,7 @@ import { StatusPost } from '../models/property-status';
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial],
+  imports: [HousePartial, Filter, RouterLink],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +65,14 @@ export class House implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.filterSub?.unsubscribe();
+  }
+
+  resetFilter(): void {
+    this.houseFilter = new HouseFilter();
+    this.houseFilter.statusPost = StatusPost.APROVADO;
+    this.houses.set([]);
+    this.page.set(0);
+    this.findByFilter(this.houseFilter, this.page());
   }
 
   applyFilter(filter: HouseFilter): void {

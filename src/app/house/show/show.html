@@ -1,227 +1,142 @@
 <main>
-  <div class="album py-5">
-    <div class="container-fluid">
+  <div class="container pb-5">
+    <nav aria-label="breadcrumb" class="py-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/menu/casas">Imóveis</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ house.title }}</li>
+      </ol>
+    </nav>
 
-        <app-success [successMessageData]="display.success"/>
-        <app-danger [dangerMessagesData]="display.errors"/>
+    <app-success [successMessageData]="display.success"/>
+    <app-danger [dangerMessagesData]="display.errors"/>
 
-      <div class="d-flex justify-content-end gap-2 mb-3">
-        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onShowPhotos(house.image)">
-          <span class="material-icons fs-6 align-middle me-1">photo_camera_back</span>
-          Ver todas as fotos
-        </button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="saveFavorite(houseId)">
-          <span class="material-icons fs-6 align-middle me-1">favorite</span>
-          Guardar como favorito
-        </button>
-      </div>
-
-        @if(house.image.length > 0) {
-        <div class="row my-1 mt-3">
-            <div class="col-sm-6 bg-light">
-                @if(house.image[0] ) {
-                    <img [src]="house.image[0].url" class="bd-placeholder-img card-img-top" width="100%" height="390" />
-                }
-            </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col-sm-6 mb-1">
-                        @if(house.image[1] ) {
-                            <img [src]="house.image[1].url"  class="bd-placeholder-img card-img-top"
-                            width="100%" height="190">
-                        }
-                    </div>
-                    <div class="col-sm-6">
-                         @if(house.image[2] ) {
-                            <img [src]="house.image[2].url"  class="bd-placeholder-img card-img-top"
-                            width="100%" height="190">
-                         }
-                    </div>
-                    <div class="col-sm-6">
-                      @if(house.image[3] ) {
-                          <img [src]="house.image[3].url" class="bd-placeholder-img card-img-top"
-                          width="100%" height="190">
-                      }
-                    </div>
-                    <div class="col-sm-6">
-                      @if(house.image[4] ) {
-                          <img [src]="house.image[4].url" class="bd-placeholder-img card-img-top"
-                          width="100%" height="190">
-                      }
-                    </div>
+    <!-- Gallery -->
+    @if(house.image.length > 0) {
+      <section class="mb-5">
+        <div class="row g-3 align-items-stretch">
+          <div class="col-lg-8">
+            <img [src]="house.image[0].url" class="gallery-main" alt="{{ house.title }}">
+          </div>
+          <div class="col-lg-4">
+            <div class="thumb-grid">
+              @for (img of house.image.slice(1, 5); track img.id; let i = $index) {
+                <div class="thumb-item">
+                  <img [src]="img.url" [alt]="house.title + ' foto ' + (i + 2)">
+                  @if (i === 3) {
+                    <button class="btn-gallery" type="button" (click)="onShowPhotos(house.image)">
+                      <i class="bi bi-images me-2"></i>Ver todas
+                    </button>
+                  }
                 </div>
-
+              }
             </div>
+          </div>
         </div>
-        }
+      </section>
+    }
 
-    </div>
-  </div>
+    <section class="pb-4">
+      <div class="row g-4">
+        <!-- Main content -->
+        <div class="col-lg-8">
+          <div class="card-surface detail-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <span class="status-badge">
+                <i class="bi bi-house-check"></i>{{ house.type_negotiation }}
+              </span>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-soft btn-sm" (click)="onEdit()">
+                  <i class="bi bi-pencil me-1"></i>Editar
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDelete(house.id)">
+                  <i class="bi bi-trash me-1"></i>Eliminar
+                </button>
+              </div>
+            </div>
 
-  <div class="container">
-    <div class="d-grid gap-2">
-        <button type="button" class="btn btn-nobiva btn-sm" (click)="onEdit()">
-            <span class="material-icons fs-6 align-middle me-1">edit</span>
-            Editar
-        </button>
-        <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(house.id)">
-            <span class="material-icons fs-6 align-middle me-1">delete</span>
-            Eliminar
-        </button>
-    </div>
+            <h1 class="detail-title">{{ house.title }} – {{ house.tipology }}</h1>
+            <div class="detail-price">{{ house.price | number }} <small>Kz/mês</small></div>
+            <div class="detail-location">
+              <i class="bi bi-geo-alt-fill"></i>
+              {{ house.post_address.address.street1 }},
+              {{ house.post_address.locality.province.name }},
+              {{ house.post_address.locality.province.country.name }}
+            </div>
 
-    <br>
+            <div class="feature-badges">
+              <span class="feature-badge"><i class="bi bi-door-open"></i>{{ house.number_of_rooms }} Quartos</span>
+              <span class="feature-badge"><i class="bi bi-droplet-half"></i>{{ house.bathroom }} Casas de banho</span>
+            </div>
 
-    <p class="d-flex align-items-center gap-2">
-        <span class="fs-4 text-purple">
-            <strong>
-                {{ house.post_address.address.street1 }},
-                {{ house.post_address.locality.province.name }},
-                {{ house.post_address.locality.province.country.name }}
-            </strong>
-        </span>
-        <span class="material-icons fs-2 text-purple">location_on</span>
-    </p>
+            <div class="content-section">
+              <h2 class="section-title">Descrição</h2>
+              <p class="description-text">{{ house.description }}</p>
+            </div>
 
-
-    <h1 class="fs-3">
-        {{ house.title }} - {{ house.tipology }}
-    </h1>
-    <p class="fs-3 text-purple">
-      {{ house.price }}  <span class="fs-5">/mês</span>
-    </p>
-
-   <div class="fs-3">
-        <p class="d-flex align-items-center gap-2">
-            <span class="material-icons fs-2 text-purple">king_bed</span>
-            <span class="fs-4"> {{ house.number_of_rooms }} quartos</span>
-        </p>
-
-        <p class="d-flex align-items-center gap-2">
-            <span class="material-icons fs-2 text-purple">shower</span>
-            <span class="fs-4"> {{ house.bathroom }} casas de banho</span>
-        </p>
-   </div>
-
-    <div class="row">
-      <div class="col-sm-8">
-
-        <hr class="text-purple"> <br>
-        <strong class="text-purple fs-4">Descrição: </strong>
-
-        <p class="text-start lh-lg fs-5">
-            {{ house.description }}
-        </p>
-
-        <br>
-        <hr class="text-purple">
-
-        <Strong class="fs-4 text-purple"> O que esse lugar oferece?</Strong>
-        <div class="row">
-            <div class="col mt-4">
-
+            <div class="content-section">
+              <h2 class="section-title">Características</h2>
+              <div class="amenity-grid">
                 @if(house.washing_machine) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">task_alt</span>
-                    <span class="fs-4">Maquina de lavar roupa</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-basket2"></i><span>Máquina de lavar</span></div>
                 }
                 @if(house.equipped_kitchen) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">kitchen</span>
-                    <span class="fs-4">Cozinha equipada</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-egg-fried"></i><span>Cozinha equipada</span></div>
                 }
                 @if(house.wifi) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">wifi</span>
-                    <span class="fs-4">Wi-Fi</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-wifi"></i><span>Wi-Fi</span></div>
                 }
                 @if(house.air_conditioning) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">ac_unit</span>
-                    <span class="fs-4">Ar condicionado</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-thermometer-sun"></i><span>Ar condicionado</span></div>
                 }
                 @if(house.tv) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">tv</span>
-                    <span class="fs-4">TV</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-tv"></i><span>Televisão</span></div>
                 }
                 @if(house.furnished_room) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">king_bed</span>
-                    <span class="fs-4">Quarto mobilado</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-door-closed"></i><span>Quarto mobilado</span></div>
                 }
                 @if(house.running_water) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">water_drop</span>
-                    <span class="fs-4">Água corrente</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-droplet"></i><span>Água corrente</span></div>
                 }
                 @if(house.water_tank) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">water</span>
-                    <span class="fs-4">Tanque de água</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-bucket"></i><span>Reservatório de água</span></div>
                 }
                 @if(house.electricity) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">bolt</span>
-                    <span class="fs-4">Eletricidade</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-lightning-charge"></i><span>Electricidade</span></div>
                 }
                 @if(house.swimming_pool) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">pool</span>
-                    <span class="fs-4">Piscina</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-water"></i><span>Piscina</span></div>
                 }
                 @if(house.backyard) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">yard</span>
-                    <span class="fs-4">Quintal</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-tree"></i><span>Quintal</span></div>
                 }
                 @if(house.furnished) {
-                <p class="d-flex align-items-center gap-2">
-                    <span class="material-icons fs-2 text-purple">chair</span>
-                    <span class="fs-4">Casa mobilada</span>
-                </p>
+                  <div class="amenity-item"><i class="bi bi-house"></i><span>Casa mobilada</span></div>
                 }
-
+                @if(house.kitchen > 0) {
+                  <div class="amenity-item"><i class="bi bi-egg-fried"></i><span>{{ house.kitchen }} Cozinha(s)</span></div>
+                }
+              </div>
             </div>
-
-
-        </div>
-      </div>
-      <!-- reservation-->
-      <div class="col d-flex justify-content-center">
-        <div class="card border-light shadow-lg" style="width: 18rem; height: 450px ;">
-          <div class="card-body">
-            <h5 class="card-title text-purple text-center">Nome do proprietário</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary text-center">Card subtitle</h6>
-            <p class="card-text text-center lh-lg">
-              Breve introdução da empresa ou do proprietário
-              <br>
-              telemovel, email
-            </p>
-
-            <button type="button" class="btn btn-nobiva btn-sm w-100">
-                <span class="material-icons fs-6 align-middle me-1">send</span>
-                Entrar em contato por email
-            </button>
-
           </div>
         </div>
 
+        <!-- Contact card -->
+        <div class="col-lg-4">
+          <aside class="card-surface contact-card">
+            <h3 class="h5 mb-3" style="font-family:'Inter',sans-serif;font-weight:800;">Contactar Proprietário</h3>
+            <p class="text-soft small mb-3">Interessado neste imóvel? Envie uma mensagem ao proprietário.</p>
+            <button class="btn btn-nobiva w-100 mb-2" type="button"
+                    (click)="saveFavorite(houseId)">
+              <i class="bi bi-heart me-2"></i>Guardar como favorito
+            </button>
+            <button type="button" class="btn btn-outline-soft w-100"
+                    (click)="onShowPhotos(house.image)">
+              <i class="bi bi-images me-2"></i>Ver todas as fotos
+            </button>
+          </aside>
+        </div>
       </div>
-
-      <!--End coment -->
-    </div>
+    </section>
   </div>
-
 </main>

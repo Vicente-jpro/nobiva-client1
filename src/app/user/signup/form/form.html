@@ -1,92 +1,99 @@
-<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
-  <div class="card shadow border-0" style="min-width: 360px; max-width: 560px; width: 100%;">
-    <div class="card-body p-4">
-      <h3 class="text-center fw-bold text-purple mb-4">{{ title || 'Criar conta' }}</h3>
+<section class="signup-section">
+  <div class="container">
+    <div class="signup-card card">
+      <div class="brand-mark">Imóvel<span>Dream</span></div>
+      <h1 class="card-title text-center">{{ title || 'Criar Conta' }}</h1>
+      <p class="card-desc text-center">Junte-se à ImóvelDream e encontre ou publique o seu próximo imóvel.</p>
 
       <app-success [successMessageData]="display.success" />
       <app-danger [dangerMessagesData]="display.errors" />
 
       <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Nome de Usuário</label>
-          <input type="text" class="form-control" formControlName="username"
-                 [class.is-invalid]="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched">
-          @if (signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched) {
-            <div class="invalid-feedback">Nome de usuário é obrigatório (mínimo 3 caracteres).</div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Email</label>
-          <input type="email" class="form-control" formControlName="email"
-                 [class.is-invalid]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
-          @if (signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched) {
-            <div class="invalid-feedback">Insira um email válido.</div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Palavra passe</label>
-          <input type="password" class="form-control" formControlName="password"
-                 [class.is-invalid]="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
-          @if (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched) {
-            <div class="invalid-feedback">Palavra passe obrigatória (mínimo 6 caracteres).</div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Confirmar palavra passe</label>
-          <input type="password" class="form-control" formControlName="passwordConfirmed"
-                 [class.is-invalid]="signUpForm.get('passwordConfirmed')?.invalid && signUpForm.get('passwordConfirmed')?.touched">
-          @if (signUpForm.get('passwordConfirmed')?.invalid && signUpForm.get('passwordConfirmed')?.touched) {
-            <div class="invalid-feedback">Confirme a palavra passe.</div>
-          }
-        </div>
-
-        <!-- Roles -->
-        <div class="mb-3">
-          <p class="fw-semibold mb-2">Perfil</p>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="empresa" formControlName="empresa">
-                <label class="form-check-label" for="empresa">Empresa</label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="proprietario" formControlName="proprietario">
-                <label class="form-check-label" for="proprietario">Proprietário</label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="inclino" formControlName="inclino">
-                <label class="form-check-label" for="inclino">Inclino</label>
-              </div>
-            </div>
-            @if (authService.hasAnyRole([role.adminstrador, role.superAdminstrador])) {
-              <div class="col-6">
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="administrador" formControlName="administrador">
-                  <label class="form-check-label" for="administrador">Administrador</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="superAdministrador" formControlName="superAdministrador">
-                  <label class="form-check-label" for="superAdministrador">Super Administrador</label>
-                </div>
-              </div>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Nome de Usuário</label>
+            <input type="text" class="form-control" formControlName="username"
+                   placeholder="O seu nome de utilizador"
+                   [class.is-invalid]="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched">
+            @if (signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched) {
+              <div class="invalid-feedback">Nome de usuário é obrigatório (mínimo 3 caracteres).</div>
             }
           </div>
-        </div>
 
-        <div class="d-flex justify-content-between mt-3">
-          <a routerLink="/user/login" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i>Já tenho conta
-          </a>
-          <button type="submit" class="btn btn-nobiva btn-sm">
-            <i class="bi bi-person-plus me-1"></i>Salvar
-          </button>
-        </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" formControlName="email"
+                   placeholder="nome@exemplo.com"
+                   [class.is-invalid]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
+            @if (signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched) {
+              <div class="invalid-feedback">Insira um email válido.</div>
+            }
+          </div>
 
+          <div class="col-md-6">
+            <label class="form-label">Palavra passe</label>
+            <div class="password-wrap">
+              <input type="password" class="form-control" formControlName="password"
+                     placeholder="Mínimo 6 caracteres"
+                     [class.is-invalid]="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+            </div>
+            @if (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched) {
+              <div class="text-danger small mt-1">Palavra passe obrigatória (mínimo 6 caracteres).</div>
+            }
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Confirmar palavra passe</label>
+            <input type="password" class="form-control" formControlName="passwordConfirmed"
+                   placeholder="Repita a palavra passe"
+                   [class.is-invalid]="signUpForm.get('passwordConfirmed')?.invalid && signUpForm.get('passwordConfirmed')?.touched">
+            @if (signUpForm.get('passwordConfirmed')?.invalid && signUpForm.get('passwordConfirmed')?.touched) {
+              <div class="invalid-feedback">Confirme a palavra passe.</div>
+            }
+          </div>
+
+          <div class="col-12">
+            <p class="form-label mb-2">Perfil</p>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="empresa" formControlName="empresa">
+                  <label class="form-check-label" for="empresa">Empresa</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="proprietario" formControlName="proprietario">
+                  <label class="form-check-label" for="proprietario">Proprietário</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="inclino" formControlName="inclino">
+                  <label class="form-check-label" for="inclino">Inclino</label>
+                </div>
+              </div>
+              @if (authService.hasAnyRole([role.adminstrador, role.superAdminstrador])) {
+                <div class="col-6">
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="administrador" formControlName="administrador">
+                    <label class="form-check-label" for="administrador">Administrador</label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="superAdministrador" formControlName="superAdministrador">
+                    <label class="form-check-label" for="superAdministrador">Super Administrador</label>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="col-12 d-flex justify-content-between align-items-center mt-2">
+            <a routerLink="/user/login" class="btn btn-brand-outline btn-sm">
+              <i class="bi bi-arrow-left me-1"></i>Já tenho conta
+            </a>
+            <button type="submit" class="btn btn-nobiva">
+              <i class="bi bi-person-plus me-1"></i>{{ title ? 'Salvar' : 'Criar Conta' }}
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
-</div>
+</section>

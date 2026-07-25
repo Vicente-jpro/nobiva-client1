@@ -1,0 +1,76 @@
+.results-wrapper {
+  background: var(--brand-light);
+  padding: 2rem 0 0;
+}
+
+.sidebar-sticky { position: sticky; top: 98px; }
+
+.reset-link { color: var(--brand-accent); font-size: .9rem; font-weight: 700; text-decoration: none; }
+.filter-label { font-size: .92rem; font-weight: 700; color: var(--brand-primary); }
+
+.filter-radio-card {
+  background: #f8fafc;
+  border: 1px solid #e3eaf2;
+  border-radius: 12px;
+  padding: .85rem .9rem;
+  .form-check-input { margin-top: .2rem; }
+}
+
+.choice-group { display: flex; flex-wrap: wrap; gap: .55rem; }
+
+.filter-chip {
+  border: none;
+  background: #edf3f9;
+  color: var(--brand-primary);
+  border-radius: 999px;
+  padding: .58rem .9rem;
+  min-width: 48px;
+  font-weight: 700;
+  transition: all .2s;
+  &.active, &:hover {
+    background: var(--brand-primary);
+    color: #fff;
+    box-shadow: 0 10px 18px rgba(26,60,94,.15);
+  }
+}
+
+.btn-accent {
+  background: var(--brand-accent);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: .85rem 1.25rem;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  &:hover { background: #cf8e1a; color: #fff; transform: translateY(-2px); box-shadow: 0 12px 24px rgba(232,160,32,.25); }
+}
+
+.btn-outline-soft {
+  border: 1px solid rgba(26,60,94,.16);
+  background: #fff;
+  color: var(--brand-primary);
+  font-weight: 600;
+  &:hover, &.active { background: var(--brand-primary); border-color: var(--brand-primary); color: #fff; }
+}
+
+.toolbar { border-radius: var(--radius-card); }
+
+.prop-desc { font-size: .86rem; color: var(--text-muted-alt); line-height: 1.55; margin: .65rem 0 0; }
+.prop-meta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin: .3rem 0 .6rem; }
+
+.prop-status {
+  font-size: .75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: .22rem .6rem;
+  letter-spacing: .3px;
+}
+
+.prop-type {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--brand-primary) !important;
+  background: #edf3f9 !important;
+  border-radius: 6px;
+  padding: .22rem .6rem;
+}

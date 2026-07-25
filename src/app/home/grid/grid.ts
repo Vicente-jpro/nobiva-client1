@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Card, HomeItem } from '../card/card';
 
 @Component({
   selector: 'app-grid',
-  imports: [Card],
+  imports: [Card, RouterLink],
   templateUrl: './grid.html',
   styleUrl: './grid.scss',
 })

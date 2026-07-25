@@ -1,10 +1,21 @@
-<section class="container py-5">
-  <h3 class="text-center fw-bold mb-4">Destaques</h3>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    @for (item of items; track item.imageUrl) {
-      <div class="col">
-        <app-card [itemData]="item"></app-card>
-      </div>
-    }
+<section class="properties-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">Imóveis em Destaque</div>
+      <h2 class="section-title">Propriedades Selecionadas</h2>
+      <p class="text-soft mt-2">Curadoria premium com fotos profissionais e dados completos.</p>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      @for (item of items; track item.imageUrl) {
+        <div class="col">
+          <app-card [itemData]="item"></app-card>
+        </div>
+      }
+    </div>
+    <div class="text-center mt-5">
+      <a routerLink="/menu/casas" class="btn btn-nobiva px-4 py-2">
+        <i class="bi bi-grid me-2"></i>Ver Todos os Imóveis
+      </a>
+    </div>
   </div>
 </section>

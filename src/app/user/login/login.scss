@@ -1,23 +1,43 @@
+.auth-shell { min-height: calc(100vh - 76px); }
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 2rem;
-  padding-bottom: 15rem;
+.auth-visual {
+  min-height: calc(100vh - 76px);
+  background:
+    linear-gradient(180deg, rgba(13,31,48,.2), rgba(13,31,48,.82)),
+    url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&auto=format&fit=crop') center/cover no-repeat;
+  padding: 3.5rem;
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, rgba(232,160,32,.2), transparent 35%);
+  }
 }
 
-.shipping-card {
-  width: 500px;
-
-  /* Card size unchanged - kept at max-width: 500px */
+.quote-box {
+  position: relative; z-index: 1;
+  max-width: 460px; margin-top: auto; color: #fff;
+  h2 { font-size: clamp(2.1rem, 3vw, 3rem); line-height: 1.2; margin-bottom: 1rem; }
+  p  { margin: 0; color: rgba(255,255,255,.82); line-height: 1.8; font-size: 1rem; }
 }
 
-.full-width {
-  width: 100%;
+.quote-label {
+  display: inline-flex; align-items: center; gap: .5rem;
+  text-transform: uppercase; letter-spacing: .2rem; font-size: .75rem;
+  font-weight: 700; color: rgba(255,255,255,.78); margin-bottom: 1rem;
+  &::before { content: ''; width: 24px; height: 2px; border-radius: 999px; background: var(--brand-accent); }
 }
 
-.text-center {
-  text-align: center;
+.auth-form-wrap {
+  min-height: calc(100vh - 76px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef3fa 100%);
+}
+
+@media (max-width: 991.98px) {
+  .auth-form-wrap { min-height: auto; padding: 3rem 1rem; }
 }
 

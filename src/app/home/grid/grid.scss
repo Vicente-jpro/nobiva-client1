@@ -1,7 +1,8 @@
-
-@media (max-with: 700px){
-    .list{ grid-template-columns: repeat(1, 1fr); } 
+.properties-section {
+  background: var(--brand-light);
+  padding: 6rem 0;
 }
+
 
 .product-card{
     display: flex; 
