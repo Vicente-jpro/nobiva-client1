@@ -1,9 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatAnchor } from "@angular/material/button";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { UserEmail } from '../../models/user/UserEmail';
 import { UserService } from '../../service/user-service';
@@ -15,10 +11,6 @@ import { Danger } from '../../alerts/danger/danger';
   selector: 'app-confirme-account',
   imports: [
     ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAnchor,
     RouterLink,
     Success,
     Danger
@@ -60,7 +52,7 @@ export class ConfirmeAccount implements OnInit {
         },
         error: (errorResponse) => {
           this.changeDetection.markForCheck();
-          this.display = { success: '', errors: [errorResponse.error.details || 'Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.'] };
+          this.display = { success: '', errors: [errorResponse.error.errors || 'Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.'] };
           console.error("Erro ao confirmar a conta", errorResponse);
         }
       });
@@ -68,6 +60,10 @@ export class ConfirmeAccount implements OnInit {
   }
 
   onSubmit() {
+    if (this.confimeAccountForm.invalid) {
+      this.confimeAccountForm.markAllAsTouched();
+      return;
+    }
 
     this.user = this.confimeAccountForm.value as UserEmail;
 

@@ -1,11 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatAnchor } from "@angular/material/button";
-import { Router } from "@angular/router";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../service/user-service';
 import { DisplayMessage } from '../../models/display-message';
 import { Success } from '../../alerts/success/success';
@@ -15,10 +10,7 @@ import { Danger } from '../../alerts/danger/danger';
   selector: 'app-change-password',
   imports: [
     ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAnchor,
+    RouterLink,
     Success,
     Danger
   ],
@@ -52,7 +44,17 @@ export class ChangePassword implements OnInit {
   }
 
   onSubmit() {
+    if (this.changePasswordForm.invalid) {
+      this.changePasswordForm.markAllAsTouched();
+      return;
+    }
+
     this.user = this.changePasswordForm.value as UserChangePassword;
+
+    if (this.user.newPassword !== this.user.confirmePassword) {
+      this.display = { success: '', errors: ['As palavras-passe não coincidem.'] };
+      return;
+    }
     
     this.service.changePassword(this.user, this.token).subscribe({
       next: (response) => {
