@@ -49,7 +49,6 @@ export class PasswordRecover {
       },
       error: (err) => {
         this.display = { success: '', errors: err.error.errors || ['Erro ao enviar o email de recuperação.'] };
-        console.error('Password recover failed:', err);
         this.changeDetection.markForCheck();
       }
     });

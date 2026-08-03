@@ -5,6 +5,7 @@ import { UserService } from '../../service/user-service';
 import { DisplayMessage } from '../../models/display-message';
 import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
+import { UserChangePassword } from '../../models/user/userChangePassword';
 
 @Component({
   selector: 'app-change-password',

@@ -3,4 +3,5 @@ export class PlanModel {
   type: string = '';
   description: string = '';
   price: number = 0;
+  maxPosts: number = 1;
 }

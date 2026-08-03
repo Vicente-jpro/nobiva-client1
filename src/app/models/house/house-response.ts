@@ -14,4 +14,5 @@ export class HouseResponse {
     statusPost: string = '';
     createdAt: string = '';
     typeNegotiation: string = '';
+    propertyType: string = '';
 }

@@ -51,6 +51,20 @@
 
         <!-- Status condition -->
         <div class="mb-3">
+          <label class="form-label fw-semibold">Tipo de imóvel</label>
+          <select class="form-select" formControlName="property_type">
+            <option value="">Selecionar...</option>
+            <option value="CASA">Casa</option>
+            <option value="APARTAMENTO">Apartamento</option>
+            <option value="TERRENO">Terreno</option>
+            <option value="LOJA">Loja</option>
+            <option value="GALPAO">Galpão</option>
+            <option value="FAZENDA">Fazenda</option>
+          </select>
+        </div>
+
+        <!-- Status condition -->
+        <div class="mb-3">
           <label class="form-label fw-semibold">Condição do imóvel</label>
           <select class="form-select" formControlName="status_condition">
             <option value="">Selecionar...</option>

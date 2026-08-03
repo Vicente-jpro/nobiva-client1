@@ -114,6 +114,7 @@ export class Form extends HouseFormBuilder implements OnInit {
         number_of_rooms: this.houseData.number_of_rooms,
         tipology: this.houseData.tipology,
         status_condition: this.houseData.status_condition,
+        property_type: this.houseData.property_type,
         type_negotiation: this.houseData.type_negotiation,
         furnished: this.houseData.furnished,
         swimming_pool: this.houseData.swimming_pool,

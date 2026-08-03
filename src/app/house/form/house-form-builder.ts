@@ -16,6 +16,7 @@ export abstract class HouseFormBuilder extends HouseSelectBox {
             number_of_rooms: [this.house.number_of_rooms, [Validators.required, Validators.min(1)]],
             tipology: [this.house.tipology.trim(), [Validators.required, Validators.maxLength(2)]],
             status_condition: [this.house.status_condition.trim()],
+            property_type: [this.house.property_type.trim(), [Validators.required]],
             type_negotiation: [this.house.type_negotiation.trim(), [Validators.required, Validators.maxLength(12)]],
             furnished: [this.house.furnished],
             swimming_pool: [this.house.swimming_pool],

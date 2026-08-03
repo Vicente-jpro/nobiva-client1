@@ -43,7 +43,6 @@ export class ConfirmeAccount implements OnInit {
      
     if (this.token) {
       
-     console.log("Token for account confirmation:", this.token);
       this.service.confimeAccount(this.token).subscribe({
         next: (response) => {
           this.display = { success: response.message, errors: [] };
@@ -52,8 +51,7 @@ export class ConfirmeAccount implements OnInit {
         },
         error: (errorResponse) => {
           this.changeDetection.markForCheck();
-          this.display = { success: '', errors: [errorResponse.error.errors || 'Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.'] };
-          console.error("Erro ao confirmar a conta", errorResponse);
+          this.display = { success: '', errors: errorResponse.error.errors || ['Ocorreu um erro ao confirmar a conta. Por favor, tente novamente.'] };
         }
       });
     }
@@ -74,7 +72,6 @@ export class ConfirmeAccount implements OnInit {
       },
       error: (errorResponse) => {
         this.display = { success: '', errors: errorResponse.error.errors || ['Ocorreu um erro ao enviar o email de verificação. Por favor, tente novamente.'] };
-        console.error("Erro ao enviar email de verificação", errorResponse);
         this.changeDetection.markForCheck();
       }
     });

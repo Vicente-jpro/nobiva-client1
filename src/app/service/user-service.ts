@@ -6,6 +6,8 @@ import { UserSignup } from '../models/user/userSignup';
 import { UserLogin } from '../models/user/userLogin';
 import { UserLoginResponse } from '../models/user/userLoginResponse';
 import { UserEmail } from '../models/user/UserEmail';
+import { UserChangePassword } from '../models/user/userChangePassword';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -15,7 +17,7 @@ export class UserService {
 
   private httpClient = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:8080/api'; // URL da API para usuários
+  private readonly apiUrl = environment.apiUrl;
   
   private httpOptions = {
     headers: new HttpHeaders({

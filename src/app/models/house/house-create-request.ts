@@ -8,6 +8,7 @@ export class HouseCreateRequest {
 	tipology = "";
 	status_post = "";
 	status_condition = "";
+	property_type = "";
 	type_negotiation = "";
 	furnished = false; 
     swimming_pool = false;

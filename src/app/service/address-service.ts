@@ -4,13 +4,14 @@ import { Province } from '../models/address/province';
 import { Observable } from 'rxjs';
 import { Country } from '../models/address/country';
 import { Locality } from '../models/address/locality';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AddressService {
   private httpClient = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api'; // URL da API para usuários
+  private readonly apiUrl = environment.apiUrl;
 
   findCountries(): Observable<Country[]> {
     return this.httpClient.get<Country[]>(`${this.apiUrl}/paises`);

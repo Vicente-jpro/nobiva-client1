@@ -4,16 +4,17 @@ import { Observable } from 'rxjs';
 import { SubscriptionModel, SubscriptionRequest } from '../models/subscription';
 import { PlanModel } from '../models/plan';
 import { MessageInfo } from '../user/messageInfo';
+import { environment } from '../../environments/environment';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubscriptionService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/subscriptions';
+  private readonly apiUrl = `${environment.apiUrl}/subscriptions`;
 
   subscribe(plan: PlanModel): Observable<MessageInfo> {
-    console.log('Subscribing to plan:', plan);
     return this.http.post<MessageInfo>(this.apiUrl, plan);
   }
 
@@ -27,7 +28,8 @@ export class SubscriptionService {
   }
 
   findByStatus(status: string): Observable<SubscriptionModel[]> {
-    return this.http.get<SubscriptionModel[]>(`${this.apiUrl}?status=${status}`);
+    const params = new HttpParams().set('status', status);
+    return this.http.get<SubscriptionModel[]>(this.apiUrl, { params });
   }
 
   findByUser(): Observable<SubscriptionModel> {

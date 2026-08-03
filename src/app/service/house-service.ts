@@ -6,6 +6,7 @@ import {HouseResponseDetails } from '../models/house/house-response-details';
 import { HouseResponse } from '../models/house/house-response';
 import { MessageInfo } from '../user/messageInfo';
 import { HouseFilter } from '../models/house/house-filter';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class HouseService {
     this.filterChanged$.next(filter);
   }
 
-  private apiUrl = 'http://localhost:8080/api'; // URL da API para usuários
+  private readonly apiUrl = environment.apiUrl;
   
 
   save(house: HouseCreateRequest): Observable<HouseResponseDetails> {
@@ -31,8 +32,8 @@ export class HouseService {
     return this.httpClient.delete<MessageInfo>(`${this.apiUrl}/houses/${idHouse}`);
   }
 
-  uploadImages(idHouse: string, images: FormData): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiUrl}/houses/${idHouse}/images`, images);
+  uploadImages(idHouse: string, images: FormData): Observable<HouseResponseDetails> {
+    return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}/images`, images);
   }
 
   findById(idHouse: string): Observable<HouseResponseDetails> {

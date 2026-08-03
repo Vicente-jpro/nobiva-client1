@@ -22,5 +22,11 @@ export class FavoriteHouseService {
         return this.httpClient
         .get<HouseResponse[]>(`${this.api}/favorite-houses?page=${pageNumber}`);  
     }
+
+    delete(favoriteId: string, houseId: string): Observable<void> {
+      return this.httpClient.delete<void>(
+        `${this.api}/favorite-houses/${favoriteId}/houses/${houseId}`
+      );
+    }
   
 }
