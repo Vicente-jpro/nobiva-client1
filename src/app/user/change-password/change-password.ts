@@ -10,7 +10,6 @@ import { Danger } from '../../alerts/danger/danger';
   selector: 'app-change-password',
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     Success,
     Danger
   ],
