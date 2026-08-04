@@ -44,10 +44,8 @@ export class ConfirmeAccount implements OnInit {
     if (this.token) {
       
       this.service.confimeAccount(this.token).subscribe({
-        next: (response) => {
-          this.display = { success: response.message, errors: [] };
-          this.changeDetection.markForCheck();
-          this.router.navigate(['/user/login']);
+        next: () => {
+          this.router.navigate(['/user/account-confirmed']);
         },
         error: (errorResponse) => {
           this.changeDetection.markForCheck();

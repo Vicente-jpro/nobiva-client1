@@ -52,6 +52,10 @@ export const routes: Routes = [
             {
                 path: 'confirme-account',
                 loadComponent: () => import('./user/confirme-account/confirme-account').then(m => m.ConfirmeAccount)
+            },
+            {
+                path: 'account-confirmed',
+                loadComponent: () => import('./user/account-confirmed/account-confirmed').then(m => m.AccountConfirmed)
             }
         ]
     },
