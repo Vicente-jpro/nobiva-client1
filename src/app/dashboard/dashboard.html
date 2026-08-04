@@ -34,7 +34,7 @@
         </a>
       </li>
     </ul>
-    <div class="mt-auto px-2 py-3 small text-secondary">
+    <div class="mt-auto px-2 py-3 small text-white">
       <i class="bi bi-person-circle me-1"></i>{{ authService.getUsername() }}
     </div>
   </nav>
@@ -92,6 +92,7 @@
                 <th style="width: 60px;">Imagem</th>
                 <th>Título</th>
                 <th>Email</th>
+                <th>Subscrição</th>
                 <th>Tipologia</th>
                 <th>Preço</th>
                 <th>Estado</th>
@@ -122,11 +123,16 @@
                   <td class="text-muted small">
                     @if (house.email) {
                       <a [href]="'mailto:' + house.email" class="text-decoration-none text-muted">
-                        <i class="bi bi-envelope me-1"></i>{{ house.email }}
+                        {{ house.email }}
                       </a>
                     } @else {
                       <span>—</span>
                     }
+                  </td>
+                  <td>
+                    <span class="badge {{ getSubscriptionStatusBadge( house.subscriptionStatus) }}">
+                      {{ house.subscriptionStatus }}
+                    </span>
                   </td>
                   <td>
                     <span class="badge bg-light text-dark border">{{ house.tipology || '—' }}</span>
@@ -164,7 +170,7 @@
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="8" class="text-center py-5 text-muted">
+                  <td colspan="9" class="text-center py-5 text-muted">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Nenhum imóvel encontrado.
                   </td>

@@ -14,6 +14,7 @@ import { Success } from '../alerts/success/success';
 import { Danger } from '../alerts/danger/danger';
 import { PlanManagement } from '../plan/plan';
 import { SubscriptionsAdmin } from '../subscription/admin/subscriptions-admin';
+import { PlanStatus } from '../models/plan-status';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,16 @@ export class Dashboard implements OnInit {
 
   protected readonly StatusPost = StatusPost;
   protected readonly TypeNegotiation = TypeNegotiation;
+  protected readonly subscriptionStatusBadge: Partial<Record<string, string>> = {
+    ATIVO: 'success',
+    EXPIRADO: 'danger',
+    EM_AVALIACAO: 'warning',
+  };
+  protected readonly subscriptionStatusLabel: Partial<Record<string, string>> = {
+    ATIVO: 'Ativo',
+    EXPIRADO: 'Expirado',
+    EM_AVALIACAO: 'Em Avaliação',
+  };
 
   ngOnInit(): void {
     this.houseFilter.statusPost = StatusPost.PENDENTE;
@@ -140,5 +151,12 @@ export class Dashboard implements OnInit {
     }
   }
 
-
+  getSubscriptionStatusBadge(status: string): string {
+    switch(status) {
+      case PlanStatus.ATIVO: return "text-bg-success";
+      case PlanStatus.EXPIRADO: return "text-bg-danger";
+      case PlanStatus.EM_AVALIACAO: return "text-bg-warning";
+      default: return "text-bg-secondary";
+    }
+  }
 }
