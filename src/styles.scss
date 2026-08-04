@@ -144,6 +144,11 @@ body {
   min-height: 100vh;
 }
 
+/* Keep the dashboard sidebar visually connected to the global footer. */
+app-dashboard + app-footer > footer {
+  margin-top: 0 !important;
+}
+
 /* Bootstrap overrides */
 .btn-success {
   background-color: var(--purple-200) !important;

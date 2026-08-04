@@ -66,5 +66,7 @@ export abstract class HouseSelectBox extends ProvinceSelectBox {
     statusConditionOptions: StatusConditionOption[] = [
         { value: StatusCondition.NOVO, viewValue: StatusCondition.NOVO },
         { value: StatusCondition.USADO, viewValue: StatusCondition.USADO },
+        { value: StatusCondition.INACABADO, viewValue: StatusCondition.INACABADO },
+        { value: StatusCondition.EM_RUINA, viewValue: StatusCondition.EM_RUINA },
     ];
 }
