@@ -17,6 +17,10 @@ export const routes: Routes = [
         loadComponent: () => import('./home/home').then(m => m.Home),
     },
     {
+        path: 'contactos',
+        loadComponent: () => import('./contacts/contacts').then(m => m.Contacts),
+    },
+    {
         path: 'dashboard',
         loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard),
         canActivate: [adminGuard]

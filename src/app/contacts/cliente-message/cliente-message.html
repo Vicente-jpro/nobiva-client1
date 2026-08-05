@@ -1,0 +1,58 @@
+<section class="message-card" aria-labelledby="message-title">
+  <div class="message-icon"><i class="bi bi-chat-heart" aria-hidden="true"></i></div>
+  <h2 id="message-title" class="h3 fw-bold mt-3 mb-2">Envie-nos uma mensagem</h2>
+  <p class="text-secondary mb-4">Conte-nos o que procura. Entraremos em contacto consigo.</p>
+
+  @if (feedback()) {
+    <div class="alert d-flex gap-2" [class.alert-success]="state() === 'success'"
+         [class.alert-danger]="state() === 'error'" role="status" aria-live="polite">
+      <i class="bi" [class.bi-check-circle-fill]="state() === 'success'"
+         [class.bi-exclamation-circle-fill]="state() === 'error'" aria-hidden="true"></i>
+      <span>{{ feedback() }}</span>
+    </div>
+  }
+
+  <form [formGroup]="messageForm" (ngSubmit)="send()" novalidate>
+    <div class="mb-4">
+      <label for="client-email" class="form-label fw-semibold">Email <span aria-hidden="true">*</span></label>
+      <input id="client-email" type="email" class="form-control form-control-lg" formControlName="email"
+             autocomplete="email" placeholder="nome@exemplo.com" [class.is-invalid]="isInvalid('email')"
+             aria-describedby="client-email-error" />
+      @if (isInvalid('email')) {
+        <div id="client-email-error" class="invalid-feedback">Introduza um endereço de email válido.</div>
+      }
+    </div>
+
+    <div class="mb-4">
+      <label for="client-subject" class="form-label fw-semibold">Assunto <span aria-hidden="true">*</span></label>
+      <input id="client-subject" type="text" class="form-control form-control-lg" formControlName="subject"
+             maxlength="120" placeholder="Como podemos ajudar?" [class.is-invalid]="isInvalid('subject')"
+             aria-describedby="client-subject-error" />
+      @if (isInvalid('subject')) {
+        <div id="client-subject-error" class="invalid-feedback">O assunto deve ter entre 3 e 120 caracteres.</div>
+      }
+    </div>
+
+    <div class="mb-4">
+      <div class="d-flex justify-content-between gap-3">
+        <label for="client-description" class="form-label fw-semibold">Descrição <span aria-hidden="true">*</span></label>
+        <small class="text-secondary">{{ messageForm.controls.description.value.length }}/2000</small>
+      </div>
+      <textarea id="client-description" class="form-control" rows="7" formControlName="description"
+                maxlength="2000" placeholder="Descreva a sua questão ou o imóvel que procura..."
+                [class.is-invalid]="isInvalid('description')" aria-describedby="client-description-error"></textarea>
+      @if (isInvalid('description')) {
+        <div id="client-description-error" class="invalid-feedback">A descrição deve ter entre 20 e 2000 caracteres.</div>
+      }
+    </div>
+
+    <button type="submit" class="btn btn-nobiva btn-lg w-100" [disabled]="state() === 'sending'"
+            [attr.aria-busy]="state() === 'sending'">
+      @if (state() === 'sending') {
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>A enviar...
+      } @else {
+        Enviar mensagem <i class="bi bi-arrow-up-right ms-2" aria-hidden="true"></i>
+      }
+    </button>
+  </form>
+</section>
