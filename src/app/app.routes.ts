@@ -25,6 +25,11 @@ export const routes: Routes = [
         path: 'user',
         children: [
             {
+                path: 'profile',
+                loadComponent: () => import('./user/signup/edit/edit').then(m => m.Edit),
+                canActivate: [authGuard]
+            },
+            {
                 path: 'password-recover',
                 loadComponent: () => import('./user/password-recover/password-recover').then(m => m.PasswordRecover)
             },
@@ -39,10 +44,6 @@ export const routes: Routes = [
                         path: 'new',
                         loadComponent: () => import('./user/signup/new/new').then(m => m.New)
                     },
-                    {
-                        path: ':id',
-                        loadComponent: () => import('./user/signup/edit/edit').then(m => m.Edit)
-                    }
                 ]
             },
             {

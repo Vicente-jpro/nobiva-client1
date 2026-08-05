@@ -8,6 +8,7 @@ import { UserLoginResponse } from '../models/user/userLoginResponse';
 import { UserEmail } from '../models/user/UserEmail';
 import { UserChangePassword } from '../models/user/userChangePassword';
 import { environment } from '../../environments/environment';
+import { UserProfile, UserUpdateRequest } from '../models/user/user-profile';
 
 
 @Injectable({
@@ -24,6 +25,18 @@ export class UserService {
       'Content-Type': 'application/json',
     }),
   };
+
+  getCurrentUser(): Observable<UserProfile> {
+    return this.httpClient.get<UserProfile>(`${this.apiUrl}/auth/profile`);
+  }
+
+  updateCurrentUser(request: UserUpdateRequest): Observable<UserLoginResponse> {
+    return this.httpClient.patch<UserLoginResponse>(
+      `${this.apiUrl}/auth/profile`,
+      request,
+      this.httpOptions
+    );
+  }
 
   save(User: UserSignup): Observable<MessageInfo> {
 

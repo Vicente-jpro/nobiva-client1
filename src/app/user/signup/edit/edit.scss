@@ -1,0 +1,20 @@
+.profile-page {
+  min-height: calc(100vh - 160px);
+}
+
+.profile-card {
+  max-width: 640px;
+  border-radius: 1rem;
+}
+
+.profile-icon {
+  align-items: center;
+  background: rgba(111, 45, 189, 0.12);
+  border-radius: 50%;
+  color: #6f2dbd;
+  display: flex;
+  font-size: 1.5rem;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
