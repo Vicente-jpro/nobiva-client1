@@ -12,6 +12,14 @@
     <option [value]="negotiation.ARRENDAMENTO">Arrendamento</option>
   </select>
 
+  <label class="form-label fw-semibold small">Tipo do imóvel</label>
+  <select class="form-select form-select-sm" [(ngModel)]="filterPropertyType">
+    <option value="">Todos</option>
+    @for (propertyType of propertyTypeOptions; track propertyType.value) {
+      <option [value]="propertyType.value">{{ propertyType.label }}</option>
+    }
+  </select>
+
   <label class="form-label fw-semibold small">Província</label>
   <select class="form-select form-select-sm" [(ngModel)]="filterIdProvince">
     <option [value]="0">Todas</option>

@@ -58,6 +58,13 @@
                 </span>
               </div>
 
+              <!-- Maximum number of property posts -->
+              <div class="mb-2">
+                <span class="text-muted small">
+                  <i class="bi bi-megaphone me-1"></i>Até {{ plan.maxPosts }} anúncio(s)
+                </span>
+              </div>
+
               <!-- Description -->
               <p class="text-muted small flex-grow-1">{{ plan.description }}</p>
 
@@ -131,6 +138,18 @@
                 <input type="number" class="form-control" [(ngModel)]="form.price"
                        name="price" required min="0" step="0.01" placeholder="0.00" />
               </div>
+            </div>
+
+            <!-- Maximum posts -->
+            <div class="mb-3">
+              <label for="maxPosts" class="form-label fw-semibold">Número máximo de anúncios</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-megaphone"></i></span>
+                <input id="maxPosts" type="number" class="form-control"
+                       [(ngModel)]="form.maxPosts" name="maxPosts"
+                       required min="1" step="1" placeholder="1" />
+              </div>
+              <div class="form-text">Informe um número inteiro maior que zero.</div>
             </div>
           </div>
 

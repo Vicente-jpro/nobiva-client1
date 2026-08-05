@@ -4,6 +4,7 @@ export class HouseFilter {
   locality: string = '';
   minPrice: number | null = null;
   negotiation: string = '';
+  propertyType: string = '';
   maxPrice: number | null = null;
   idProvince: number = 0;
   tipologies: string[] = [];
@@ -39,6 +40,11 @@ export class HouseFilterBuilder {
 
   setNegotiation(negotiation: string): HouseFilterBuilder {
     this.filter.negotiation = negotiation;
+    return this;
+  }
+
+  setPropertyType(propertyType: string): HouseFilterBuilder {
+    this.filter.propertyType = propertyType;
     return this;
   }
 

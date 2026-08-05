@@ -23,11 +23,20 @@ export class Filter extends ProvinceSelectBox implements OnInit {
   negotiation = TypeNegotiation;
   tipology = Tipology;
   tipologyKeys = Object.values(Tipology);
+  protected readonly propertyTypeOptions = [
+    { value: 'CASA', label: 'Casa' },
+    { value: 'APARTAMENTO', label: 'Apartamento' },
+    { value: 'TERRENO', label: 'Terreno' },
+    { value: 'LOJA', label: 'Loja' },
+    { value: 'QUARTO', label: 'Quarto' },
+    { value: 'FAZENDA', label: 'Fazenda' },
+  ];
 
   @Output() applyFilterEvent = new EventEmitter<HouseFilter>();
 
   private addressService = inject(AddressService);
   protected filterTypeNegociation = '';
+  protected filterPropertyType = '';
   protected filterSearch = '';
   protected filterMinPrice: number | null = null;
   protected filterMaxPrice: number | null = null;
@@ -59,6 +68,7 @@ export class Filter extends ProvinceSelectBox implements OnInit {
     const filter = HouseFilter.builder()
       .setTitle(this.filterSearch)
       .setNegotiation(this.filterTypeNegociation)
+      .setPropertyType(this.filterPropertyType)
       .setLocality(this.filterSearch)
       .setIdProvince(this.filterIdProvince)
       .setMinPrice(this.filterMinPrice ?? null)
