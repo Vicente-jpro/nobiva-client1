@@ -142,9 +142,6 @@ export class Form implements OnChanges {
     if (this.signUpForm.value.proprietario) {
       this.user.roles.push(UserRole.proprietario);
     }
-    if (this.signUpForm.value.inclino) {
-      this.user.roles.push(UserRole.inclino);
-    }
     if (this.signUpForm.value.empresa) {
       this.user.roles.push(UserRole.empresa);
     }

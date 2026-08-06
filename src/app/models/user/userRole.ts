@@ -1,5 +1,4 @@
 interface Role {
-  readonly inclino: string;
   readonly proprietario: string;
   readonly empresa: string;
   readonly adminstrador: string;
@@ -7,7 +6,6 @@ interface Role {
 }
 
 export const UserRole: Role = { 
-	inclino: "INCLINO", 
 	proprietario: "PROPRIETARIO", 
 	empresa: "EMPRESA", 
 	adminstrador: "ADMINSTRADOR",
