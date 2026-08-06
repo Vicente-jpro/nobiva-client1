@@ -97,6 +97,11 @@ export const routes: Routes = [
                         canActivate: [authGuard]
                     },
                     {
+                        path: 'minhas',
+                        loadComponent: () => import('./house/my-publications/my-publications').then(m => m.MyPublications),
+                        canActivate: [authGuard]
+                    },
+                    {
                         path: ':id/editar',
                         loadComponent: () => import('./house/edit/edit').then(m => m.Edit),
                         canActivate: [authGuard]

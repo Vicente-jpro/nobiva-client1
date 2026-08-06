@@ -58,7 +58,8 @@
         </h3>
         <small class="text-muted">Aprovar, reprovar e gerir publicações de imóveis</small>
       </div>
-      <button type="button" class="btn btn-nobiva btn-sm" (click)="loadHouses()">
+      <button type="button" class="btn btn-nobiva btn-sm" (click)="loadHouses()"
+              [disabled]="loading()">
         <i class="bi bi-arrow-clockwise me-1"></i>Atualizar
       </button>
     </div>
@@ -67,7 +68,9 @@
     <!-- Filter row -->
     <app-filter (applyFilterEvent)="applyFilter($event)"></app-filter>
 
-    <!-- Loading -->
+    <app-success [successMessageData]="display.success" />
+    <app-danger [dangerMessagesData]="display.errors" />
+
     @if (loading()) {
       <div class="text-center py-5">
         <div class="spinner-border text-purple" role="status">
@@ -75,131 +78,47 @@
         </div>
         <p class="mt-2 text-muted">A carregar imóveis...</p>
       </div>
-    }
-
-    <!-- Houses table -->
-    @if (!loading()) {
+    } @else {
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 py-3">
-      
-          <!-- Action messages -->
-          <app-success [successMessageData]="display.success" />
-          <app-danger [dangerMessagesData]="display.errors" />
-
           <span class="fw-semibold text-purple">
-            {{ houses().length }} Imóvel encontrados
+            {{ houses().length }} {{ houses().length === 1 ? 'imóvel nesta página' : 'imóveis nesta página' }}
           </span>
         </div>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th style="width: 60px;">Imagem</th>
-                <th>Título</th>
-                <th>Email</th>
-                <th>Subscrição</th>
-                <th>Tipologia</th>
-                <th>Preço</th>
-                <th>Estado</th>
-                <th>Data Publicação</th>
-                <th class="text-end">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (house of houses(); track house.idHouse) {
-                <tr>
-                  <td>
-                    @if (house.imageUrl) {
-                      <img [src]="house.imageUrl" alt="Imagem" class="rounded"
-                           style="width:50px; height:50px; object-fit:cover;">
-                    } @else {
-                      <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                           style="width:50px; height:50px;">
-                        <i class="bi bi-image text-muted"></i>
-                      </div>
-                    }
-                  </td>
-                  <td>
-                    <a [routerLink]="['/menu/casas', house.idHouse]"
-                       class="fw-semibold text-decoration-none text-dark">
-                      {{ house.title || '—' }}
-                    </a>
-                  </td>
-                  <td class="text-muted small">
-                    @if (house.email) {
-                      <a [href]="'mailto:' + house.email" class="text-decoration-none text-muted">
-                        {{ house.email }}
-                      </a>
-                    } @else {
-                      <span>—</span>
-                    }
-                  </td>
-                  <td>
-                    <span class="badge {{ getSubscriptionStatusBadge( house.subscriptionStatus) }}">
-                      {{ house.subscriptionStatus }}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="badge bg-light text-dark border">{{ house.tipology || '—' }}</span>
-                  </td>
-                  <td class="fw-bold text-purple">
-                    {{ house.price | number }} Kz
-                  </td>
-                  <td>
-                      <span class="badge {{ getStatusBadge(house.statusPost) }}">
-                        {{ house.statusPost || 'N/D' }} 
-                      </span>
-                  </td>
-                  <td class="text-muted small">
-                    {{ house.createdAt ? (house.createdAt | date:'dd/MM/yyyy HH:mm:ss') : 'DD/MM/YYYY HH:MM:SS' }}
-                  </td>
-                  <td class="text-end">
-                    <div class="d-flex gap-1 justify-content-end flex-wrap">
-                      <button type="button" class="btn btn-success btn-sm"
-                              (click)="approve(house.idHouse)"
-                              title="Aprovar">
-                        <i class="bi bi-check-circle me-1"></i>Aprovar
-                      </button>
-                      <button type="button" class="btn btn-warning btn-sm text-white"
-                              (click)="reject(house.idHouse)"
-                              title="Reprovar">
-                        <i class="bi bi-x-circle me-1"></i>Reprovar
-                      </button>
-                      <button type="button" class="btn btn-danger btn-sm"
-                              (click)="delete(house.idHouse)"
-                              title="Eliminar">
-                        <i class="bi bi-trash me-1"></i>Eliminar
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              } @empty {
-                <tr>
-                  <td colspan="9" class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                    Nenhum imóvel encontrado.
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+        <app-house-table [houses]="houses()" [actionsTemplate]="adminActions" />
       </div>
 
-      <!-- Pagination -->
       <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
         <span class="text-muted small">Página {{ page() + 1 }}</span>
-        <div class="btn-group" role="group">
+        <div class="btn-group" role="group" aria-label="Paginação dos imóveis">
           <button type="button" class="btn btn-outline-secondary btn-sm"
-                  [disabled]="page() === 0" (click)="prevPage()">
+                  [disabled]="page() === 0 || loading()" (click)="prevPage()">
             <i class="bi bi-chevron-left me-1"></i>Anterior
           </button>
-          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goToNextPage()">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  [disabled]="!hasNext() || loading()" (click)="goToNextPage()">
             Próxima<i class="bi bi-chevron-right ms-1"></i>
           </button>
         </div>
       </div>
     }
+
+    <ng-template #adminActions let-house>
+      <div class="d-flex gap-1 justify-content-end flex-wrap">
+        <button type="button" class="btn btn-success btn-sm"
+                (click)="approve(house.idHouse)" title="Aprovar">
+          <i class="bi bi-check-circle me-1"></i>Aprovar
+        </button>
+        <button type="button" class="btn btn-warning btn-sm text-white"
+                (click)="reject(house.idHouse)" title="Reprovar">
+          <i class="bi bi-x-circle me-1"></i>Reprovar
+        </button>
+        <button type="button" class="btn btn-danger btn-sm"
+                (click)="delete(house.idHouse)" title="Eliminar">
+          <i class="bi bi-trash me-1"></i>Eliminar
+        </button>
+      </div>
+    </ng-template>
 
     }
 

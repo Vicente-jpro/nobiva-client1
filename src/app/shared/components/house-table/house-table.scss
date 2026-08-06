@@ -1,0 +1,22 @@
+.image-column {
+  width: 60px;
+}
+
+.house-thumbnail,
+.house-thumbnail-placeholder {
+  width: 50px;
+  height: 50px;
+}
+
+.house-thumbnail {
+  display: block;
+  object-fit: cover;
+}
+
+.publication-date {
+  min-width: 9rem;
+}
+
+.actions-column {
+  min-width: 10rem;
+}

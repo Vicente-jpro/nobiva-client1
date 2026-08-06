@@ -32,6 +32,10 @@ export class HouseService {
     return this.httpClient.delete<MessageInfo>(`${this.apiUrl}/houses/${idHouse}`);
   }
 
+  deleteOwned(idHouse: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/houses/${idHouse}/user-owner`);
+  }
+
   uploadImages(idHouse: string, images: FormData): Observable<HouseResponseDetails> {
     return this.httpClient.post<HouseResponseDetails>(`${this.apiUrl}/houses/${idHouse}/images`, images);
   }

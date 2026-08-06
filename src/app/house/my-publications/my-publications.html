@@ -1,0 +1,70 @@
+<div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+  <div>
+    <h3 class="fw-bold mb-0">
+      <i class="bi bi-person-lines-fill me-2 text-purple"></i>Minhas publicações
+    </h3>
+    <small class="text-muted">Consulta e gere os teus anúncios de imóveis</small>
+  </div>
+  <button type="button" class="btn btn-nobiva btn-sm" (click)="loadPage(page())"
+          [disabled]="loading()">
+    <i class="bi bi-arrow-clockwise me-1"></i>Atualizar
+  </button>
+</div>
+
+<app-success [successMessageData]="display.success" />
+<app-danger [dangerMessagesData]="display.errors" />
+
+@if (loading()) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-purple" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2 text-muted">A carregar as tuas publicações...</p>
+  </div>
+} @else {
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0 py-3">
+      <span class="fw-semibold text-purple">
+        {{ houses().length }} {{ houses().length === 1 ? 'publicação nesta página' : 'publicações nesta página' }}
+      </span>
+    </div>
+
+    <app-house-table
+      [houses]="houses()"
+      [actionsTemplate]="ownerActions"
+      emptyMessage="Não tens publicações." />
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+    <span class="text-muted small">Página {{ page() + 1 }}</span>
+    <div class="btn-group" role="group" aria-label="Paginação das publicações">
+      <button type="button" class="btn btn-outline-secondary btn-sm"
+              [disabled]="page() === 0 || loading()" (click)="loadPage(page() - 1)">
+        <i class="bi bi-chevron-left me-1"></i>Anterior
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-sm"
+              [disabled]="!hasNext() || loading()" (click)="loadPage(page() + 1)">
+        Próxima<i class="bi bi-chevron-right ms-1"></i>
+      </button>
+    </div>
+  </div>
+}
+
+<ng-template #ownerActions let-house>
+  <div class="d-flex gap-1 justify-content-end flex-wrap">
+    <a class="btn btn-outline-purple btn-sm" [routerLink]="['/menu/casas', house.idHouse]"
+       title="Ver detalhes da publicação">
+      <i class="bi bi-eye me-1"></i>Ver detalhes
+    </a>
+    <button type="button" class="btn btn-danger btn-sm"
+            [disabled]="deletingId() !== null"
+            (click)="deletePublication(house)" title="Eliminar publicação">
+      @if (deletingId() === house.idHouse) {
+        <span class="spinner-border spinner-border-sm me-1"></span>
+      } @else {
+        <i class="bi bi-trash me-1"></i>
+      }
+      Eliminar
+    </button>
+  </div>
+</ng-template>

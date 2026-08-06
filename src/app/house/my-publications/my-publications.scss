@@ -1,0 +1,9 @@
+.btn-outline-purple {
+  color: var(--purple-400);
+  border-color: var(--purple-400);
+
+  &:hover {
+    color: #fff;
+    background: var(--purple-400);
+  }
+}

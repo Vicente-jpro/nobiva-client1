@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HouseService } from '../service/house-service';
 import { HousePartial } from './house-partial/house-partial';
-import { HouseOwner } from './house-owner/house-owner';
 import { HouseResponse } from '../models/house/house-response';
-import { RoomResponse } from '../models/room/room-response';
 import { TypeNegotiation } from '../models/negotiation-type';
 import { AuthService } from '../service/auth.service';
 import { HouseFilter } from '../models/house/house-filter';
 import { Subscription } from 'rxjs';
 import { FavoriteHouseService } from '../service/favorite-house-service';
 import { StatusPost } from '../models/property-status';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-house',
-  imports: [HousePartial],
+  imports: [HousePartial, RouterLink],
   templateUrl: './house.html',
   styleUrl: './house.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,17 +21,14 @@ import { StatusPost } from '../models/property-status';
 export class House implements OnInit, OnDestroy {
   readonly ACTION = {
     HOUSES: 'HOUSES',
-    OWNER_HOUSE: 'OWNER_HOUSE',
     FAVORITES_HOUSE: 'FAVORITES_HOUSE'
   };
 
   private currentAction = this.ACTION.HOUSES;
 
-  private changeDetection = inject(ChangeDetectorRef);
-  
   protected houses = signal<HouseResponse[]>([]);
 
-  private user = inject(AuthService); 
+  private user = inject(AuthService);
   private favoriteHouseService = inject(FavoriteHouseService);  
   private service = inject(HouseService);
 
@@ -77,10 +73,6 @@ export class House implements OnInit, OnDestroy {
     this.page.update(p => p + 1);
 
     switch (this.currentAction) {
-      case this.ACTION.OWNER_HOUSE:
-        this.findAllByOwner(this.page());
-        break;
-
       case this.ACTION.FAVORITES_HOUSE:
         this.findFavoriteHouses(this.page());
         break;
@@ -112,11 +104,6 @@ export class House implements OnInit, OnDestroy {
     this.houses.set([]);
 
     switch (action) {
-      case this.ACTION.OWNER_HOUSE:
-        this.currentAction = this.ACTION.OWNER_HOUSE;
-        this.findAllByOwner(this.page());
-        break;
-
       case this.ACTION.FAVORITES_HOUSE:
         this.currentAction = this.ACTION.FAVORITES_HOUSE;
         this.findFavoriteHouses(this.page());
@@ -132,28 +119,12 @@ export class House implements OnInit, OnDestroy {
 
   }
 
-    private findAllByOwner(pageNumber: number): void {
-    if (this.user.isLoggedIn()) {
-      this.service.findAllByOwner(pageNumber).subscribe({
-        next: (response) => {
-
-          this.houses.update(current => [...current, ...response]);
-          this.changeDetection.markForCheck();
-          console.log('Owner houses retrieved successfully:', response);
-        },
-        error: (err) => {
-          console.error('Error retrieving owner houses:', err);
-        }
-      });
-    }
-  }
-
   private findFavoriteHouses(pageNumber: number): void {
     if (this.user.isLoggedIn()) {
       this.favoriteHouseService.findAll(pageNumber).subscribe({
         next: (response) => {
           this.houses.update(current => [...current, ...response]);
-          this.changeDetection.markForCheck();
+          this.chengeDetection.markForCheck();
           console.log('Favorite houses retrieved successfully:', response);
         },
         error: (err) => {
