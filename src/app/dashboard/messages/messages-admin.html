@@ -1,0 +1,137 @@
+<section aria-labelledby="messages-title">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 id="messages-title" class="h3 fw-bold mb-1">
+        <i class="bi bi-chat-left-text me-2 text-purple" aria-hidden="true"></i>Mensagens
+      </h1>
+      <p class="text-muted mb-0">Consulte e responda às mensagens enviadas pelos clientes.</p>
+    </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="load(page())" [disabled]="loading()">
+      <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>Atualizar
+    </button>
+  </div>
+
+  <form class="card border-0 shadow-sm mb-4" [formGroup]="filterForm" (ngSubmit)="applyFilters()" novalidate>
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-5">
+          <label for="message-email-filter" class="form-label fw-semibold">Email</label>
+          <input id="message-email-filter" type="email" class="form-control" formControlName="email"
+                 placeholder="cliente@exemplo.com" autocomplete="off"
+                 [class.is-invalid]="filterForm.controls.email.invalid && filterForm.controls.email.touched" />
+          <div class="invalid-feedback">Introduza um email válido.</div>
+        </div>
+        <div class="col-md-4">
+          <label for="message-status-filter" class="form-label fw-semibold">Estado</label>
+          <select id="message-status-filter" class="form-select" formControlName="estado">
+            <option value="">Todos</option>
+            <option value="ABERTA">Aberta</option>
+            <option value="AGUARDANDO_ADMIN">A aguardar resposta</option>
+            <option value="RESPONDIDA">Respondida</option>
+            <option value="ENCERRADA">Encerrada</option>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+          <button type="submit" class="btn btn-nobiva flex-grow-1" [disabled]="loading()">Filtrar</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()" [disabled]="loading()"
+                  aria-label="Limpar filtros"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  @if (error()) {
+    <div class="alert alert-danger" role="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="text-center py-5" role="status">
+      <div class="spinner-border text-purple" aria-hidden="true"></div>
+      <p class="text-muted mt-2 mb-0">A carregar mensagens...</p>
+    </div>
+  } @else {
+    <div class="card border-0 shadow-sm d-none d-md-block">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>Cliente</th><th>Assunto</th><th>Última interação</th><th>Estado</th><th class="text-center">Mensagens</th><th class="text-end">Ações</th></tr>
+          </thead>
+          <tbody>
+            @for (message of messages(); track message.id) {
+              <tr [class.message-unread]="message.naoLidas > 0">
+                <td><a [href]="'mailto:' + message.email" class="text-decoration-none">{{ message.email }}</a>@if (message.clienteAutenticado) { <span class="badge text-bg-light ms-1">Conta</span> }</td>
+                <td><span class="d-block fw-semibold text-truncate subject-column">{{ message.assunto }}</span></td>
+                <td class="text-muted small">{{ message.ultimaInteracaoEm | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td><span class="badge" [class]="statusClass(message.estado)">{{ statusLabel(message.estado) }}</span></td>
+                <td class="text-center">{{ message.totalMensagens }} @if (message.naoLidas > 0) { <span class="badge rounded-pill bg-danger ms-1">{{ message.naoLidas }} nova(s)</span> }</td>
+                <td class="text-end"><button type="button" class="btn btn-outline-primary btn-sm" (click)="open(message)"><i class="bi bi-eye me-1" aria-hidden="true"></i>Ver e responder</button></td>
+              </tr>
+            } @empty {
+              <tr><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-inbox fs-1 d-block mb-2" aria-hidden="true"></i>Nenhuma mensagem encontrada.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="d-md-none d-grid gap-3">
+      @for (message of messages(); track message.id) {
+        <article class="card border-0 shadow-sm" [class.message-unread]="message.naoLidas > 0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between gap-2 mb-2"><span class="badge" [class]="statusClass(message.estado)">{{ statusLabel(message.estado) }}</span>@if (message.naoLidas > 0) { <span class="badge bg-danger">{{ message.naoLidas }} nova(s)</span> }</div>
+            <h2 class="h6 fw-bold">{{ message.assunto }}</h2><p class="small text-muted mb-2">{{ message.email }}</p>
+            <p class="small text-muted">{{ message.ultimaInteracaoEm | date:'dd/MM/yyyy HH:mm' }}</p>
+            <button type="button" class="btn btn-outline-primary btn-sm w-100" (click)="open(message)">Ver e responder</button>
+          </div>
+        </article>
+      } @empty { <div class="text-center text-muted py-5">Nenhuma mensagem encontrada.</div> }
+    </div>
+
+    @if (totalElements() > 0) {
+      <nav class="d-flex align-items-center justify-content-between gap-3 mt-4 flex-wrap" aria-label="Paginação das mensagens">
+        <span class="text-muted small">{{ firstResult() }}–{{ lastResult() }} de {{ totalElements() }} mensagens</span>
+        <div class="d-flex align-items-center gap-2">
+          <label for="message-page-size" class="visually-hidden">Mensagens por página</label>
+          <select id="message-page-size" class="form-select form-select-sm page-size" [value]="pageSize()" (change)="changePageSize($event)"><option value="10">10</option><option value="20">20</option><option value="50">50</option></select>
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" [class.disabled]="page() === 0"><button class="page-link" type="button" (click)="load(page() - 1)" [disabled]="page() === 0" aria-label="Página anterior">‹</button></li>
+            @for (pageNumber of pageNumbers(); track pageNumber) { <li class="page-item" [class.active]="pageNumber === page()"><button class="page-link" type="button" (click)="load(pageNumber)" [attr.aria-current]="pageNumber === page() ? 'page' : null">{{ pageNumber + 1 }}</button></li> }
+            <li class="page-item" [class.disabled]="page() + 1 >= totalPages()"><button class="page-link" type="button" (click)="load(page() + 1)" [disabled]="page() + 1 >= totalPages()" aria-label="Próxima página">›</button></li>
+          </ul>
+        </div>
+      </nav>
+    }
+  }
+</section>
+
+@if (loadingDetail()) { <div class="detail-backdrop"><div class="spinner-border text-light" role="status"><span class="visually-hidden">A abrir mensagem...</span></div></div> }
+
+@if (selected(); as conversation) {
+  <div class="detail-backdrop" role="presentation" (click)="close()">
+    <section class="conversation-panel" role="dialog" aria-modal="true" aria-labelledby="conversation-title" (click)="$event.stopPropagation()">
+      <header class="conversation-header">
+        <div><span class="badge mb-2" [class]="statusClass(conversation.estado)">{{ statusLabel(conversation.estado) }}</span><h2 id="conversation-title" class="h4 fw-bold mb-1">{{ conversation.assunto }}</h2><a [href]="'mailto:' + conversation.email">{{ conversation.email }}</a></div>
+        <button type="button" class="btn-close" (click)="close()" aria-label="Fechar detalhes"></button>
+      </header>
+      <div class="conversation-body">
+        <div class="message-thread">
+          @for (item of conversation.mensagens; track item.id) {
+            <article class="thread-message" [class.thread-message--staff]="authorIsStaff(item.autorTipo)">
+              <div class="d-flex justify-content-between gap-3 mb-1"><strong>{{ item.autorNome }}</strong><time class="small text-muted">{{ item.criadoEm | date:'dd/MM/yyyy HH:mm' }}</time></div>
+              <p class="mb-0 text-pre-wrap">{{ item.conteudo }}</p>
+            </article>
+          }
+        </div>
+        @if (success()) { <div class="alert alert-success mt-3" role="status" aria-live="polite">{{ success() }}</div> }
+        @if (replyError()) { <div class="alert alert-danger mt-3" role="alert">{{ replyError() }}</div> }
+        <form class="reply-form mt-4" [formGroup]="replyForm" (ngSubmit)="reply()" novalidate>
+          <div class="mb-2"><label class="form-label fw-semibold">Destinatário</label><input class="form-control" [value]="conversation.email" readonly /></div>
+          <div class="mb-2"><label class="form-label fw-semibold">Assunto</label><input class="form-control" [value]="'Re: ' + conversation.assunto" readonly /></div>
+          <div class="mb-3"><label for="reply-content" class="form-label fw-semibold">Resposta</label><textarea id="reply-content" class="form-control" rows="5" maxlength="5000" formControlName="conteudo" [class.is-invalid]="replyForm.controls.conteudo.invalid && replyForm.controls.conteudo.touched"></textarea><div class="invalid-feedback">A resposta é obrigatória e pode ter até 5000 caracteres.</div></div>
+          <button type="submit" class="btn btn-nobiva" [disabled]="replying() || conversation.estado === 'ENCERRADA'" [attr.aria-busy]="replying()">@if (replying()) { <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>A enviar... } @else { <i class="bi bi-send me-1" aria-hidden="true"></i>Enviar resposta }</button>
+          @if (conversation.estado === 'ENCERRADA') { <p class="small text-muted mt-2 mb-0">Esta conversa está encerrada e não pode receber respostas.</p> }
+        </form>
+      </div>
+    </section>
+  </div>
+}

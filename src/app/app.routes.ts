@@ -21,6 +21,11 @@ export const routes: Routes = [
         loadComponent: () => import('./contacts/contacts').then(m => m.Contacts),
     },
     {
+        path: 'dashboard/mensagens',
+        loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard),
+        canActivate: [adminGuard]
+    },
+    {
         path: 'dashboard',
         loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard),
         canActivate: [adminGuard]

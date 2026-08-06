@@ -18,6 +18,11 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard/mensagens" [class.active]="activeView() === 'messages'">
+            <i class="bi bi-chat-left-text me-2" aria-hidden="true"></i>Mensagens
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" [class.active]="activeView() === 'subscriptions'" role="button" (click)="setView('subscriptions')">
             <i class="bi bi-people me-2"></i>Subscrições
           </a>
@@ -206,6 +211,10 @@
     <!-- Subscriptions view -->
     @if (activeView() === 'subscriptions') {
       <app-subscriptions-admin />
+    }
+
+    @if (activeView() === 'messages') {
+      <app-messages-admin />
     }
 
   </main>

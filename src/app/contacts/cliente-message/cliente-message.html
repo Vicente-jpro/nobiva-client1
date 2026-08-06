@@ -25,24 +25,24 @@
 
     <div class="mb-4">
       <label for="client-subject" class="form-label fw-semibold">Assunto <span aria-hidden="true">*</span></label>
-      <input id="client-subject" type="text" class="form-control form-control-lg" formControlName="subject"
-             maxlength="120" placeholder="Como podemos ajudar?" [class.is-invalid]="isInvalid('subject')"
+      <input id="client-subject" type="text" class="form-control form-control-lg" formControlName="assunto"
+             maxlength="160" placeholder="Como podemos ajudar?" [class.is-invalid]="isInvalid('assunto')"
              aria-describedby="client-subject-error" />
-      @if (isInvalid('subject')) {
-        <div id="client-subject-error" class="invalid-feedback">O assunto deve ter entre 3 e 120 caracteres.</div>
+      @if (isInvalid('assunto')) {
+        <div id="client-subject-error" class="invalid-feedback">O assunto é obrigatório e pode ter até 160 caracteres.</div>
       }
     </div>
 
     <div class="mb-4">
       <div class="d-flex justify-content-between gap-3">
         <label for="client-description" class="form-label fw-semibold">Descrição <span aria-hidden="true">*</span></label>
-        <small class="text-secondary">{{ messageForm.controls.description.value.length }}/2000</small>
+        <small class="text-secondary">{{ messageForm.controls.descricao.value.length }}/5000</small>
       </div>
-      <textarea id="client-description" class="form-control" rows="7" formControlName="description"
-                maxlength="2000" placeholder="Descreva a sua questão ou o imóvel que procura..."
-                [class.is-invalid]="isInvalid('description')" aria-describedby="client-description-error"></textarea>
-      @if (isInvalid('description')) {
-        <div id="client-description-error" class="invalid-feedback">A descrição deve ter entre 20 e 2000 caracteres.</div>
+      <textarea id="client-description" class="form-control" rows="7" formControlName="descricao"
+                maxlength="5000" placeholder="Descreva a sua questão ou o imóvel que procura..."
+                [class.is-invalid]="isInvalid('descricao')" aria-describedby="client-description-error"></textarea>
+      @if (isInvalid('descricao')) {
+        <div id="client-description-error" class="invalid-feedback">A descrição é obrigatória e pode ter até 5000 caracteres.</div>
       }
     </div>
 

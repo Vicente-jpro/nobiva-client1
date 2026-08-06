@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HouseService } from '../service/house-service';
 import { AuthService } from '../service/auth.service';
 import { HouseResponse } from '../models/house/house-response';
@@ -15,10 +15,11 @@ import { Danger } from '../alerts/danger/danger';
 import { PlanManagement } from '../plan/plan';
 import { SubscriptionsAdmin } from '../subscription/admin/subscriptions-admin';
 import { PlanStatus } from '../models/plan-status';
+import { MessagesAdmin } from './messages/messages-admin';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger, PlanManagement, SubscriptionsAdmin],
+  imports: [FormsModule, RouterLink, DecimalPipe, DatePipe, Filter, Success, Danger, PlanManagement, SubscriptionsAdmin, MessagesAdmin],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,10 +29,11 @@ export class Dashboard implements OnInit {
   private houseService = inject(HouseService);
   protected authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   protected houses = signal<HouseResponse[]>([]);
 
-  protected activeView = signal<'houses' | 'plans' | 'subscriptions'>('houses');
+  protected activeView = signal<'houses' | 'plans' | 'subscriptions' | 'messages'>('houses');
   protected loading = signal(false);
   protected display = new DisplayMessage();
   protected page = signal(0);
@@ -51,6 +53,10 @@ export class Dashboard implements OnInit {
   };
 
   ngOnInit(): void {
+    if (this.router.url.startsWith('/dashboard/mensagens')) {
+      this.activeView.set('messages');
+      return;
+    }
     this.houseFilter.statusPost = StatusPost.PENDENTE;
     this.findByFilter(this.houseFilter, this.page());
   }

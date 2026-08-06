@@ -27,9 +27,9 @@ export class ClienteMessage {
   protected readonly feedback = signal('');
 
   protected readonly messageForm = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(120)]],
-    subject: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
-    description: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(2000)]],
+    email: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
+    assunto: ['', [Validators.required, Validators.maxLength(160)]],
+    descricao: ['', [Validators.required, Validators.maxLength(5000)]],
   });
 
   protected isInvalid(controlName: keyof typeof this.messageForm.controls): boolean {
@@ -48,8 +48,8 @@ export class ClienteMessage {
     const value = this.messageForm.getRawValue();
     const request: ClientMessageRequest = {
       email: value.email.trim(),
-      subject: value.subject.trim(),
-      description: value.description.trim(),
+      assunto: value.assunto.trim(),
+      descricao: value.descricao.trim(),
     };
 
     this.state.set('sending');
@@ -60,7 +60,7 @@ export class ClienteMessage {
     ).subscribe({
       next: response => {
         this.state.set('success');
-        this.feedback.set(response.message || 'A sua mensagem foi enviada com sucesso.');
+        this.feedback.set(response.mensagem || 'A sua mensagem foi enviada com sucesso.');
         this.messageForm.reset();
         this.submitted.set(false);
       },
