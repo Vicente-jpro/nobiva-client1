@@ -103,24 +103,8 @@
     <div class="row g-3 mb-4">
       @for (plan of availablePlans(); track plan.id) {
         <div class="col-12 col-sm-6 col-xl-3">
-          <div class="plan-select-card h-100 border-0 shadow-sm"
-               [class.active]="subscription()?.type?.id === plan.id">
-            <div class="plan-accent plan-accent-{{ planTypeColor[plan.type] ?? 'secondary' }}"></div>
-            <div class="card-body d-flex flex-column pt-4">
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="plan-icon-wrap plan-icon-{{ planTypeColor[plan.type] ?? 'secondary' }}">
-                  <i class="bi {{ planTypeIcon[plan.type] ?? 'bi-card-list' }} fs-5"></i>
-                </div>
-                <div>
-                  <div class="fw-bold">{{ plan.type }}</div>
-                  <div class="text-muted small">{{ planTypeDays[plan.type] ?? '?' }} dias</div>
-                </div>
-              </div>
-              <p class="text-muted small flex-grow-1">{{ plan.description }}</p>
-              <div class="fw-bold text-purple fs-5 mb-3">
-                {{ plan.price | number:'1.2-2' }} <span class="text-muted small fw-normal">AOA</span>
-              </div>
-
+          <app-plan-card [plan]="plan" [active]="subscription()?.type?.id === plan.id">
+            <div plan-card-actions class="mt-auto">
               @if (subscription()?.type?.id === plan.id) {
                 <button class="btn btn-nobiva btn-sm w-100" disabled>
                   <i class="bi bi-check-circle me-1"></i>Plano atual
@@ -136,7 +120,7 @@
                 </button>
               }
             </div>
-          </div>
+          </app-plan-card>
         </div>
       }
     </div>

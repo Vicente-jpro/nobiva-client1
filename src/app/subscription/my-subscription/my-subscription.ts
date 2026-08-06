@@ -15,10 +15,11 @@ import { PlanModel } from '../../models/plan';
 import { DisplayMessage } from '../../models/display-message';
 import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
+import { PlanCard } from '../../shared/components/plan-card/plan-card';
 
 @Component({
   selector: 'app-my-subscription',
-  imports: [FormsModule, DecimalPipe, Success, Danger],
+  imports: [FormsModule, DecimalPipe, Success, Danger, PlanCard],
   templateUrl: './my-subscription.html',
   styleUrl: './my-subscription.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,20 +41,6 @@ export class MySubscription implements OnInit {
     TRIMESTRAL: 'bi-calendar3',
     SEMESTRAL: 'bi-calendar2-range',
     ANUAL: 'bi-trophy',
-  };
-
-  planTypeDays: Partial<Record<string, number>> = {
-    MENSAL: 30,
-    TRIMESTRAL: 90,
-    SEMESTRAL: 180,
-    ANUAL: 365,
-  };
-
-  planTypeColor: Partial<Record<string, string>> = {
-    MENSAL: 'info',
-    TRIMESTRAL: 'success',
-    SEMESTRAL: 'warning',
-    ANUAL: 'nobiva',
   };
 
   statusBadge: Partial<Record<string, string>> = {

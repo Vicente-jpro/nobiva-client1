@@ -36,55 +36,16 @@
     <div class="row g-4">
       @for (plan of plans(); track plan.id) {
         <div class="col-12 col-sm-6 col-xl-3">
-          <div class="card plan-card h-100 border-0 shadow-sm position-relative overflow-hidden">
-            <!-- Color accent bar -->
-            <div class="plan-accent plan-accent-{{ planTypeColor[plan.type] ?? 'secondary' }}"></div>
-
-            <div class="card-body d-flex flex-column pt-4">
-              <!-- Icon + badge -->
-              <div class="d-flex align-items-center gap-2 mb-3">
-                <div class="plan-icon-wrap plan-icon-{{ planTypeColor[plan.type] ?? 'secondary' }}">
-                  <i class="bi {{ planTypeIcon[plan.type] ?? 'bi-card-list' }} fs-4"></i>
-                </div>
-                <span class="badge bg-{{ planTypeColor[plan.type] === 'nobiva' ? 'nobiva' : planTypeColor[plan.type] ?? 'secondary' }} px-3 py-2 fs-7">
-                  {{ plan.type }}
-                </span>
-              </div>
-
-              <!-- Duration chip -->
-              <div class="mb-2">
-                <span class="text-muted small">
-                  <i class="bi bi-clock me-1"></i>{{ planTypeDays[plan.type] ?? '—' }} dias
-                </span>
-              </div>
-
-              <!-- Maximum number of property posts -->
-              <div class="mb-2">
-                <span class="text-muted small">
-                  <i class="bi bi-megaphone me-1"></i>Até {{ plan.maxPosts }} anúncio(s)
-                </span>
-              </div>
-
-              <!-- Description -->
-              <p class="text-muted small flex-grow-1">{{ plan.description }}</p>
-
-              <!-- Price -->
-              <div class="plan-price mt-2 mb-3">
-                <span class="fs-2 fw-bold text-purple">{{ plan.price | number:'1.2-2' }}</span>
-                <span class="text-muted ms-1 small">AOA / plano</span>
-              </div>
-
-              <!-- Actions -->
-              <div class="d-flex gap-2 mt-auto">
-                <button class="btn btn-outline-secondary btn-sm flex-fill" (click)="openEdit(plan)">
-                  <i class="bi bi-pencil me-1"></i>Editar
-                </button>
-                <button class="btn btn-outline-danger btn-sm" (click)="confirmDelete(plan.id)">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
+          <app-plan-card [plan]="plan">
+            <div plan-card-actions class="d-flex gap-2 mt-auto">
+              <button class="btn btn-outline-secondary btn-sm flex-fill" (click)="openEdit(plan)">
+                <i class="bi bi-pencil me-1"></i>Editar
+              </button>
+              <button class="btn btn-outline-danger btn-sm" (click)="confirmDelete(plan.id)">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
-          </div>
+          </app-plan-card>
         </div>
       }
     </div>

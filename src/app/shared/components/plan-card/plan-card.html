@@ -1,0 +1,35 @@
+@let currentPlan = plan();
+@let color = planTypeColor[currentPlan.type] ?? 'secondary';
+
+<article class="card plan-card h-100 border-0 shadow-sm" [class.active]="active()">
+  <div class="plan-accent plan-accent-{{ color }}"></div>
+
+  <div class="card-body d-flex flex-column pt-4">
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <div class="plan-icon-wrap plan-icon-{{ color }}">
+        <i class="bi {{ planTypeIcon[currentPlan.type] ?? 'bi-card-list' }} fs-4"></i>
+      </div>
+      <span class="badge bg-{{ color }} px-3 py-2 plan-type-badge">
+        {{ currentPlan.type }}
+      </span>
+    </div>
+
+    <div class="text-muted small mb-2">
+      <i class="bi bi-clock me-1"></i>{{ planTypeDays[currentPlan.type] ?? '—' }} dias
+    </div>
+
+    <div class="text-muted small mb-2">
+      <i class="bi bi-megaphone me-1"></i>Até {{ currentPlan.maxPosts }}
+      {{ currentPlan.maxPosts === 1 ? 'anúncio' : 'anúncios' }}
+    </div>
+
+    <p class="text-muted small flex-grow-1">{{ currentPlan.description }}</p>
+
+    <div class="plan-price mt-2 mb-3">
+      <span class="fs-2 fw-bold text-purple">{{ currentPlan.price | number:'1.2-2' }}</span>
+      <span class="text-muted ms-1 small">AOA / plano</span>
+    </div>
+
+    <ng-content select="[plan-card-actions]" />
+  </div>
+</article>

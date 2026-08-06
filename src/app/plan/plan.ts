@@ -7,16 +7,16 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DecimalPipe } from '@angular/common';
 import { PlanService } from '../service/plan-service';
 import { PlanModel } from '../models/plan';
 import { DisplayMessage } from '../models/display-message';
 import { Success } from '../alerts/success/success';
 import { Danger } from '../alerts/danger/danger';
+import { PlanCard } from '../shared/components/plan-card/plan-card';
 
 @Component({
   selector: 'app-plan',
-  imports: [FormsModule, DecimalPipe, Success, Danger],
+  imports: [FormsModule, Success, Danger, PlanCard],
   templateUrl: './plan.html',
   styleUrl: './plan.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,25 +39,11 @@ export class PlanManagement implements OnInit {
 
   readonly planTypes = ['MENSAL', 'TRIMESTRAL', 'SEMESTRAL', 'ANUAL'];
 
-  planTypeIcon: Partial<Record<string, string>> = {
-    MENSAL: 'bi-calendar-month',
-    TRIMESTRAL: 'bi-calendar3',
-    SEMESTRAL: 'bi-calendar2-range',
-    ANUAL: 'bi-trophy',
-  };
-
   planTypeDays: Partial<Record<string, number>> = {
     MENSAL: 30,
     TRIMESTRAL: 90,
     SEMESTRAL: 180,
     ANUAL: 365,
-  };
-
-  planTypeColor: Partial<Record<string, string>> = {
-    MENSAL: 'info',
-    TRIMESTRAL: 'success',
-    SEMESTRAL: 'warning',
-    ANUAL: 'nobiva',
   };
 
   ngOnInit(): void {

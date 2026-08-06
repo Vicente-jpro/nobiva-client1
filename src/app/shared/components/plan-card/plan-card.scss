@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.plan-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 2px solid transparent !important;
+  background: #fff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  &.active {
+    border-color: var(--purple-400) !important;
+    box-shadow: 0 0 0 3px rgba(171, 71, 188, 0.2) !important;
+  }
+}
+
+.plan-accent {
+  height: 6px;
+  width: 100%;
+}
+
+.plan-accent-info { background: #0dcaf0; }
+.plan-accent-success { background: #198754; }
+.plan-accent-warning { background: #ffc107; }
+.plan-accent-nobiva { background: var(--purple-400); }
+.plan-accent-secondary { background: #6c757d; }
+
+.plan-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.plan-icon-info { background: rgba(13, 202, 240, 0.15); color: #0dcaf0; }
+.plan-icon-success { background: rgba(25, 135, 84, 0.15); color: #198754; }
+.plan-icon-warning { background: rgba(255, 193, 7, 0.2); color: #b38600; }
+.plan-icon-nobiva { background: rgba(171, 71, 188, 0.15); color: var(--purple-400); }
+.plan-icon-secondary { background: rgba(108, 117, 125, 0.15); color: #6c757d; }
+
+.plan-type-badge {
+  font-size: 0.8rem;
+}
+
+.badge.bg-nobiva {
+  background-color: var(--purple-400) !important;
+}
+
+.plan-price {
+  line-height: 1;
+}
