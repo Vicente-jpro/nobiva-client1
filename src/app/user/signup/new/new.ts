@@ -25,6 +25,7 @@ export class New {
   }
 
   save(user: UserSignup) {
+
     this.service.save(user).subscribe({
       next: (response) => {
         this.display = { success: response.message, errors: [] };
@@ -34,15 +35,8 @@ export class New {
       },
       error: (err) => {
         console.error('Error creating account:', err);
-        let errors: string[];
-        if (user.password !== user.passwordConfirmed) {
-          errors = ['Palavra passe de confirmação não pode ser diferente da palavra passe.'];
-        } else if (Array.isArray(err.error?.errors)) {
-          errors = err.error.errors;
-        } else {
-          errors = [err.error?.errors || 'Erro ao criar conta.'];
-        }
-        this.display = { success: '', errors };
+
+        this.display = { success: '', errors: err.error.errors};
         this.changeDetection.markForCheck();
       }
     });

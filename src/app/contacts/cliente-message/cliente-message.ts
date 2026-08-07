@@ -58,9 +58,9 @@ export class ClienteMessage {
       takeUntilDestroyed(this.destroyRef),
       finalize(() => this.messageForm.enable({ emitEvent: false })),
     ).subscribe({
-      next: response => {
+      next: () => {
         this.state.set('success');
-        this.feedback.set(response.mensagem || 'A sua mensagem foi enviada com sucesso.');
+        this.feedback.set('A sua mensagem foi enviada com sucesso.');
         this.messageForm.reset();
         this.submitted.set(false);
       },

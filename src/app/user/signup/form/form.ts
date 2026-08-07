@@ -132,7 +132,7 @@ export class Form implements OnChanges {
     this.user.passwordConfirmed = this.signUpForm.value.passwordConfirmed || '';
 
     if (this.user.password !== this.user.passwordConfirmed) {
-      this.display = { success: '', errors: ['As passwords não coincidem!'] };
+      this.display = { success: '', errors: ['Palavra passe de confirmação não pode ser diferente da Palavra passe.'] };
       return;
     }
 

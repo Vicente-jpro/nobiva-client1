@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- Authentication: parent tables before their dependants -->
+    <include file="/db/changelog/initial/roles-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/users-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/user-roles-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/roles-data.sql" relativeToChangelogFile="false"/>
+
+    <!-- Geographic and address hierarchy -->
+    <include file="/db/changelog/initial/countries-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/provinces-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/localities-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/telephones-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/post-addresses-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/user-addresses-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/insert-angola-data.sql" relativeToChangelogFile="false"/>
+
+    <!-- Commercial domain -->
+    <include file="/db/changelog/initial/plans-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/subscriptions-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/houses-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/email-tasks-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/house-images-table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/initial/favorite-houses-table.sql" relativeToChangelogFile="false"/>
+
+    <!-- Unidirectional client contact messages -->
+    <include file="/db/changelog/initial/client-messages-table.sql" relativeToChangelogFile="false"/>
+
+</databaseChangeLog>

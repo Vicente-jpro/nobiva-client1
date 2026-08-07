@@ -22,3 +22,21 @@ section {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+.house-description {
+  --description-lines: 3;
+  line-height: 1.5;
+  max-height: calc(1.5em * var(--description-lines));
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--description-lines);
+  line-clamp: var(--description-lines);
+}
+
+@media (max-width: 767.98px) {
+  .house-description {
+    --description-lines: 2;
+  }
+}

@@ -1,55 +1,44 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 
-import {
-  ConversationDetailResponse,
-  ConversationMessageRequest,
-  ConversationSummaryResponse,
-  PageResponse,
-} from '../../models/client-message';
+import { ClientMessageResponse, PageResponse } from '../../models/client-message';
 import { ClientMessageService } from '../../service/client-message-service';
 import { MessagesAdmin } from './messages-admin';
 
-const summary: ConversationSummaryResponse = {
-  id: 'conversation-id', email: 'cliente@example.com', assunto: 'Informações',
-  clienteAutenticado: false, estado: 'AGUARDANDO_ADMIN', estadoTecnico: 'PROCESSADO',
-  totalMensagens: 1, naoLidas: 1, criadoEm: '2026-08-06T08:00:00',
-  ultimaInteracaoEm: '2026-08-06T08:00:00',
-};
-
-const detail: ConversationDetailResponse = {
-  ...summary, encerradoEm: null,
-  mensagens: [{ id: 'message-id', conteudo: 'Preciso de informações.', autorTipo: 'CLIENTE_VISITANTE',
-    autorId: null, autorNome: 'Cliente', notificacaoStatus: 'ENVIADA', criadoEm: summary.criadoEm }],
+const message: ClientMessageResponse = {
+  id: 'message-id',
+  email: 'cliente@example.com',
+  assunto: 'Informações',
+  descricao: 'Preciso de informações.',
+  status: 'FALHADO',
+  tentativas: 3,
+  criadoEm: '2026-08-07T10:00:00',
+  publicadoEm: '2026-08-07T10:01:00',
+  processadoEm: null,
 };
 
 interface MessagesAdminHarness {
-  messages(): ConversationSummaryResponse[];
-  selected(): ConversationDetailResponse | null;
-  replyForm: FormGroup;
-  open(message: ConversationSummaryResponse): void;
-  reply(): void;
+  messages(): ClientMessageResponse[];
+  selected(): ClientMessageResponse | null;
+  page(): number;
+  open(item: ClientMessageResponse): void;
+  retry(item: ClientMessageResponse): void;
 }
 
 class ClientMessageServiceStub {
-  replies: Array<{ id: string; request: ConversationMessageRequest }> = [];
+  retriedIds: string[] = [];
 
   findAll() {
-    const page: PageResponse<ConversationSummaryResponse> = {
-      content: [summary], totalElements: 1, totalPages: 1, size: 10, number: 0,
+    const page: PageResponse<ClientMessageResponse> = {
+      content: [message], totalElements: 1, totalPages: 1, size: 10, number: 0,
       numberOfElements: 1, first: true, last: true, empty: false,
     };
     return of(page);
   }
 
-  findOne() { return of(detail); }
-
-  reply(id: string, request: ConversationMessageRequest) {
-    this.replies.push({ id, request });
-    return of({ id: 'reply-id', conteudo: request.conteudo, autorTipo: 'ADMINSTRADOR' as const,
-      autorId: 'admin-id', autorNome: 'Admin', notificacaoStatus: 'PENDENTE' as const,
-      criadoEm: '2026-08-06T09:00:00' });
+  retry(id: string) {
+    this.retriedIds.push(id);
+    return of({ ...message, status: 'PENDENTE' as const, tentativas: 0 });
   }
 }
 
@@ -70,18 +59,20 @@ describe('MessagesAdmin', () => {
     fixture.detectChanges();
   });
 
-  it('loads the first page', () => {
-    expect(component.messages()).toEqual([summary]);
+  it('loads the unidirectional messages page', () => {
+    expect(component.messages()).toEqual([message]);
+    expect(component.page()).toBe(0);
   });
 
-  it('opens a conversation and sends a reply with the real API contract', () => {
-    component.open(summary);
-    component.replyForm.setValue({ conteudo: 'Teremos todo o gosto em ajudar.' });
-    component.reply();
+  it('opens details locally without making an additional request', () => {
+    component.open(message);
+    expect(component.selected()).toEqual(message);
+  });
 
-    expect(service.replies).toEqual([{
-      id: 'conversation-id', request: { conteudo: 'Teremos todo o gosto em ajudar.' },
-    }]);
-    expect(component.selected()?.estado).toBe('RESPONDIDA');
+  it('retries a failed message using the backend contract', () => {
+    component.retry(message);
+    expect(service.retriedIds).toEqual(['message-id']);
+    expect(component.messages()[0].status).toBe('PENDENTE');
+    expect(component.messages()[0].tentativas).toBe(0);
   });
 });

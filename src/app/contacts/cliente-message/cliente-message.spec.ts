@@ -18,7 +18,11 @@ class ClientMessageServiceStub {
 
   send(request: ClientMessageRequest) {
     this.requests.push(request);
-    return of({ id: 'conversation-id', mensagem: 'Mensagem recebida.' });
+    return of({
+      id: 'message-id', email: request.email, assunto: request.assunto,
+      descricao: request.descricao, status: 'PENDENTE' as const, tentativas: 0,
+      criadoEm: '2026-08-07T10:00:00', publicadoEm: null, processadoEm: null,
+    });
   }
 }
 
@@ -58,7 +62,7 @@ describe('ClienteMessage', () => {
       descricao: 'Gostaria de agendar uma visita.',
     }]);
     expect(component.state()).toBe('success');
-    expect(component.feedback()).toBe('Mensagem recebida.');
+    expect(component.feedback()).toBe('A sua mensagem foi enviada com sucesso.');
     expect(component.messageForm.controls['email'].value).toBe('');
   });
 });
