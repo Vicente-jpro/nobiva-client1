@@ -29,5 +29,9 @@ export class HouseResponseDetails {
     electricity = false;
     image: Image[] = [];
     post_address: PostAddress = new PostAddress();
+    ownerName = "";
+    ownerTelephone = "";
+    ownerEmail = "";
+    email = "";
         
 }

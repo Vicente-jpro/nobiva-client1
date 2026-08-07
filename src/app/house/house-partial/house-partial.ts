@@ -30,6 +30,7 @@ export class HousePartial {
   changeDetection = inject(ChangeDetectorRef);
   router = inject(Router);
 
+
   saveFavorite(display: DisplayMessage): void {
     this.display = display;
     this.changeDetection.markForCheck();

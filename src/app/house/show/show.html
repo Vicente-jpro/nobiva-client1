@@ -104,8 +104,8 @@
         </p>
    </div>
 
-    <div class="row">
-      <div class="col-sm-8">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-8">
 
         <hr class="text-purple"> <br>
         <strong class="text-purple fs-4">Descrição: </strong>
@@ -199,29 +199,41 @@
 
         </div>
       </div>
-      <!-- reservation-->
-      <div class="col d-flex justify-content-center">
-        <div class="card border-light shadow-lg" style="width: 18rem; height: 450px ;">
-          <div class="card-body">
-            <h5 class="card-title text-purple text-center">Nome do proprietário</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary text-center">Card subtitle</h6>
-            <p class="card-text text-center lh-lg">
-              Breve introdução da empresa ou do proprietário
-              <br>
-              telemovel, email
-            </p>
 
-            <button type="button" class="btn btn-nobiva btn-sm w-100">
-                <span class="material-icons fs-6 align-middle me-1">send</span>
-                Entrar em contato por email
-            </button>
-
+      <aside class="col-lg-4" aria-label="Contacto do proprietário">
+        <section class="owner-contact-card">
+          <div class="owner-contact-card__heading">
+            <span class="owner-contact-card__icon" aria-hidden="true">
+              <i class="bi bi-person-heart"></i>
+            </span>
+            <div>
+              <p class="text-purple fw-semibold text-uppercase small mb-1">Contacto</p>
+              <h2 class="h4 mb-0">Contactar proprietário</h2>
+            </div>
           </div>
-        </div>
 
-      </div>
+          <dl class="owner-details my-4">
+            <div>
+              <dt>Nome do proprietário</dt>
+              <dd>{{ house.ownerName || 'Informação não disponibilizada' }}</dd>
+            </div>
+            <div>
+              <dt><i class="bi bi-telephone me-1" aria-hidden="true"></i>Telemóvel</dt>
+              <dd>
+                @if (house.ownerTelephone) {
+                  <a [href]="'tel:' + house.ownerTelephone">{{ house.ownerTelephone }}</a>
+                } @else {
+                  Informação não disponibilizada
+                }
+              </dd>
+            </div>
+          </dl>
 
-      <!--End coment -->
+          <app-property-contact-form
+            [ownerEmail]="house.ownerEmail || house.email"
+            [houseId]="house.id || houseId" />
+        </section>
+      </aside>
     </div>
   </div>
 

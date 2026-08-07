@@ -1,0 +1,40 @@
+<app-success [successMessageData]="display.success" />
+<app-danger [dangerMessagesData]="display.errors" />
+
+@if (!ownerEmail) {
+  <div class="alert alert-warning small" role="status">
+    O proprietário ainda não disponibilizou um email de contacto.
+  </div>
+}
+
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="mb-3">
+    <label for="property-contact-email" class="form-label fw-semibold">Email</label>
+    <input id="property-contact-email" type="email" class="form-control"
+           formControlName="clientEmail" autocomplete="email"
+           [readonly]="authService.isLoggedIn()"
+           [class.is-invalid]="contactForm.controls.clientEmail.invalid && contactForm.controls.clientEmail.touched" />
+    @if (emailError && contactForm.controls.clientEmail.touched) {
+      <div class="invalid-feedback">{{ emailError }}</div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="property-contact-message" class="form-label fw-semibold">Descrição</label>
+    <textarea id="property-contact-message" class="form-control" rows="5"
+              formControlName="message"
+              [class.is-invalid]="contactForm.controls.message.invalid && contactForm.controls.message.touched"></textarea>
+    @if (messageError && contactForm.controls.message.touched) {
+      <div class="invalid-feedback">{{ messageError }}</div>
+    }
+  </div>
+
+  <button type="submit" class="btn btn-nobiva w-100"
+          [disabled]="saving() || (authService.isLoggedIn() && (contactForm.invalid || !ownerEmail))">
+    @if (saving()) {
+      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>A enviar…
+    } @else {
+      <i class="bi bi-send me-1"></i>Enviar mensagem
+    }
+  </button>
+</form>

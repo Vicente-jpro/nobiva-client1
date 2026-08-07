@@ -4,10 +4,12 @@ import { provideRouter } from '@angular/router';
 
 import { HouseResponse } from '../../models/house/house-response';
 import { HousePartial } from './house-partial';
+import { AuthService } from '../../service/auth.service';
 
 describe('HousePartial', () => {
   let component: HousePartial;
   let fixture: ComponentFixture<HousePartial>;
+  let loggedIn: boolean;
 
   const house = Object.assign(new HouseResponse(), {
     idHouse: 'house-123',
@@ -23,9 +25,20 @@ describe('HousePartial', () => {
   });
 
   beforeEach(async () => {
+    loggedIn = true;
     await TestBed.configureTestingModule({
       imports: [HousePartial],
-      providers: [provideHttpClient(), provideRouter([])],
+      providers: [
+        provideHttpClient(),
+        provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: {
+            isLoggedIn: () => loggedIn,
+            getEmail: () => 'cliente@nobiva.test',
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HousePartial);
@@ -43,9 +56,9 @@ describe('HousePartial', () => {
 
   it('keeps a long description complete in the DOM for CSS-only truncation', () => {
     const longDescription = 'Descrição extensa do imóvel. '.repeat(30).trim();
-    component.houseData = Object.assign(new HouseResponse(), house, {
+    fixture.componentRef.setInput('houseData', Object.assign(new HouseResponse(), house, {
       description: longDescription,
-    });
+    }));
     fixture.detectChanges();
 
     const description: HTMLElement = fixture.nativeElement.querySelector('.house-description');
@@ -61,6 +74,20 @@ describe('HousePartial', () => {
     expect(element.querySelector('app-dialog-email-message')).toBeTruthy();
     expect(details.textContent).toContain('Ver Detalhes');
     expect(details.getAttribute('href')).toContain(house.idHouse);
+  });
+
+  it('keeps favorite, contact and details visible to visitors', () => {
+    loggedIn = false;
+    fixture = TestBed.createComponent(HousePartial);
+    fixture.componentInstance.houseData = house;
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('app-favorite')).toBeTruthy();
+    expect(element.querySelector('app-dialog-email-message')).toBeTruthy();
+    expect(element.textContent).toContain('Favorito');
+    expect(element.textContent).toContain('Contactar');
+    expect(element.textContent).toContain('Ver Detalhes');
   });
 
   it('continues using OnPush change detection', () => {

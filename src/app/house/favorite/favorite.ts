@@ -3,6 +3,7 @@ import { HouseResponse } from '../../models/house/house-response';
 import { RoomResponse } from '../../models/room/room-response';
 import { FavoriteHouseService } from '../../service/favorite-house-service';
 import { DisplayMessage } from '../../models/display-message';
+import { AuthService } from '../../service/auth.service';
 
 
 @Component({
@@ -21,8 +22,19 @@ export class Favorite {
   @Output() onSaveFavoriteEvent = new EventEmitter<DisplayMessage>();
   display = new DisplayMessage();
   private cdr = inject(ChangeDetectorRef);
+  protected readonly authService = inject(AuthService);
 
   onSave(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.display = {
+        success: '',
+        errors: ['Inicie sessão para guardar favoritos.'],
+      };
+      this.onSaveFavoriteEvent.emit(this.display);
+      this.cdr.markForCheck();
+      return;
+    }
+
     this.service.save(this.houseData.idHouse).subscribe({
       next: (response) => {
         this.display = { success: response.message, errors: [] };

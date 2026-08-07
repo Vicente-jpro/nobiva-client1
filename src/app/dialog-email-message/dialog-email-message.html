@@ -1,4 +1,3 @@
-<!-- Email trigger button -->
 <button type="button" class="btn btn-outline-primary btn-sm mt-2"
         (click)="openModal()" aria-label="Enviar email ao proprietário">
   <i class="bi bi-envelope me-1"></i>Contactar
@@ -16,36 +15,14 @@
           <button type="button" class="btn-close" (click)="closeModal()" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-          <app-success [successMessageData]="display.success" />
-          <app-danger [dangerMessagesData]="display.errors" />
+          <app-property-contact-form
+            [ownerEmail]="houseData.email || roomData.email"
+            [houseId]="houseData.idHouse"
+            [roomId]="roomData.idRoom" />
 
-          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label class="form-label fw-semibold">O seu email</label>
-              <input type="email" class="form-control" formControlName="clientEmail"
-                     placeholder="o-seu-email@exemplo.com"
-                     [class.is-invalid]="contactForm.get('clientEmail')?.invalid && contactForm.get('clientEmail')?.touched">
-              @if (getEmailError()) {
-                <div class="invalid-feedback">{{ getEmailError() }}</div>
-              }
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Mensagem</label>
-              <textarea class="form-control" rows="4" formControlName="message"
-                        [class.is-invalid]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
-              @if (getMessageError()) {
-                <div class="invalid-feedback">{{ getMessageError() }}</div>
-              }
-            </div>
-
-            <div class="modal-footer px-0 pb-0">
-              <button type="button" class="btn btn-secondary btn-sm" (click)="closeModal()">Fechar</button>
-              <button type="submit" class="btn btn-nobiva btn-sm">
-                <i class="bi bi-send me-1"></i>Enviar
-              </button>
-            </div>
-          </form>
+          <div class="modal-footer px-0 pb-0">
+            <button type="button" class="btn btn-secondary btn-sm" (click)="closeModal()">Fechar</button>
+          </div>
         </div>
       </div>
     </div>

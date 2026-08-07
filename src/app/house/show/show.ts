@@ -7,10 +7,12 @@ import { FavoriteHouseService } from '../../service/favorite-house-service';
 import { DisplayMessage } from '../../models/display-message';
 import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
+import { AuthService } from '../../service/auth.service';
+import { PropertyContactForm } from '../../shared/components/property-contact-form/property-contact-form';
 
 @Component({
   selector: 'app-show',
-  imports: [Success, Danger],
+  imports: [Success, Danger, PropertyContactForm],
   templateUrl: './show.html',
   styleUrl: './show.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +24,7 @@ export class Show implements OnInit {
   service = inject(HouseService);
   house = new HouseResponseDetails();
   favoriteService = inject(FavoriteHouseService);
+  protected readonly authService = inject(AuthService);
 
   changeDetection = inject(ChangeDetectorRef);
   display = new DisplayMessage();
@@ -55,6 +58,15 @@ export class Show implements OnInit {
   }
 
   saveFavorite(idHouse: string): void {
+    if (!this.authService.isLoggedIn()) {
+      this.display = {
+        success: '',
+        errors: ['Inicie sessão para guardar favoritos.'],
+      };
+      this.changeDetection.markForCheck();
+      return;
+    }
+
     this.favoriteService.save(idHouse).subscribe({
       next: (response) => {
         this.display.success = response.message;
