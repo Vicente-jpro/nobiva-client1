@@ -36,14 +36,31 @@
   background: var(--purple-50);
 }
 
+.owner-details__row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+}
+
 .owner-details dt {
-  color: #6c757d;
-  font-size: .78rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: .45rem;
+  color: #495057;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.owner-details dt i {
+  color: var(--purple-400);
+  font-size: 1.05rem;
 }
 
 .owner-details dd {
-  margin: .2rem 0 0;
+  min-width: 0;
+  margin: 0;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
@@ -51,6 +68,42 @@
 .owner-details a {
   color: inherit;
   text-decoration: none;
+}
+
+.owner-telephone-actions,
+.owner-telephone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.owner-telephone-link {
+  color: #146c43 !important;
+  white-space: nowrap;
+}
+
+.owner-telephone-link:hover,
+.owner-telephone-link:focus-visible {
+  text-decoration: underline;
+}
+
+.owner-telephone-copy {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid rgba(82, 40, 96, .2);
+  border-radius: .5rem;
+  color: var(--purple-400);
+  background: #fff;
+}
+
+.owner-telephone-copy:hover,
+.owner-telephone-copy:focus-visible {
+  border-color: var(--purple-400);
+  background: var(--purple-50);
 }
 
 .owner-contact-card--login {
@@ -61,5 +114,16 @@
   .owner-contact-card {
     position: sticky;
     top: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .owner-details__row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .owner-telephone-actions {
+    flex-direction: row;
   }
 }

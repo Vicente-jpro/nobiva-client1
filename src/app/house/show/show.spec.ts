@@ -56,6 +56,43 @@ describe('Show', () => {
     expect(fixture.nativeElement.querySelector('app-property-contact-form')).toBeTruthy();
   });
 
+  it('aligns the contact card with the title and renders compact owner rows', () => {
+    const layout = fixture.nativeElement.querySelector('.house-details-layout');
+    const title = layout?.querySelector('h1');
+    const contact = layout?.querySelector('aside .owner-contact-card');
+    const rows = layout?.querySelectorAll('.owner-details__row');
+
+    expect(title).toBeTruthy();
+    expect(contact).toBeTruthy();
+    expect(rows?.length).toBe(2);
+    expect(rows?.[0].textContent).toContain('Proprietário:');
+    expect(rows?.[0].textContent).toContain('Maria Manuel');
+    expect(rows?.[1].textContent).toContain('Telemóvel:');
+    expect(rows?.[1].textContent).toContain('+244 923 000 000');
+  });
+
+  it('formats the international number and opens it in WhatsApp', () => {
+    const telephoneLink = fixture.nativeElement.querySelector<HTMLAnchorElement>('.owner-telephone-link');
+
+    expect(telephoneLink.textContent).toContain('+244 923 000 000');
+    expect(telephoneLink.getAttribute('href')).toBe('https://wa.me/244923000000');
+    expect(telephoneLink.getAttribute('target')).toBe('_blank');
+    expect(telephoneLink.getAttribute('rel')).toContain('noopener');
+  });
+
+  it('copies the normalized international number', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText },
+    });
+
+    await (fixture.componentInstance as any).copyOwnerTelephone();
+
+    expect(writeText).toHaveBeenCalledWith('+244923000000');
+    expect((fixture.componentInstance as any).telephoneCopied).toBe(true);
+  });
+
   it('keeps favorite, owner contact and form visible to visitors', () => {
     loggedIn = false;
     fixture = TestBed.createComponent(Show);

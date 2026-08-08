@@ -85,14 +85,16 @@
     </p>
 
 
-    <h1 class="fs-3">
-        {{ house.title }} - {{ house.tipology }}
-    </h1>
-    <p class="fs-3 text-purple">
-      {{ house.price }}  <span class="fs-5">/mês</span>
-    </p>
+    <div class="row g-4 align-items-start house-details-layout">
+      <div class="col-lg-8">
+        <h1 class="fs-3">
+            {{ house.title }} - {{ house.tipology }}
+        </h1>
+        <p class="fs-3 text-purple">
+          {{ house.price }}  <span class="fs-5">/mês</span>
+        </p>
 
-   <div class="fs-3">
+       <div class="fs-3">
         <p class="d-flex align-items-center gap-2">
             <span class="material-icons fs-2 text-purple">king_bed</span>
             <span class="fs-4"> {{ house.number_of_rooms }} quartos</span>
@@ -102,10 +104,7 @@
             <span class="material-icons fs-2 text-purple">shower</span>
             <span class="fs-4"> {{ house.bathroom }} casas de banho</span>
         </p>
-   </div>
-
-    <div class="row g-4 align-items-start">
-      <div class="col-lg-8">
+       </div>
 
         <hr class="text-purple"> <br>
         <strong class="text-purple fs-4">Descrição: </strong>
@@ -212,19 +211,44 @@
             </div>
           </div>
 
-          <dl class="owner-details my-4">
-            <div>
-              <dt>Nome do proprietário</dt>
+          <dl class="owner-details my-4" aria-label="Dados do proprietário">
+            <div class="owner-details__row">
+              <dt>
+                <i class="bi bi-person-fill" aria-hidden="true"></i>
+                <span>Proprietário:</span>
+              </dt>
               <dd>{{ ownerName || 'Informação não disponibilizada' }}</dd>
             </div>
-            <div>
-              <dt><i class="bi bi-telephone me-1" aria-hidden="true"></i>Telemóvel</dt>
-              <dd>
-                @if (ownerTelephone) {
-                  <a [href]="'tel:' + ownerTelephone">{{ ownerTelephone }}</a>
+            <div class="owner-details__row">
+              <dt>
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+                <span>Telemóvel:</span>
+              </dt>
+              <dd class="owner-telephone-actions">
+                @if (ownerWhatsAppUrl) {
+                  <a
+                    class="owner-telephone-link"
+                    [href]="ownerWhatsAppUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Conversar com o proprietário pelo WhatsApp">
+                    {{ formattedOwnerTelephone }}
+                  </a>
+                  <button
+                    type="button"
+                    class="owner-telephone-copy"
+                    (click)="copyOwnerTelephone()"
+                    [attr.aria-label]="telephoneCopied ? 'Número copiado' : 'Copiar número de telemóvel'"
+                    [title]="telephoneCopied ? 'Número copiado' : 'Copiar número'">
+                    <i [class]="telephoneCopied ? 'bi bi-check-lg' : 'bi bi-copy'" aria-hidden="true"></i>
+                  </button>
                 } @else {
-                  Informação não disponibilizada
+                  {{ ownerTelephone || 'Informação não disponibilizada' }}
                 }
+                <span class="visually-hidden" aria-live="polite">
+                  @if (telephoneCopied) { Número copiado. }
+                  @if (telephoneCopyFailed) { Não foi possível copiar o número. }
+                </span>
               </dd>
             </div>
           </dl>

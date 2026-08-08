@@ -9,6 +9,7 @@ import { Success } from '../../alerts/success/success';
 import { Danger } from '../../alerts/danger/danger';
 import { AuthService } from '../../service/auth.service';
 import { PropertyContactForm } from '../../shared/components/property-contact-form/property-contact-form';
+import { parsePhoneNumberFromString, PhoneNumber } from 'libphonenumber-js';
 
 @Component({
   selector: 'app-show',
@@ -30,6 +31,8 @@ export class Show implements OnInit {
   display = new DisplayMessage();
 
   houseId = '';
+  protected telephoneCopied = false;
+  protected telephoneCopyFailed = false;
 
   protected get ownerName(): string {
     return this.house.username || this.house.user?.username || '';
@@ -41,6 +44,48 @@ export class Show implements OnInit {
 
   protected get ownerTelephone(): string {
     return this.house.telephone || '';
+  }
+
+  protected get formattedOwnerTelephone(): string {
+    return this.parsedOwnerTelephone?.formatInternational() || this.ownerTelephone.trim();
+  }
+
+  protected get ownerWhatsAppUrl(): string {
+    const telephone = this.parsedOwnerTelephone?.number;
+    return telephone ? `https://wa.me/${telephone.slice(1)}` : '';
+  }
+
+  protected async copyOwnerTelephone(): Promise<void> {
+    const telephone = this.parsedOwnerTelephone?.number || this.ownerTelephone.trim();
+    if (!telephone || !globalThis.navigator?.clipboard) {
+      this.showCopyResult(false);
+      return;
+    }
+
+    try {
+      await globalThis.navigator.clipboard.writeText(telephone);
+      this.showCopyResult(true);
+    } catch {
+      this.showCopyResult(false);
+    }
+  }
+
+  private get parsedOwnerTelephone(): PhoneNumber | undefined {
+    const value = this.ownerTelephone.trim();
+    if (!value) return undefined;
+    const telephone = parsePhoneNumberFromString(value);
+    return telephone?.isValid() ? telephone : undefined;
+  }
+
+  private showCopyResult(success: boolean): void {
+    this.telephoneCopied = success;
+    this.telephoneCopyFailed = !success;
+    this.changeDetection.markForCheck();
+    globalThis.setTimeout(() => {
+      this.telephoneCopied = false;
+      this.telephoneCopyFailed = false;
+      this.changeDetection.markForCheck();
+    }, 2500);
   }
 
   ngOnInit(): void {
