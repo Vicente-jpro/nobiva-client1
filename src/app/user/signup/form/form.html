@@ -23,6 +23,20 @@
           }
         </div>
 
+        @if (mode === 'create') {
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="telephone">Número de telemóvel</label>
+          <input id="telephone" type="tel" class="form-control" formControlName="telephone"
+                 autocomplete="tel" inputmode="tel" placeholder="+244 923 456 789"
+                 [class.is-invalid]="signUpForm.get('telephone')?.invalid && signUpForm.get('telephone')?.touched">
+          @if (signUpForm.get('telephone')?.hasError('required') && signUpForm.get('telephone')?.touched) {
+            <div class="invalid-feedback">Número de telemóvel é obrigatório.</div>
+          } @else if (signUpForm.get('telephone')?.invalid && signUpForm.get('telephone')?.touched) {
+            <div class="invalid-feedback">Insira um número angolano válido, por exemplo +244 923 456 789.</div>
+          }
+        </div>
+        }
+
         <div class="mb-3">
           <label class="form-label fw-semibold">Email</label>
           <input type="email" class="form-control" formControlName="email"
@@ -67,8 +81,8 @@
           <div class="row">
             <div class="col-6">
               <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="empresa" formControlName="empresa">
-                <label class="form-check-label" for="empresa">Empresa</label>
+                <input class="form-check-input" type="checkbox" id="cliente" formControlName="empresa">
+                <label class="form-check-label" for="cliente">Cliente</label>
               </div>
               <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" id="proprietario" formControlName="proprietario">

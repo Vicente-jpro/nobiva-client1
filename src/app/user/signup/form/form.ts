@@ -51,6 +51,7 @@ export class Form implements OnChanges {
   user: UserSignup = {
     email: '',
     username: '',
+    telephone: '',
     password: '',
     passwordConfirmed: '',
     roles: []
@@ -59,20 +60,31 @@ export class Form implements OnChanges {
   signUpForm = this.formBuilder.group({
     username: [this.user.username, [Validators.required, Validators.minLength(3), Validators.maxLength(155)]],
     email: [this.user.email, [Validators.required, Validators.email, Validators.maxLength(55)]],
+    telephone: [this.user.telephone, [
+      Validators.required,
+      Validators.maxLength(20),
+      Validators.pattern(/^(?:(?:\+?244)[ -]?)?9\d{2}(?:[ -]?\d{3}){2}$/),
+    ]],
     password: [this.user.password, [Validators.required, Validators.minLength(8), Validators.maxLength(72)]],
     passwordConfirmed: [this.user.passwordConfirmed, [Validators.required, Validators.minLength(8), Validators.maxLength(72)]],
     inclino: [false],
     proprietario: [false],
     administrador: [false],
-    empresa: [false],
+    cliente: [false],
     superAdministrador: [false]
   });
 
   ngOnChanges(): void {
     if (this.mode === 'edit') {
+      this.signUpForm.controls.telephone.clearValidators();
       this.signUpForm.controls.password.setValidators([Validators.maxLength(72)]);
       this.signUpForm.controls.passwordConfirmed.clearValidators();
     } else {
+      this.signUpForm.controls.telephone.setValidators([
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern(/^(?:(?:\+?244)[ -]?)?9\d{2}(?:[ -]?\d{3}){2}$/),
+      ]);
       this.signUpForm.controls.password.setValidators([
         Validators.required,
         Validators.minLength(8),
@@ -84,6 +96,7 @@ export class Form implements OnChanges {
         Validators.maxLength(72),
       ]);
     }
+    this.signUpForm.controls.telephone.updateValueAndValidity({ emitEvent: false });
     this.signUpForm.controls.password.updateValueAndValidity({ emitEvent: false });
     this.signUpForm.controls.passwordConfirmed.updateValueAndValidity({ emitEvent: false });
 
@@ -104,6 +117,7 @@ export class Form implements OnChanges {
 
     const username = this.signUpForm.controls.username.value?.trim() || '';
     const email = this.signUpForm.controls.email.value?.trim() || '';
+    const telephone = this.signUpForm.controls.telephone.value?.trim() || '';
     const password = this.signUpForm.controls.password.value || '';
 
     if (this.mode === 'edit') {
@@ -128,6 +142,7 @@ export class Form implements OnChanges {
     this.user.roles = [];
     this.user.username = username;
     this.user.email = email;
+    this.user.telephone = telephone;
     this.user.password = password;
     this.user.passwordConfirmed = this.signUpForm.value.passwordConfirmed || '';
 
@@ -142,8 +157,8 @@ export class Form implements OnChanges {
     if (this.signUpForm.value.proprietario) {
       this.user.roles.push(UserRole.proprietario);
     }
-    if (this.signUpForm.value.empresa) {
-      this.user.roles.push(UserRole.empresa);
+    if (this.signUpForm.value.cliente) {
+      this.user.roles.push(UserRole.cliente);
     }
     if (this.signUpForm.value.superAdministrador) {
       this.user.roles.push(UserRole.superAdminstrador);

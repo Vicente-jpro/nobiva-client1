@@ -31,6 +31,18 @@ export class Show implements OnInit {
 
   houseId = '';
 
+  protected get ownerName(): string {
+    return this.house.username || this.house.user?.username || '';
+  }
+
+  protected get ownerEmail(): string {
+    return this.house.email || this.house.user?.email || '';
+  }
+
+  protected get ownerTelephone(): string {
+    return this.house.telephone || '';
+  }
+
   ngOnInit(): void {
     this.houseId = this.route.snapshot.paramMap.get('id') ?? '';
 

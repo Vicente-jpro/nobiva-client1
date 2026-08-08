@@ -215,13 +215,13 @@
           <dl class="owner-details my-4">
             <div>
               <dt>Nome do proprietário</dt>
-              <dd>{{ house.ownerName || 'Informação não disponibilizada' }}</dd>
+              <dd>{{ ownerName || 'Informação não disponibilizada' }}</dd>
             </div>
             <div>
               <dt><i class="bi bi-telephone me-1" aria-hidden="true"></i>Telemóvel</dt>
               <dd>
-                @if (house.ownerTelephone) {
-                  <a [href]="'tel:' + house.ownerTelephone">{{ house.ownerTelephone }}</a>
+                @if (ownerTelephone) {
+                  <a [href]="'tel:' + ownerTelephone">{{ ownerTelephone }}</a>
                 } @else {
                   Informação não disponibilizada
                 }
@@ -230,7 +230,7 @@
           </dl>
 
           <app-property-contact-form
-            [ownerEmail]="house.ownerEmail || house.email"
+            [ownerEmail]="ownerEmail"
             [houseId]="house.id || houseId" />
         </section>
       </aside>

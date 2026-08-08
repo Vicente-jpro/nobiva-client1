@@ -16,9 +16,9 @@ describe('Show', () => {
   const house = Object.assign(new HouseResponseDetails(), {
     id: 'house-1',
     title: 'Casa de teste',
-    ownerName: 'Maria Manuel',
-    ownerTelephone: '+244 923 000 000',
-    ownerEmail: 'maria@nobiva.test',
+    username: 'Maria Manuel',
+    telephone: '+244 923 000 000',
+    email: 'maria@nobiva.test',
   });
 
   beforeEach(async () => {
@@ -71,5 +71,23 @@ describe('Show', () => {
 
   it('uses OnPush change detection', () => {
     expect((Show as any).ɵcmp.onPush).toBe(true);
+  });
+
+  it('falls back to the nested user while APIs transition to the new fields', () => {
+    fixture.componentInstance.house = Object.assign(new HouseResponseDetails(), {
+      id: 'house-2',
+      title: 'Outra casa',
+      user: {
+        id: 'user-2',
+        username: 'Ana Domingos',
+        email: 'ana@nobiva.test',
+      },
+    });
+    fixture.componentInstance.changeDetection.markForCheck();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Ana Domingos');
+    const contactForm = fixture.nativeElement.querySelector('app-property-contact-form');
+    expect(contactForm).toBeTruthy();
   });
 });

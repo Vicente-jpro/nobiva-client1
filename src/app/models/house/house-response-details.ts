@@ -1,6 +1,12 @@
 import { PostAddress } from "../address/post-address";
 import { Image } from "../image";
 
+export interface HouseOwner {
+    id: string;
+    username: string;
+    email: string;
+}
+
 export class HouseResponseDetails {
     id = "";
     title = "";
@@ -29,9 +35,9 @@ export class HouseResponseDetails {
     electricity = false;
     image: Image[] = [];
     post_address: PostAddress = new PostAddress();
-    ownerName = "";
-    ownerTelephone = "";
-    ownerEmail = "";
+    user: HouseOwner | null = null;
+    username = "";
+    telephone = "";
     email = "";
         
 }
