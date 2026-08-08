@@ -8,12 +8,19 @@ import { DisplayMessage } from '../../../models/display-message';
 import { Success } from '../../../alerts/success/success';
 import { Danger } from '../../../alerts/danger/danger';
 import { UserProfile, UserUpdateRequest } from '../../../models/user/user-profile';
+import { CountryCode, getCountries, getCountryCallingCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 
 export interface Task {
   name: string;
   completed: boolean;
   subtasks?: Task[];
+}
+
+interface CallingCodeOption {
+  countryCode: CountryCode;
+  countryName: string;
+  callingCode: string;
 }
 
 @Component({
@@ -27,6 +34,14 @@ export class Form implements OnChanges {
   private formBuilder = inject(FormBuilder);
   protected authService = inject(AuthService);
   protected role = UserRole;
+  private readonly countryNames = new Intl.DisplayNames(['pt-PT'], { type: 'region' });
+  readonly countryOptions: CallingCodeOption[] = getCountries()
+    .map(countryCode => ({
+      countryCode,
+      countryName: this.countryNames.of(countryCode) || countryCode,
+      callingCode: getCountryCallingCode(countryCode),
+    }))
+    .sort((first, second) => first.countryName.localeCompare(second.countryName, 'pt-PT'));
 
   @Input() display: DisplayMessage = new DisplayMessage();
 
@@ -60,10 +75,10 @@ export class Form implements OnChanges {
   signUpForm = this.formBuilder.group({
     username: [this.user.username, [Validators.required, Validators.minLength(3), Validators.maxLength(155)]],
     email: [this.user.email, [Validators.required, Validators.email, Validators.maxLength(55)]],
-    telephone: [this.user.telephone, [
+    countryCode: ['AO' as CountryCode, [Validators.required]],
+    nationalNumber: ['', [
       Validators.required,
-      Validators.maxLength(20),
-      Validators.pattern(/^(?:(?:\+?244)[ -]?)?9\d{2}(?:[ -]?\d{3}){2}$/),
+      Validators.pattern(/^\d{4,15}$/),
     ]],
     password: [this.user.password, [Validators.required, Validators.minLength(8), Validators.maxLength(72)]],
     passwordConfirmed: [this.user.passwordConfirmed, [Validators.required, Validators.minLength(8), Validators.maxLength(72)]],
@@ -76,14 +91,15 @@ export class Form implements OnChanges {
 
   ngOnChanges(): void {
     if (this.mode === 'edit') {
-      this.signUpForm.controls.telephone.clearValidators();
+      this.signUpForm.controls.countryCode.clearValidators();
+      this.signUpForm.controls.nationalNumber.clearValidators();
       this.signUpForm.controls.password.setValidators([Validators.maxLength(72)]);
       this.signUpForm.controls.passwordConfirmed.clearValidators();
     } else {
-      this.signUpForm.controls.telephone.setValidators([
+      this.signUpForm.controls.countryCode.setValidators([Validators.required]);
+      this.signUpForm.controls.nationalNumber.setValidators([
         Validators.required,
-        Validators.maxLength(20),
-        Validators.pattern(/^(?:(?:\+?244)[ -]?)?9\d{2}(?:[ -]?\d{3}){2}$/),
+        Validators.pattern(/^\d{4,15}$/),
       ]);
       this.signUpForm.controls.password.setValidators([
         Validators.required,
@@ -96,7 +112,8 @@ export class Form implements OnChanges {
         Validators.maxLength(72),
       ]);
     }
-    this.signUpForm.controls.telephone.updateValueAndValidity({ emitEvent: false });
+    this.signUpForm.controls.countryCode.updateValueAndValidity({ emitEvent: false });
+    this.signUpForm.controls.nationalNumber.updateValueAndValidity({ emitEvent: false });
     this.signUpForm.controls.password.updateValueAndValidity({ emitEvent: false });
     this.signUpForm.controls.passwordConfirmed.updateValueAndValidity({ emitEvent: false });
 
@@ -117,7 +134,6 @@ export class Form implements OnChanges {
 
     const username = this.signUpForm.controls.username.value?.trim() || '';
     const email = this.signUpForm.controls.email.value?.trim() || '';
-    const telephone = this.signUpForm.controls.telephone.value?.trim() || '';
     const password = this.signUpForm.controls.password.value || '';
 
     if (this.mode === 'edit') {
@@ -142,7 +158,15 @@ export class Form implements OnChanges {
     this.user.roles = [];
     this.user.username = username;
     this.user.email = email;
-    this.user.telephone = telephone;
+    const countryCode = this.signUpForm.controls.countryCode.value as CountryCode;
+    const nationalNumber = String(this.signUpForm.controls.nationalNumber.value ?? '').trim();
+    const parsedTelephone = parsePhoneNumberFromString(nationalNumber, countryCode);
+    if (!parsedTelephone?.isValid() || parsedTelephone.country !== countryCode) {
+      this.signUpForm.controls.nationalNumber.setErrors({ invalidTelephone: true });
+      this.display = { success: '', errors: ['Insira um número de telemóvel válido para o país selecionado.'] };
+      return;
+    }
+    this.user.telephone = parsedTelephone.number;
     this.user.password = password;
     this.user.passwordConfirmed = this.signUpForm.value.passwordConfirmed || '';
 
@@ -165,5 +189,10 @@ export class Form implements OnChanges {
     }
 
     this.formEvent.emit(this.user);
+  }
+
+  get selectedCallingCode(): string {
+    const countryCode = this.signUpForm.controls.countryCode.value as CountryCode;
+    return countryCode ? getCountryCallingCode(countryCode) : '';
   }
 }

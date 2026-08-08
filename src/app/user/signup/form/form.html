@@ -25,14 +25,32 @@
 
         @if (mode === 'create') {
         <div class="mb-3">
-          <label class="form-label fw-semibold" for="telephone">Número de telemóvel</label>
-          <input id="telephone" type="tel" class="form-control" formControlName="telephone"
-                 autocomplete="tel" inputmode="tel" placeholder="+244 923 456 789"
-                 [class.is-invalid]="signUpForm.get('telephone')?.invalid && signUpForm.get('telephone')?.touched">
-          @if (signUpForm.get('telephone')?.hasError('required') && signUpForm.get('telephone')?.touched) {
-            <div class="invalid-feedback">Número de telemóvel é obrigatório.</div>
-          } @else if (signUpForm.get('telephone')?.invalid && signUpForm.get('telephone')?.touched) {
-            <div class="invalid-feedback">Insira um número angolano válido, por exemplo +244 923 456 789.</div>
+          <label class="form-label fw-semibold" for="countryCode">Número de telemóvel</label>
+          <div class="row g-2">
+            <div class="col-sm-7">
+              <select id="countryCode" class="form-select" formControlName="countryCode"
+                      autocomplete="country" aria-label="País do número de telemóvel">
+                @for (country of countryOptions; track country.countryCode) {
+                  <option [value]="country.countryCode">{{ country.countryName }} (+{{ country.callingCode }})</option>
+                }
+              </select>
+            </div>
+            <div class="col-sm-5">
+              <div class="input-group">
+                <span class="input-group-text" aria-hidden="true">+{{ selectedCallingCode }}</span>
+                <input id="nationalNumber" type="number" class="form-control" formControlName="nationalNumber"
+                       autocomplete="tel-national" inputmode="numeric" min="0" step="1" placeholder="900000000"
+                       aria-label="Restante número de telemóvel"
+                       [class.is-invalid]="signUpForm.controls.nationalNumber.invalid && signUpForm.controls.nationalNumber.touched">
+              </div>
+            </div>
+          </div>
+          @if (signUpForm.controls.countryCode.invalid && signUpForm.controls.countryCode.touched) {
+            <div class="text-danger small mt-1">Selecione o país.</div>
+          } @else if (signUpForm.controls.nationalNumber.hasError('required') && signUpForm.controls.nationalNumber.touched) {
+            <div class="text-danger small mt-1">Número de telemóvel é obrigatório.</div>
+          } @else if (signUpForm.controls.nationalNumber.invalid && signUpForm.controls.nationalNumber.touched) {
+            <div class="text-danger small mt-1">Insira um número válido para o país selecionado.</div>
           }
         </div>
         }
@@ -81,7 +99,7 @@
           <div class="row">
             <div class="col-6">
               <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="cliente" formControlName="empresa">
+                <input class="form-check-input" type="checkbox" id="cliente" formControlName="cliente">
                 <label class="form-check-label" for="cliente">Cliente</label>
               </div>
               <div class="form-check mb-2">

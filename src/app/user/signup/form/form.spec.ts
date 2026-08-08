@@ -27,8 +27,8 @@ describe('Signup Form', () => {
     fixture.detectChanges();
   });
 
-  it('requires a valid Angolan telephone', () => {
-    const telephone = component.signUpForm.controls.telephone;
+  it('requires a country and a numeric national telephone', () => {
+    const telephone = component.signUpForm.controls.nationalNumber;
 
     telephone.setValue('');
     expect(telephone.hasError('required')).toBe(true);
@@ -36,8 +36,15 @@ describe('Signup Form', () => {
     telephone.setValue('abc');
     expect(telephone.hasError('pattern')).toBe(true);
 
-    telephone.setValue('+244 923 456 789');
+    telephone.setValue('923456789');
     expect(telephone.valid).toBe(true);
+  });
+
+  it('lists countries alphabetically and includes their calling codes', () => {
+    expect(component.countryOptions.length).toBeGreaterThan(200);
+    expect(component.countryOptions.find(country => country.countryCode === 'AO')?.callingCode).toBe('244');
+    const names = component.countryOptions.map(country => country.countryName);
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b, 'pt-PT')));
   });
 
   it('includes telephone in the registration payload', () => {
@@ -46,7 +53,8 @@ describe('Signup Form', () => {
     component.signUpForm.patchValue({
       username: 'Maria',
       email: 'maria@nobiva.test',
-      telephone: '+244 923 456 789',
+      countryCode: 'PT',
+      nationalNumber: '912323215',
       password: 'Password123',
       passwordConfirmed: 'Password123',
     });
@@ -55,7 +63,7 @@ describe('Signup Form', () => {
 
     expect(emitted).toHaveLength(1);
     expect(emitted[0]).toEqual(expect.objectContaining({
-      telephone: '+244 923 456 789',
+      telephone: '+351912323215',
     }));
   });
 });
